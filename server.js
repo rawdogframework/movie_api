@@ -33,7 +33,7 @@ http.createServer((request, response) => {
     // send response to the request
     response.writeHead(200, {'content-type': 'plain-text'});
     response.write(data);
-    response.end('Hello Node!\n');
+    response.end();
   })
 
 }).listen(8080);
