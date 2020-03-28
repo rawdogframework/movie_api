@@ -23,6 +23,18 @@ let userBase = [
   }
 ];
 
+// Genre repo
+let genres = [
+  {
+    genre: 'horror',
+    description: 'etc etc'
+  },
+  {
+    genre: 'Drama',
+    description: 'etc etc'
+  }
+];
+
 // Directos repo
 let directors = [
   {
@@ -107,47 +119,35 @@ app.get('/movies', function(req, res) {
 });
 // Get Movies by Title
 app.get('/movies/:title', function(req, res) {
-  let findMovie = topMovies.filter(word => word.title === req.params.title);
-  if (findMovie.length > 0) {
-    res.json(
-      findMovie.find(movie => {
-        return movie.title === req.params.title;
-      })
-    );
+  let findMovie = topMovies.find(title => {
+    return title.title === req.params.title;
+  });
+  if (findMovie) {
+    res.json(findMovie);
   } else {
     const message = 'Title not found in db';
     res.status(404).send(message);
   }
 });
-// Get Genre by Title
+// Get Genre by Name
 app.get('/movies/genre/:name', function(req, res) {
-  console.log(req.params.name);
-  let findGenre = topMovies.filter(word => word.genre === req.params.name);
-  if (findGenre.length > 0) {
-    res.json(
-      topMovies.find(movie => {
-        return movie.genre === req.params.name;
-      })
-    );
+  let findGenre = genres.find(genre => {
+    return genre.genre === req.params.name;
+  });
+  if (findGenre) {
+    res.json(findGenre);
   } else {
-    const message = 'No movies matching that genre in the db';
+    const message = 'No Genre matching that name in the db';
     res.status(404).send(message);
   }
 });
 // Get Director by Name
 app.get('/movies/directors/:name', function(req, res) {
-  console.log(req.params.name);
-  let findDirector = topMovies.filter(
-    word => word.director === req.params.name
-  );
-  if (findDirector.length > 0) {
-    // Add search for director object here
-
-    res.json(
-      topMovies.find(movie => {
-        return movie.director === req.params.name;
-      })
-    );
+  let findDirector = directors.find(name => {
+    return name.name === req.params.name;
+  });
+  if (findDirector) {
+    res.json(findDirector);
   } else {
     const message = 'No Director matching that name in the db';
     res.status(404).send(message);
@@ -156,7 +156,14 @@ app.get('/movies/directors/:name', function(req, res) {
 // Create User Account
 app.post('/users', function(req, res) {
   // db check if user already exists
-
+  let checkDuplicate = userBase.find(user => {
+    return user.email === req.body.email;
+  });
+  if (checkDuplicate) {
+    const message =
+      'There is already an account assocaited with this email address';
+    res.status(400).send(message);
+  }
   // Check if username or pwd value is missing
   let newUser = {};
   newUser.username = req.body.username;
@@ -169,29 +176,40 @@ app.post('/users', function(req, res) {
     newUser.id = uuid.v4();
     // push user to db
     userBase.push(newUser);
-    console.log('userbase looks like this ' + userBase);
     const message = 'Account successfully created with ID ' + newUser.id;
     res.status(200).send(message);
   }
 });
 // Deregister User Account
-app.delete('/users', function(req, res) {
-  console.log(req.body.username);
+app.delete('/users/:id', function(req, res) {
+  if (req.params.id === '') {
+    res.status(400).send('Missing ID in request params');
+  }
+  // search userBase db for match req ID
   let userToDelete = userBase.find(user => {
-    return user.username === req.body.username;
+    return user.id === req.params.id;
   });
-  console.log(userToDelete);
   if (userToDelete) {
-    userBase = userBase.filter(function(obj) {
-      return obj.username !== req.body.username;
-    });
-    res.status(201).send('Account ' + req.body.username + ' was deleted.');
+    // Check pwd and email match req body
+    if (
+      userToDelete.pwd === req.body.pwd &&
+      userToDelete.email === req.body.email
+    ) {
+      userBase = userBase.filter(function(obj) {
+        return obj.id !== req.params.id;
+      });
+      res.status(201).send('Account ' + req.params.id + ' was deleted.');
+    } else {
+      res
+        .status(404)
+        .send(
+          'Password or Email not matching credentials for the account with the passed ID'
+        );
+    }
   } else {
     res
       .status(404)
-      .send(
-        'Account with the username ' + req.body.username + ' was not found.'
-      );
+      .send('Account with the username ' + req.body.id + ' was not found.');
   }
 });
 // Update User Account
@@ -200,11 +218,9 @@ app.put('/users/update/:id', function(req, res) {
     res.status(400).send('Missing ID in request params');
   }
   // search userBase db for match req ID
-  console.log(req.params.id);
   let userToUpdate = userBase.find(user => {
     return user.id === req.params.id;
   });
-  console.log(userToUpdate);
   if (userToUpdate) {
     // update user object
     userToUpdate.username = req.body.username || userToUpdate.username;
@@ -261,8 +277,6 @@ app.delete('/users/favourites/:id/', function(req, res) {
   if (removeFromFavourites) {
     removeFromFavourites.favourites = removeFromFavourites.favourites.filter(
       function(obj) {
-        console.log(obj);
-        console.log(req.body.title);
         return obj.title !== req.body.title;
       }
     );
