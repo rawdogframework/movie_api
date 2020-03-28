@@ -111,7 +111,7 @@ app.use(function(err, req, res, next) {
 // GET requests
 // Hit main page
 app.get('/', function(req, res) {
-  res.send('Welcome to the Victorville Film Archives!');
+  res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
 app.get('/movies', function(req, res) {
