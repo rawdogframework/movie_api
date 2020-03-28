@@ -15,15 +15,15 @@ Req body data format: NA
 Res body data format: JSON Object containing whole db
 
 
-
 *Endpoint: /movies/[title]*
-Description: Returns data (description, genre, director, image URL, whether it’s
+Description: Returns data (title, description, genre, director, image URL,
+whether it’s
 featured or not)
 about a single movie by title to the user
 HTTP Method: GET
 Query params: Movie title (Case sensitive)
 Req body data format: NA
-Res body data format: "JSON Object containing info on one movie: description,
+Res body data format: JSON Object containing info on one movie: description,
 genre, director, image URL, featured.
 
 {
@@ -38,12 +38,12 @@ genre, director, image URL, featured.
 **Genre db**
 
 *Endpoint: /movies/genre/[name]*
-Description: Return data about a genre (description) by name/title (e.g.,
+Description: Return data about a genre (description) by name (e.g.,
 “Thriller”)
 HTTP Method: GET
 Query params: Genre name (Case sensitive)
 Req body data format: NA
-Res body data format: "JSON Object containing info on a movie genre: genre,
+Res body data format: JSON Object containing info on a movie genre: genre,
 description
 E.g:
 {
@@ -54,7 +54,8 @@ description: 'etc etc'
 **Director DB**
 
 *Endpoint: /movies/directors/[name]*
-Description: Return data about a director (bio, birth year, death year) by name
+Description: Return data about a director (bio, birth year, death year,
+imageUrl) by name
 HTTP Method: GET
 Query params: Director name (Case sensitive)
 Req body data format: NA
@@ -76,8 +77,8 @@ Description: Allow new users to register
 HTTP Method: POST
 Query params: NA
 Req body data format: JSON Object containing new user credentials: username,
-pwd, email, dob, favourites Array. ID is created automatically and returned in
-response.
+pwd, email, dob. Empty favourites array is created automatically. ID is created
+automatically and returned in response.
 E.g:
 {
 username: 'John Smith',
@@ -88,7 +89,7 @@ id: '0001',
 favourites: []
 }
 Res body data format: A text message confiming the registration was successful
-incluyding user ID
+incluyding Account ID
 E.g:
 Account successfully created with ID 452l3kjhlkjhl2kj3h234
 
@@ -96,7 +97,7 @@ Endpoint: /users
 Description: Allow existing users to deregister by ID and req body of email and
 password
 HTTP Method: DELETE
-Query params: User ID
+Query params: Account ID
 Req body data format: JSON Object containing email and password
 E.g:
 {
@@ -105,6 +106,8 @@ pwd: 'XXXXXX'
 }
 Res body data format: A text message confiming the deregistration was successful
 including the Account ID
+E.g:
+Account 56kj2h56kj2 was deleted.
 
 Endpoint: /users/update/[ID]
 Description: Allow users to update their user info by ID (username, password,
@@ -119,6 +122,8 @@ E.g for a password update:
 }
 Res body data format: A text message confiming the account changes were
 successful with the updated Account info
+
+**Favourites list**
 
 Endpoint: /users/favourites/[ID]
 Description: Allow users to add a movie to their list of favorites within the
