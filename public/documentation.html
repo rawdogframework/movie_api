@@ -4,3 +4,152 @@ This REST API web application will provide users with access to
 information about different movies, directors, and genres in the famous
 Victorville film archives. Users will be able to sign up, update their
 personal information, and create a list of their favorite movies.
+
+
+Endpoint:
+Description:
+HTTP Method:
+Query params:
+Req body data format:
+Res body data format:
+
+**MOVIE DB**
+
+*Endpoint: /movies*
+Description: Return a list of ALL movies to the user
+HTTP Method: GET
+Query params: NA
+Req body data format: NA
+Res body data format: JSON Object containing whole db
+
+
+
+*Endpoint: /movies/[title]*
+Description: Returns data (description, genre, director, image URL, whether it’s
+featured or not)
+about a single movie by title to the user
+HTTP Method: GET
+Query params: Movie title (Case sensitive)
+Req body data format: NA
+Res body data format: "JSON Object containing info on one movie: description,
+genre, director, image URL, featured.
+
+{
+"title":"titanic",
+"description":"A film about class conflict",
+"genre":"Historical Drama",
+"director":"Person",
+"imageUrl":"https://imagesite.com/495820953285",
+"featured": "No"
+}
+
+**Genre db**
+
+*Endpoint: /movies/genre/[name]*
+Description: Return data about a genre (description) by name/title (e.g.,
+“Thriller”)
+HTTP Method: GET
+Query params: Genre name (Case sensitive)
+Req body data format: NA
+Res body data format: "JSON Object containing info on a movie genre: genre,
+description
+E.g:
+{
+genre: 'horror',
+description: 'etc etc'
+}
+
+**Director DB**
+
+*Endpoint: /movies/directors/[name]*
+Description: Return data about a director (bio, birth year, death year) by name
+HTTP Method: GET
+Query params: Director name (Case sensitive)
+Req body data format: NA
+Res body data format: JSON Object containing info on one director: name, bio,
+birth yr, death yr, imageUrl
+E.g:
+{
+name: 'John Smith',
+bio: 'A story about a guy',
+birthYear: '1946',
+deathYear: 'Still kicking',
+imageUrl: 'https://imagesite.com/495820953285'
+}
+
+**User Database**
+
+Endpoint: /users
+Description: Allow new users to register
+HTTP Method: POST
+Query params: NA
+Req body data format: JSON Object containing new user credentials: username,
+pwd, email, dob, favourites Array. ID is created automatically and returned in
+response.
+E.g:
+{
+username: 'John Smith',
+pwd: 'XXXXXX',
+email: 'test@hotmail.com',
+dob: '01/04/1976',
+id: '0001',
+favourites: []
+}
+Res body data format: A text message confiming the registration was successful
+incluyding user ID
+E.g:
+Account successfully created with ID 452l3kjhlkjhl2kj3h234
+
+Endpoint: /users
+Description: Allow existing users to deregister by ID and req body of email and
+password
+HTTP Method: DELETE
+Query params: User ID
+Req body data format: JSON Object containing email and password
+E.g:
+{
+email: 'test@hotmail.com',
+pwd: 'XXXXXX'
+}
+Res body data format: A text message confiming the deregistration was successful
+including the Account ID
+
+Endpoint: /users/update/[ID]
+Description: Allow users to update their user info by ID (username, password,
+email, date of birth)
+HTTP Method: PUT
+Query params: Account ID
+Req body data format: JSON Object with only the key/value pair you want to
+update. The others will remain the same.
+E.g for a password update:
+{
+"pwd":"1234"
+}
+Res body data format: A text message confiming the account changes were
+successful with the updated Account info
+
+Endpoint: /users/favourites/[ID]
+Description: Allow users to add a movie to their list of favorites within the
+Account object by ID
+HTTP Method: POST
+Query params: Account ID
+Req body data format: JSON Object with the movie title.
+E.g:
+{
+"title":"Big Trouble in Little China"
+}
+Res body data format: A text message confiming the movie was successfully added
+to the favourites list and prints current list
+
+
+Endpoint: /users/favourites/[ID]
+Description: Allow users to remove a movie from their list of favorites by ID
+HTTP Method: DELETE
+Query params: Account ID
+Req body data format: JSON body with the movie title
+E.g:
+{
+"title":"Big Trouble in Little China"
+}
+Res body data format: A text message confiming the movie was successfully
+removed from the favourites list and prints current list
