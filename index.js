@@ -115,7 +115,7 @@ app.get('/', function(req, res) {
 });
 // Get all movies in db
 app.get('/movies', function(req, res) {
-  res.json(topMovies);
+  res.status(200).json(topMovies);
 });
 // Get Movies by Title
 app.get('/movies/:title', function(req, res) {
@@ -135,7 +135,7 @@ app.get('/movies/genre/:name', function(req, res) {
     return genre.genre === req.params.name;
   });
   if (findGenre) {
-    res.json(findGenre);
+    res.status(200).json(findGenre);
   } else {
     const message = 'No Genre matching that name in the db';
     res.status(404).send(message);
@@ -147,7 +147,7 @@ app.get('/movies/directors/:name', function(req, res) {
     return name.name === req.params.name;
   });
   if (findDirector) {
-    res.json(findDirector);
+    res.status(200).json(findDirector);
   } else {
     const message = 'No Director matching that name in the db';
     res.status(404).send(message);
@@ -166,18 +166,20 @@ app.post('/users', function(req, res) {
   }
   // Check if username or pwd value is missing
   let newUser = {};
-  newUser.username = req.body.username;
+  newUser.email = req.body.email;
   newUser.pwd = req.body.pwd;
-  if (newUser.username === '' || newUser.pwd === '') {
-    const message = 'Missing username or password in request body';
+  newUser.dob = req.body.dob;
+  newUser.username = req.body.username;
+  newUser.favourites = [];
+  if (newUser.email === '' || newUser.pwd === '') {
+    const message = 'Missing email or password in request body';
     res.status(400).send(message);
   } else {
     // create ID for user
     newUser.id = uuid.v4();
     // push user to db
     userBase.push(newUser);
-    const message = 'Account successfully created with ID ' + newUser.id;
-    res.status(200).send(message);
+    res.status(201).json(newUser);
   }
 });
 // Deregister User Account
@@ -191,6 +193,9 @@ app.delete('/users/:id', function(req, res) {
   });
   if (userToDelete) {
     // Check pwd and email match req body
+    console.log(userToDelete);
+    console.log(req.body);
+    console.log(req.params.id);
     if (
       userToDelete.pwd === req.body.pwd &&
       userToDelete.email === req.body.email
@@ -228,9 +233,7 @@ app.put('/users/update/:id', function(req, res) {
     userToUpdate.email = req.body.email || userToUpdate.email;
     userToUpdate.dob = req.body.dob || userToUpdate.dob;
     // confirmation
-    const message =
-      'Account successfully updated ' + '\n' + Object.values(userToUpdate);
-    res.status(200).send(message);
+    res.status(201).json(userToUpdate);
   } else {
     const message = 'No User matching that ID in the db';
     res.status(404).send(message);
@@ -249,23 +252,13 @@ app.post('/users/favourites/:id/', function(req, res) {
     // Check for duplicates
 
     addToFavourites.favourites.push(req.body);
-    // loop through titles
-    titles = '';
-    addToFavourites.favourites.forEach(function(result) {
-      titles += result.title + ' ';
-    });
-    const message =
-      'Successfully added ' +
-      req.body.title +
-      ' to your favourites list. Current favourites list is \n' +
-      titles;
-    res.status(201).send(message);
+    res.status(201).json(addToFavourites);
   } else {
     const message = 'No Account matching that ID in the db.';
     res.status(404).send(message);
   }
 });
-// Remove Move from Favourites List by Title
+// Remove Movie from Favourites List by Title
 app.delete('/users/favourites/:id/', function(req, res) {
   if (req.params.id === '') {
     res.status(400).send('Missing ID in request params');
@@ -275,22 +268,22 @@ app.delete('/users/favourites/:id/', function(req, res) {
     return user.id === req.params.id;
   });
   if (removeFromFavourites) {
-    removeFromFavourites.favourites = removeFromFavourites.favourites.filter(
-      function(obj) {
-        return obj.title !== req.body.title;
-      }
-    );
-    // loop through titles
-    titles = '';
-    removeFromFavourites.favourites.forEach(function(result) {
-      titles += result.title + ' ';
+    // Check for movie match
+    let checkMovie = removeFromFavourites.favourites.find(movie => {
+      return movie.title === req.body.title;
     });
-    const message =
-      'Successfully removed ' +
-      req.body.title +
-      ' from your favourites list. Current favourites list is \n' +
-      titles;
-    res.status(201).send(message);
+    if (checkMovie) {
+      // Remove from list
+      removeFromFavourites.favourites = removeFromFavourites.favourites.filter(
+        function(obj) {
+          return obj.title !== req.body.title;
+        }
+      );
+      res.status(201).json(removeFromFavourites);
+    } else {
+      const message = 'No match for that movie in your favourites.';
+      res.status(404).send(message);
+    }
   } else {
     const message = 'No Account matching that ID in the db.';
     res.status(404).send(message);
