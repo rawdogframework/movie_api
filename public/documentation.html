@@ -77,8 +77,8 @@ Description: Allow new users to register
 HTTP Method: POST
 Query params: NA
 Req body data format: JSON Object containing new user credentials: username,
-pwd, email, dob. Empty favourites array is created automatically. ID is created
-automatically and returned in response.
+pwd, email, dob. Empty favourites array and ID are created
+automatically.
 E.g:
 {
 username: 'John Smith',
@@ -88,10 +88,16 @@ dob: '01/04/1976',
 id: '0001',
 favourites: []
 }
-Res body data format: A text message confiming the registration was successful
-incluyding Account ID
+Res body data format: JSON Object containing new user credentials
 E.g:
-Account successfully created with ID 452l3kjhlkjhl2kj3h234
+{
+username: 'John Smith',
+pwd: 'XXXXXX',
+email: 'test@hotmail.com',
+dob: '01/04/1976',
+id: '0001',
+favourites: []
+}
 
 Endpoint: /users
 Description: Allow existing users to deregister by ID and req body of email and
