@@ -1,125 +1,38 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
   uuid = require('uuid'),
+  mongoose = require('mongoose'),
+  Models = require('./models.js'),
   morgan = require('morgan');
+
 const app = express();
-
-// User repo
-let userBase = [
-  {
-    username: 'John Smith',
-    pwd: 'XXXXXX',
-    email: 'test@hotmail.com',
-    dob: '01/04/1976',
-    id: '0001',
-    favourites: [
-      {
-        title: 'Tremor'
-      },
-      {
-        title: 'City Slickers'
-      }
-    ]
-  }
-];
-
-// Genre repo
-let genres = [
-  {
-    genre: 'horror',
-    description: 'etc etc'
-  },
-  {
-    genre: 'Drama',
-    description: 'etc etc'
-  }
-];
-
-// Directos repo
-let directors = [
-  {
-    name: 'John Smith',
-    bio: 'A story about a guy',
-    birthYear: '1946',
-    deathYear: 'Still kicking',
-    imageUrl: 'https://imagesite.com/495820953285'
-  }
-];
-
-// Movies repo
-let topMovies = [
-  {
-    title: 'Tremors',
-    director: 'Ron Underwood',
-    genre: 'Rock opera'
-  },
-  {
-    title: 'Sleepers',
-    director: 'Barry Levinson',
-    genre: 'Rock opera'
-  },
-  {
-    title: 'Apollo 13',
-    director: 'Ron Howard',
-    genre: 'Rock opera'
-  },
-  {
-    title: 'Tremors 2',
-    director: 'Ron Underwood',
-    genre: 'Rock opera'
-  },
-  {
-    title: 'Tremors 3',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  },
-  {
-    title: 'City Slickers',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  },
-  {
-    title: 'Might Young Joe',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  },
-  {
-    title: 'Heart and Souls',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  },
-  {
-    title: 'Speechless',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  },
-  {
-    title: 'The Adventures of Pluto Nash',
-    director: 'Ron Underwood',
-    genre: 'Drama'
-  }
-];
+const Movies = Models.Movie;
+const Users = Models.User;
+mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Midddleware
 app.use(morgan('common'));
 app.use(bodyParser.json());
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
 // GET requests
 // Hit main page
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
-app.get('/movies', function(req, res) {
-  res.status(200).json(topMovies);
+app.get('/movies', function (req, res) {
+  Movies.find().then((movies) => res.status(200).json(movies));
 });
 // Get Movies by Title
-app.get('/movies/:title', function(req, res) {
-  let findMovie = topMovies.find(title => {
+app.get('/movies/:title', function (req, res) {
+  let findMovie = topMovies.find((title) => {
     return title.title === req.params.title;
   });
   if (findMovie) {
@@ -130,8 +43,8 @@ app.get('/movies/:title', function(req, res) {
   }
 });
 // Get Genre by Name
-app.get('/movies/genre/:name', function(req, res) {
-  let findGenre = genres.find(genre => {
+app.get('/movies/genre/:name', function (req, res) {
+  let findGenre = genres.find((genre) => {
     return genre.genre === req.params.name;
   });
   if (findGenre) {
@@ -142,8 +55,8 @@ app.get('/movies/genre/:name', function(req, res) {
   }
 });
 // Get Director by Name
-app.get('/movies/directors/:name', function(req, res) {
-  let findDirector = directors.find(name => {
+app.get('/movies/directors/:name', function (req, res) {
+  let findDirector = directors.find((name) => {
     return name.name === req.params.name;
   });
   if (findDirector) {
@@ -154,9 +67,9 @@ app.get('/movies/directors/:name', function(req, res) {
   }
 });
 // Create User Account
-app.post('/users', function(req, res) {
+app.post('/users', function (req, res) {
   // db check if user already exists
-  let checkDuplicate = userBase.find(user => {
+  let checkDuplicate = userBase.find((user) => {
     return user.email === req.body.email;
   });
   if (checkDuplicate) {
@@ -183,12 +96,12 @@ app.post('/users', function(req, res) {
   }
 });
 // Deregister User Account
-app.delete('/users/:id', function(req, res) {
+app.delete('/users/:id', function (req, res) {
   if (req.params.id === '') {
     res.status(400).send('Missing ID in request params');
   }
   // search userBase db for match req ID
-  let userToDelete = userBase.find(user => {
+  let userToDelete = userBase.find((user) => {
     return user.id === req.params.id;
   });
   if (userToDelete) {
@@ -200,7 +113,7 @@ app.delete('/users/:id', function(req, res) {
       userToDelete.pwd === req.body.pwd &&
       userToDelete.email === req.body.email
     ) {
-      userBase = userBase.filter(function(obj) {
+      userBase = userBase.filter(function (obj) {
         return obj.id !== req.params.id;
       });
       res.status(201).send('Account ' + req.params.id + ' was deleted.');
@@ -218,12 +131,12 @@ app.delete('/users/:id', function(req, res) {
   }
 });
 // Update User Account
-app.put('/users/update/:id', function(req, res) {
+app.put('/users/update/:id', function (req, res) {
   if (req.params.id === '') {
     res.status(400).send('Missing ID in request params');
   }
   // search userBase db for match req ID
-  let userToUpdate = userBase.find(user => {
+  let userToUpdate = userBase.find((user) => {
     return user.id === req.params.id;
   });
   if (userToUpdate) {
@@ -240,12 +153,12 @@ app.put('/users/update/:id', function(req, res) {
   }
 });
 // Update Favourites List by Title
-app.post('/users/favourites/:id/', function(req, res) {
+app.post('/users/favourites/:id/', function (req, res) {
   if (req.params.id === '') {
     res.status(400).send('Missing ID in request params');
   }
   // Search userBase db for match req ID
-  let addToFavourites = userBase.find(user => {
+  let addToFavourites = userBase.find((user) => {
     return user.id === req.params.id;
   });
   if (addToFavourites) {
@@ -259,23 +172,23 @@ app.post('/users/favourites/:id/', function(req, res) {
   }
 });
 // Remove Movie from Favourites List by Title
-app.delete('/users/favourites/:id/', function(req, res) {
+app.delete('/users/favourites/:id/', function (req, res) {
   if (req.params.id === '') {
     res.status(400).send('Missing ID in request params');
   }
   // Search userBase db for match req ID
-  let removeFromFavourites = userBase.find(user => {
+  let removeFromFavourites = userBase.find((user) => {
     return user.id === req.params.id;
   });
   if (removeFromFavourites) {
     // Check for movie match
-    let checkMovie = removeFromFavourites.favourites.find(movie => {
+    let checkMovie = removeFromFavourites.favourites.find((movie) => {
       return movie.title === req.body.title;
     });
     if (checkMovie) {
       // Remove from list
       removeFromFavourites.favourites = removeFromFavourites.favourites.filter(
-        function(obj) {
+        function (obj) {
           return obj.title !== req.body.title;
         }
       );
