@@ -7,6 +7,44 @@ personal information, and create a list of their favorite movies.
 
 **MOVIE DB**
 
+*Authentication*
+
+Once you have created an account you need to use the username and password to
+login in to the service and receive your JWT token. This token will be needed
+for all API calls.
+
+The JWT token needs to be included in the headers of the HTTP request as a
+Bearer Token
+
+E.g a cURL request would look like This
+
+curl --location --request GET 'http://DOMAIN.com/movies' \
+--header 'Authorization: Bearer YOURE_TOKEN' \
+--data-raw ''
+
+
+*Endpoint: /login*
+Description: Returns your account including your JWT token
+HTTP Method: GET
+Query params: username and password e.g: /login?Username=XXXX&Password=YYYYY
+Req body data format: NA
+Res body data format: JSON Object of User object including JWT token
+E.g:
+{
+"user": {
+"FavouriteMovies": [],
+"_id": "5e910086d46c8d0e433ab025",
+"Username": "Brad Brown",
+"Password": "YYYY",
+"Email": "BBC40@gmail.com",
+"Birthday": "1989-01-04T08:00:00.000Z",
+"__v": 0
+},
+"token": "XXXXXXX"
+}
+
+
+
 *Endpoint: /movies*
 Description: Return a list of ALL movies to the user
 HTTP Method: GET
