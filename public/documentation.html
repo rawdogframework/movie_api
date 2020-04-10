@@ -12,7 +12,7 @@ Description: Return a list of ALL movies to the user
 HTTP Method: GET
 Query params: NA
 Req body data format: NA
-Res body data format: JSON Object containing whole db
+Res body data format: JSON Object containing whole db of movies
 
 
 *Endpoint: /movies/[title]*
@@ -101,25 +101,25 @@ Description: Allow new users to register
 HTTP Method: POST
 Query params: NA
 Req body data format: JSON Object containing new user credentials: username,
-pwd, email, dob. Empty favourites array and ID are created
+passwordd, email, birthday. Empty favourites array and ID are created
 automatically.
 E.g:
 {
-username: 'John Smith',
-password: 'XXXXXX',
-email: 'test@hotmail.com',
-birthday: '01/04/1976'
+Username: 'John Smith',
+Password: 'XXXXXX',
+Email: 'test@hotmail.com',
+Birthday: '01/04/1976'
 }
 
 Res body data format: JSON Object containing new user credentials
 E.g:
 {
-username: 'John Smith',
-password: 'XXXXXX',
-email: 'test@hotmail.com',
-birthday: '01/04/1976',
-id: '0001',
-favourites: []
+Username: 'John Smith',
+Password: 'XXXXXX',
+Email: 'test@hotmail.com',
+Birthday: '01/04/1976',
+_id: '0001',
+FavouriteMovies: []
 }
 
 Endpoint: /users
@@ -130,14 +130,14 @@ Query params: Account ID
 Req body data format: JSON Object containing email and password
 E.g:
 {
-email: 'test@hotmail.com',
-password: 'XXXXXX'
+Email: 'test@hotmail.com',
+Password: 'XXXXXX'
 }
 
 Res body data format: A text message confiming the deregistration was successful
 including the Account ID
 E.g:
-Account 56kj2h56kj2 was deleted.
+User account with id xxxxx was successfully deleted
 
 Endpoint: /users/update/[ID]
 Description: Allow users to update their user info by ID (username, password,
@@ -145,32 +145,47 @@ email, birthday)
 HTTP Method: PUT
 Query params: Account ID
 
-Req body data format: JSON Object with only the key/value pair you want to
-update. The others will remain the same.
-E.g for a password update:
+Req body data format: JSON Object with the same key/value pairs as when creating
+a user
+E.g:
 {
-"password":"1234"
+"Username": "Jooonte Smith",
+"Password": "98766",
+"Email": "test5@gmail.com",
+"Birthday": "1976-01-04"
 }
 
 Res body data format: A text message confiming the account changes were
 successful with the updated Account info
 
+{
+"FavoriteMovies": [],
+"_id": "5e8fb914b918f3171fd40056",
+"Username": "Jooonte Smith",
+"Password": "98766",
+"Email": "test5@gmail.com",
+"Birthday": "1976-01-04T08:00:00.000Z",
+"__v": 0
+}
+
 **Favourites list**
 
 Endpoint: /users/favourites/[ID]
 Description: Allow users to add a movie to their list of favorites within the
-Account object by ID
+Account object by Account ID and movie ID
 HTTP Method: POST
 Query params: Account ID
 
-Req body data format: JSON Object with the movie title.
+Req body data format: JSON Object with the movie id.
 E.g:
 {
-"title":"Big Trouble in Little China"
+"id":"XXXXXX"
 }
 
-Res body data format: A text message confiming the movie was successfully added
-to the favourites list and prints current list
+Res body data format: An Array of the current list
+E.g:
+Updated Favourites list:
+ZZZZZ,YYYY,"
 
 
 Endpoint: /users/favourites/[ID]
@@ -178,11 +193,13 @@ Description: Allow users to remove a movie from their list of favorites by ID
 HTTP Method: DELETE
 Query params: Account ID
 
-Req body data format: JSON body with the movie title
+Req body data format: JSON Object with the movie id.
 E.g:
 {
-"title":"Big Trouble in Little China"
+"id":"XXXXXX"
 }
 
 Res body data format: A text message confiming the movie was successfully
 removed from the favourites list and prints current list
+E.g:
+"Movie with id xxxxxxx succesfully deleted. Updated Favourites list: ZZZZZ,YYYY"
