@@ -234,5 +234,12 @@ app.delete(
   }
 );
 
+// Private Users API for testing
+
+// Create hardcode password?
+app.get('/users', function (req, res) {
+  Users.find().then((users) => res.status(200).json(users));
+});
+
 // listen for requests
 app.listen(8080, () => console.log('Your app is listening on port 8080.'));
