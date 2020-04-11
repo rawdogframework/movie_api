@@ -14,6 +14,7 @@ mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+mongoose.set('useFindAndModify', false);
 
 // Midddleware
 app.use(morgan('common'));
