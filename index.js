@@ -180,57 +180,89 @@ app.put(
   }
 );
 
-// Update Favourites List by Title
+// Add Movie to Favourites List by Movie ID
 app.post(
   '/users/favourites/:id/',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        /* 
-      Check for duplicates
-      */
-        $push: { FavouriteMovies: req.body.id },
-      },
-      { new: true }
-    )
-      .then(function (updatedUser) {
-        res
-          .status(200)
-          .json('Updated Favourites list: ' + updatedUser.FavouriteMovies);
-      })
-      .catch(function (err) {
+    Users.find({ _id: req.params.id }, function (err, user) {
+      if (user) {
+        // check duplicate
+        let list = user[0].FavouriteMovies;
+        if (list.includes(req.body.id)) {
+          return res.status(400).send('Already movie in your favourites list');
+        } else {
+          // add to favourites
+          Users.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              $push: { FavouriteMovies: req.body.id },
+            },
+            { new: true }
+          )
+            .then(function (updatedUser) {
+              res
+                .status(200)
+                .json(
+                  'Updated Favourites list: ' + updatedUser.FavouriteMovies
+                );
+            })
+            .catch(function (err) {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            });
+        }
+      } else {
         console.error(err);
         res.status(500).send('Error: ' + err);
-      });
+      }
+    });
   }
 );
 
-// Remove Movie from Favourites List by Title
+// Remove Movie from Favourites List by Move ID
 app.delete(
   '/users/favourites/:id/',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.findOneAndUpdate(
-      { _id: req.params.id },
-      { $pull: { FavouriteMovies: req.body.id } },
-      { new: true }
-    )
-      .then(function (updatedUser) {
-        res
-          .status(200)
-          .json(
-            'Movie with id ' +
-              req.body.id +
-              ' was succesfully deleted. Updated Favourites list: ' +
-              updatedUser.FavouriteMovies
-          );
-      })
-      .catch(function (err) {
+    Users.find({ _id: req.params.id }, function (err, user) {
+      if (user) {
+        // check duplicate
+        let list = user[0].FavouriteMovies;
+        console.log(user[0]);
+        if (!list.includes(req.body.id)) {
+          return res
+            .status(400)
+            .send('No movie matching that ID in the Favourites list');
+        } else {
+          // add to favourites
+          Users.findOneAndUpdate(
+            { _id: req.params.id },
+            {
+              $pull: { FavouriteMovies: req.body.id },
+            },
+            { new: true }
+          )
+            .then(function (updatedUser) {
+              res
+                .status(200)
+                .json(
+                  'Movie with id ' +
+                    req.body.id +
+                    ' was succesfully deleted. Updated Favourites list: ' +
+                    updatedUser.FavouriteMovies
+                );
+            })
+            .catch(function (err) {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            });
+        }
+      } else {
         console.error(err);
         res.status(500).send('Error: ' + err);
-      });
+      }
+    });
   }
 );
 
