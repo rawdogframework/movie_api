@@ -120,10 +120,10 @@ app.post('/users', function (req, res) {
 
 // Deregister User Account
 app.delete(
-  '/users/:id',
+  '/users/:userId',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.findOne({ _id: req.params.id })
+    Users.findOne({ _id: req.params.userId })
       .then(function (user) {
         if (user) {
           // Check password and email match req body
@@ -134,17 +134,17 @@ app.delete(
             // Delete user
             Users.deleteOne(user);
             const message =
-              'User account with id ' +
-              req.params.id +
+              'User account with userId ' +
+              req.params.userId +
               ' was successfully deleted';
             return res.status(200).send(message);
           } else {
             return res
               .status(400)
-              .send('Credentials not matching account with that id');
+              .send('Credentials not matching account with that user id');
           }
         } else {
-          return res.status(400).send('No account matching that id in DB');
+          return res.status(400).send('No account matching that user id in DB');
         }
       })
       .catch(function (err) {
@@ -156,13 +156,14 @@ app.delete(
 
 // Update User Account
 app.put(
-  '/users/update/:id',
+  '/users/update/:userId',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
     Users.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params.userId },
       {
         $set: {
+          // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
           Username: req.body.Username,
           Password: req.body.Password,
           Email: req.body.Email,
@@ -183,21 +184,21 @@ app.put(
 
 // Add Movie to Favourites List by Movie ID
 app.post(
-  '/users/favourites/:id/',
+  '/users/:userId/favourites/:movieId/',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.find({ _id: req.params.id }, function (err, user) {
+    Users.find({ _id: req.params.userId }, function (err, user) {
       if (user) {
         // check duplicate
         let list = user[0].FavouriteMovies;
-        if (list.includes(req.body.id)) {
+        if (list.includes(req.params.movieId)) {
           return res.status(400).send('Already movie in your favourites list');
         } else {
           // add to favourites
           Users.findOneAndUpdate(
-            { _id: req.params.id },
+            { _id: req.params.userId },
             {
-              $push: { FavouriteMovies: req.body.id },
+              $push: { FavouriteMovies: req.params.movieId },
             },
             { new: true }
           )
@@ -205,7 +206,9 @@ app.post(
               res
                 .status(200)
                 .json(
-                  'Updated Favourites list: ' + updatedUser.FavouriteMovies
+                  'Updated Favourites list: [' +
+                    updatedUser.FavouriteMovies +
+                    ']'
                 );
             })
             .catch(function (err) {
@@ -223,24 +226,24 @@ app.post(
 
 // Remove Movie from Favourites List by Move ID
 app.delete(
-  '/users/favourites/:id/',
+  '/users/:userId/favourites/:movieId/',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.find({ _id: req.params.id }, function (err, user) {
+    Users.find({ _id: req.params.userId }, function (err, user) {
       if (user) {
         // check duplicate
         let list = user[0].FavouriteMovies;
         console.log(user[0]);
-        if (!list.includes(req.body.id)) {
+        if (!list.includes(req.params.movieId)) {
           return res
             .status(400)
             .send('No movie matching that ID in the Favourites list');
         } else {
           // add to favourites
           Users.findOneAndUpdate(
-            { _id: req.params.id },
+            { _id: req.params.userId },
             {
-              $pull: { FavouriteMovies: req.body.id },
+              $pull: { FavouriteMovies: req.params.movieId },
             },
             { new: true }
           )
@@ -249,9 +252,10 @@ app.delete(
                 .status(200)
                 .json(
                   'Movie with id ' +
-                    req.body.id +
-                    ' was succesfully deleted. Updated Favourites list: ' +
-                    updatedUser.FavouriteMovies
+                    req.params.movieId +
+                    ' was succesfully deleted. Updated Favourites list: [' +
+                    updatedUser.FavouriteMovies +
+                    ']'
                 );
             })
             .catch(function (err) {
