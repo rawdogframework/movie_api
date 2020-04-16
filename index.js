@@ -331,7 +331,12 @@ app.delete(
 
 // Create hardcode password?
 app.get('/users', function (req, res) {
-  Users.find().then((users) => res.status(200).json(users));
+  Users.find()
+    .then((users) => res.status(200).json(users))
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // listen for requests
