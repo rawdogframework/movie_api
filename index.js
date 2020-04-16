@@ -10,7 +10,15 @@ require('./passport');
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+
+//Local connection
+// mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// Connection to Remote DB on MongoDBAtlas
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -115,11 +123,8 @@ app.get(
 );
 // Create User Account
 app.post(
-  '/users', // Validation logic here for request
-  //you can either use a chain of methods like .not().isEmpty()
-  //which means "opposite of isEmpty" in plain english "is not empty"
-  //or use .isLength({min: 5}) which means
-  //minimum value of 5 characters are only allowed
+  '/users',
+  // Validation logic
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
     check(
