@@ -124,6 +124,7 @@ app.get(
 // Create User Account
 app.post(
   '/users',
+
   // Validation logic
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
