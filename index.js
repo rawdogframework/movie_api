@@ -241,23 +241,35 @@ app.put(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
-    Users.findOneAndUpdate(
-      { _id: req.params.userId },
-      {
-        $set: {
-          // --Remind for v2--
-          // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        },
-      },
-      { new: true }
-    )
+    // Check if id matches a user
+    Users.findOne({ _id: req.params.userId })
       .then(function (user) {
-        res.status(200).json(user);
+        if (user) {
+          Users.findOneAndUpdate(
+            { _id: req.params.userId },
+            {
+              $set: {
+                // --Remind for v2--
+                // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
+                Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday,
+              },
+            },
+            { new: true }
+          )
+            .then(function (user) {
+              res.status(200).json(user);
+            })
+            .catch(function (err) {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            });
+        } else {
+          const message = 'No user matching that id in the db';
+          res.status(404).send(message);
+        }
       })
       .catch(function (err) {
         console.error(err);
