@@ -124,7 +124,6 @@ app.get(
 // Create User Account
 app.post(
   '/users',
-
   // Validation logic
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
@@ -178,7 +177,19 @@ app.post(
 app.delete(
   '/users/:userId',
   passport.authenticate('jwt', { session: false }),
+  // Validation logic
+  [
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
   function (req, res) {
+    // check the validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {
         if (user) {
@@ -214,7 +225,24 @@ app.delete(
 app.put(
   '/users/update/:userId',
   passport.authenticate('jwt', { session: false }),
+  // Validation logic
+  [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    ).isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
   function (req, res) {
+    // check the validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     Users.findOneAndUpdate(
       { _id: req.params.userId },
       {
