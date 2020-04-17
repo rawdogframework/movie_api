@@ -366,20 +366,6 @@ app.delete(
     });
   }
 );
-
-// Private Users API for testing
-
-// Create hardcode password?
-app.get('/usersAll', function (req, res) {
-  Users.find()
-    .then((users) => res.status(200).json(users))
-    .then((users) => console.log(users))
-    .catch(function (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
 // listen for requests
 var port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', function () {
