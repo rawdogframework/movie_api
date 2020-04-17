@@ -32,7 +32,7 @@ app.use(cors());
 /*
 CORS - Allowed origins/domains
 */
-var allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+var allowedOrigins = ['http://localhost:8080', 'https://vfa.herokuapp.com/'];
 
 app.use(
   cors({
@@ -64,12 +64,11 @@ API methods
 */
 
 // Hit main page
-app.get('/', function (req, res) {
+app.get('/', function (res) {
   res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
 app.get('/movies', passport.authenticate('jwt', { session: false }), function (
-  req,
   res
 ) {
   Movies.find().then((movies) => res.status(200).json(movies));
@@ -137,7 +136,6 @@ app.post(
   function (req, res) {
     // check the validation object for errors
     var errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
@@ -247,6 +245,7 @@ app.put(
       { _id: req.params.userId },
       {
         $set: {
+          // --Remind for v2--
           // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
           Username: req.body.Username,
           Password: req.body.Password,
@@ -361,6 +360,7 @@ app.delete(
 app.get('/users', function (req, res) {
   Users.find()
     .then((users) => res.status(200).json(users))
+    .then((users) => console.log(users))
     .catch(function (err) {
       console.error(err);
       res.status(500).send('Error: ' + err);
