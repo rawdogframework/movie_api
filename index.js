@@ -358,7 +358,7 @@ app.delete(
 // Private Users API for testing
 
 // Create hardcode password?
-app.get('/users', function (req, res) {
+app.get('/usersAll', function (req, res) {
   Users.find()
     .then((users) => res.status(200).json(users))
     .then((users) => console.log(users))
