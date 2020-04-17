@@ -64,7 +64,7 @@ API methods
 */
 
 // Hit main page
-app.get('/', function (err, req, res) {
+app.get('/', function (req, res) {
   res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
