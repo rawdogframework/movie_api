@@ -64,11 +64,12 @@ API methods
 */
 
 // Hit main page
-app.get('/', function (res) {
+app.get('/', function (err, req, res) {
   res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
 app.get('/movies', passport.authenticate('jwt', { session: false }), function (
+  req,
   res
 ) {
   Movies.find().then((movies) => res.status(200).json(movies));
