@@ -32,7 +32,11 @@ app.use(cors());
 /*
 CORS - Allowed origins/domains
 */
-var allowedOrigins = ['http://localhost:8080', 'https://vfa.herokuapp.com/'];
+var allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'https://vfa.herokuapp.com/',
+];
 
 app.use(
   cors({
