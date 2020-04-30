@@ -30378,9 +30378,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       // before the data is initially loaded
       var _this$state = this.state,
           movies = _this$state.movies,
-          selectedMovie = _this$state.selectedMovie;
-      console.log('SM = ' + selectedMovie);
-      console.log('M = ' + movies); // Before the movies have been loaded
+          selectedMovie = _this$state.selectedMovie; // Logging to check states
+      // console.log('SM = ' + selectedMovie);
+      // console.log('M = ' + movies);
+      // Before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"

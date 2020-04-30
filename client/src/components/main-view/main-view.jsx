@@ -49,8 +49,9 @@ export class MainView extends React.Component {
     // before the data is initially loaded
     const { movies, selectedMovie } = this.state;
 
-    console.log('SM = ' + selectedMovie);
-    console.log('M = ' + movies);
+    // Logging to check states
+    // console.log('SM = ' + selectedMovie);
+    // console.log('M = ' + movies);
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
