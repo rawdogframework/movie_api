@@ -63,7 +63,7 @@ export class MainView extends React.Component {
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
-
+    // if there is no logged in user
     if (!user) return <LoginView logInFunc={(user) => this.onLoggedIn(user)} />;
 
     return (
@@ -71,17 +71,21 @@ export class MainView extends React.Component {
         {selectedMovie ? (
           <MovieView
             movie={selectedMovie}
-            createdFuncAsPropFromMain={() => this.buttonFunc()}
+            buttonPropFromMain={() => this.buttonFunc()}
+            label="Return"
           />
         ) : (
           movies.map((movie) => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              createdFuncAsPropForMovieCard={(movie) =>
-                this.onMovieClick(movie)
-              }
-            />
+            <div className="wrapper">
+              <MovieCard
+                key={movie._id}
+                movie={movie}
+                createdFuncAsPropForMovieCard={(movie) =>
+                  this.onMovieClick(movie)
+                }
+                label="Open"
+              />
+            </div>
           ))
         )}
       </div>

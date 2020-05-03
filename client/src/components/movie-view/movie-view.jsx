@@ -1,5 +1,6 @@
 import React from 'react';
-import { MovieButton } from '../movie-button/movie-button';
+import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
 export class MovieView extends React.Component {
   constructor() {
@@ -9,7 +10,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, createdFuncAsPropFromMain } = this.props;
+    const { movie, buttonPropFromMain, label } = this.props;
 
     if (!movie) return null;
 
@@ -32,11 +33,23 @@ export class MovieView extends React.Component {
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
         </div>
-        <MovieButton
-          label="Return"
-          passingOnToButtonComponent={createdFuncAsPropFromMain}
-        />
+        <Button label={label} onClick={buttonPropFromMain} />
       </div>
     );
   }
 }
+
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }),
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
