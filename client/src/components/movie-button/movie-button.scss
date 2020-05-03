@@ -1,6 +1,10 @@
 $color: steelblue;
 
 .button-style {
+  border: none;
+  font-family: inherit;
+  text-decoration: none;
   margin: 10px 10px 10px 0;
-  color: $color;
+  color: #000;
+  background-color: steelblue;
 }

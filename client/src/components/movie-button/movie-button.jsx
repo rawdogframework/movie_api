@@ -3,8 +3,8 @@ import './movie-button.scss';
 
 export function MovieButton({ label, passingOnToButtonComponent }) {
   return (
-    <button className="button-styles" onClick={passingOnToButtonComponent}>
+    <div className="button-style" onClick={passingOnToButtonComponent}>
       {label}
-    </button>
+    </div>
   );
 }
