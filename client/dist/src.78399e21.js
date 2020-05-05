@@ -32539,6 +32539,8 @@ var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 require("./login-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -32570,13 +32572,21 @@ function LoginView(props) {
       password = _useState4[0],
       setPassword = _useState4[1];
 
-  var handleSubmit = function handleSubmit() {
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
     console.log(username, password);
     /* Send a request to the server for authentication */
 
-    /* then call props.onLoggedIn(username) */
+    _axios.default.post('https://vfa.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data; // Send data to prop
 
-    props.logInFunc(username);
+      props.logInFunc(data);
+    }).catch(function (e) {
+      console.log('no such user');
+    });
   };
 
   return _react.default.createElement(_Form.default, {
@@ -32603,7 +32613,7 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Log in"));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -33036,7 +33046,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
           label = _this$props.label;
       if (!movie) return null;
       return _react.default.createElement("div", {
-        className: "wrapper"
+        className: "wrapper container-fluid"
       }, _react.default.createElement("div", {
         className: "col-1"
       }), _react.default.createElement("div", {
@@ -33184,6 +33194,22 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this3 = this;
+
+      _axios.default.get('https://vfa.herokuapp.com/movies', {
+        Authorization: 'Bearer ${token}'
+      }).then(function (response) {
+        // Assign result to a state
+        _this3.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "onMovieClick",
     value: function onMovieClick(movie) {
       this.setState({
@@ -33199,15 +33225,19 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(user) {
+    value: function onLoggedIn(authData) {
+      console.log(authData);
       this.setState({
-        user: user
+        user: authData.user.Username
       });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       // If the state isn't initialized, this will throw on runtime
       // before the data is initially loaded
@@ -33225,7 +33255,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       if (!user) return _react.default.createElement(_loginView.LoginView, {
         logInFunc: function logInFunc(user) {
-          return _this3.onLoggedIn(user);
+          return _this4.onLoggedIn(user);
         }
       });
       return _react.default.createElement("div", null, _react.default.createElement("div", {
@@ -33233,7 +33263,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
         buttonPropFromMain: function buttonPropFromMain() {
-          return _this3.buttonFunc();
+          return _this4.buttonFunc();
         },
         label: "Return"
       }) : movies.map(function (movie) {
@@ -33245,7 +33275,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           key: movie._id,
           movie: movie,
           createdFuncAsPropForMovieCard: function createdFuncAsPropForMovieCard(movie) {
-            return _this3.onMovieClick(movie);
+            return _this4.onMovieClick(movie);
           },
           label: "Open"
         })));

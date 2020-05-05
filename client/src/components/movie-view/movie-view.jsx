@@ -16,7 +16,7 @@ export class MovieView extends React.Component {
     if (!movie) return null;
 
     return (
-      <div className="wrapper">
+      <div className="wrapper container-fluid">
       <div className="col-1"/>
       <div
         className="movie-view container-fluid align-items-center col-10"
