@@ -21,23 +21,10 @@ export class MainView extends React.Component {
     };
   }
 
-  // One of the "hooks" available in a React Component
-  componentDidMount() {
-      axios
-        .get('https://vfa.herokuapp.com/movies')
-        .then((response) => {
-          // Assign the result to the state
-          this.setState({
-            movies: response.data,
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-  }
-
-  getMovies(token){
-    axios.get('https://vfa.herokuapp.com/movies', {Authorization: 'Bearer ${token}'})
+   getMovies(token){
+    axios.get('https://vfa.herokuapp.com/movies', {
+      headers: {Authorization: 'Bearer ${token}'}
+      })
     .then(response => {
       // Assign result to a state
       this.setState({
@@ -48,6 +35,21 @@ export class MainView extends React.Component {
     });
   }
 
+  componentDidMount() {
+    //  Get value of token from localStorage if present
+     let accessToken = localStorage.getItem('token');
+     console.log('ac ===' + accessToken);
+     let usernameeee = localStorage.getItem('user');
+     console.log('uesr is====' + usernameeee);
+     if (accessToken !== null) {
+    this.setState({
+      user: localStorage.getItem('user')
+    });
+    this.getMovies(accessToken);
+    }
+  }
+
+ 
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie,
@@ -61,14 +63,17 @@ export class MainView extends React.Component {
   }
 
   onLoggedIn(authData) {
-    console.log(authData);
-
     this.setState({
       user: authData.user.Username,
     });
-
+    console.log('username =====' +authData.user.Username);
+    console.log('token =====' +authData.token);
+    // Add authData to browser's
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
+    console.log('localtoken ===' + localStorage.token);
+    console.log('localusername ===' + localStorage.user);
+    // Calls endpoint once user is logged in
     this.getMovies(authData.token);
 
   }
@@ -78,14 +83,17 @@ export class MainView extends React.Component {
     // before the data is initially loaded
     const { movies, selectedMovie, user } = this.state;
 
+
     // Logging to check states
     // console.log('SM = ' + selectedMovie);
     // console.log('M = ' + movies);
+    // console.log('U = ' + user);
 
+  
+    // if there is no logged in user
+    if (!user) return <LoginView logInFunc={user => this.onLoggedIn(user)} />;
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
-    // if there is no logged in user
-    if (!user) return <LoginView logInFunc={(user) => this.onLoggedIn(user)} />;
 
     return (
       <div>

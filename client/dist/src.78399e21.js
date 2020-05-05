@@ -32562,6 +32562,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function LoginView(props) {
+  // Calling useState() method with empty string (= initial value of login variable)
   var _useState = (0, _react.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       username = _useState2[0],
@@ -32573,6 +32574,7 @@ function LoginView(props) {
       setPassword = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
+    // prevents the default refresh after submit button has been clicked
     e.preventDefault();
     console.log(username, password);
     /* Send a request to the server for authentication */
@@ -33176,16 +33178,19 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       user: null
     };
     return _this;
-  } // One of the "hooks" available in a React Component
-
+  }
 
   _createClass(MainView, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "getMovies",
+    value: function getMovies(token) {
       var _this2 = this;
 
-      _axios.default.get('https://vfa.herokuapp.com/movies').then(function (response) {
-        // Assign the result to the state
+      _axios.default.get('https://vfa.herokuapp.com/movies', {
+        headers: {
+          Authorization: 'Bearer ${token}'
+        }
+      }).then(function (response) {
+        // Assign result to a state
         _this2.setState({
           movies: response.data
         });
@@ -33194,20 +33199,20 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "getMovies",
-    value: function getMovies(token) {
-      var _this3 = this;
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      //  Get value of token from localStorage if present
+      var accessToken = localStorage.getItem('token');
+      console.log('ac ===' + accessToken);
+      var usernameeee = localStorage.getItem('user');
+      console.log('uesr is====' + usernameeee);
 
-      _axios.default.get('https://vfa.herokuapp.com/movies', {
-        Authorization: 'Bearer ${token}'
-      }).then(function (response) {
-        // Assign result to a state
-        _this3.setState({
-          movies: response.data
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
         });
-      }).catch(function (error) {
-        console.log(error);
-      });
+        this.getMovies(accessToken);
+      }
     }
   }, {
     key: "onMovieClick",
@@ -33226,18 +33231,23 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
-      console.log(authData);
       this.setState({
         user: authData.user.Username
       });
+      console.log('username =====' + authData.user.Username);
+      console.log('token =====' + authData.token); // Add authData to browser's
+
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
+      console.log('localtoken ===' + localStorage.token);
+      console.log('localusername ===' + localStorage.user); // Calls endpoint once user is logged in
+
       this.getMovies(authData.token);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       // If the state isn't initialized, this will throw on runtime
       // before the data is initially loaded
@@ -33247,23 +33257,24 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           user = _this$state.user; // Logging to check states
       // console.log('SM = ' + selectedMovie);
       // console.log('M = ' + movies);
-      // Before the movies have been loaded
-
-      if (!movies) return _react.default.createElement("div", {
-        className: "main-view"
-      }); // if there is no logged in user
+      // console.log('U = ' + user);
+      // if there is no logged in user
 
       if (!user) return _react.default.createElement(_loginView.LoginView, {
         logInFunc: function logInFunc(user) {
-          return _this4.onLoggedIn(user);
+          return _this3.onLoggedIn(user);
         }
+      }); // Before the movies have been loaded
+
+      if (!movies) return _react.default.createElement("div", {
+        className: "main-view"
       });
       return _react.default.createElement("div", null, _react.default.createElement("div", {
         className: "text-center container-fluid main-view-styles"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
         buttonPropFromMain: function buttonPropFromMain() {
-          return _this4.buttonFunc();
+          return _this3.buttonFunc();
         },
         label: "Return"
       }) : movies.map(function (movie) {
@@ -33275,7 +33286,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           key: movie._id,
           movie: movie,
           createdFuncAsPropForMovieCard: function createdFuncAsPropForMovieCard(movie) {
-            return _this4.onMovieClick(movie);
+            return _this3.onMovieClick(movie);
           },
           label: "Open"
         })));
@@ -33381,7 +33392,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50363" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54512" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

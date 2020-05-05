@@ -6,16 +6,18 @@ import './login-view.scss';
 
 
 export function LoginView(props) {
+  // Calling useState() method with empty string (= initial value of login variable)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
+    // prevents the default refresh after submit button has been clicked
     e.preventDefault();
     console.log(username, password);
     /* Send a request to the server for authentication */
       axios
         .post('https://vfa.herokuapp.com/login', {Username: username, Password: password})
-        .then((response) => {
+        .then(response => {
           const data = response.data;
           // Send data to prop
            props.logInFunc(data);
