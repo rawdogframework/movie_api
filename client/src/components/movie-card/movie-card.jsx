@@ -2,23 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import './movie-card.scss'
 
 export class MovieCard extends React.Component {
   render() {
     const { movie, createdFuncAsPropForMovieCard, label } = this.props;
 
     return (
-      <Card style={{ width: '16rem' }}>
-        <Card.Img variant="top" src={movie.ImagePath} />
-        <Card.Body>
-          <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
-          <Button
-            onClick={() => createdFuncAsPropForMovieCard(movie)}
-            label={label}
-          />
-        </Card.Body>
-      </Card>
+      <div className="col-md-4 movie-card-styles">
+        <Card  text="light" bg="dark">
+          <Card.Img variant="top" src={movie.ImagePath} />
+          <Card.Body>
+            <Card.Title>{movie.Title}</Card.Title>
+            <Card.Text>{movie.Description}</Card.Text>
+            <Button
+              onClick={() => createdFuncAsPropForMovieCard(movie)}
+              variant="light"
+            >
+              {label}
+            </Button>
+          </Card.Body>
+        </Card>
+      </div>
     );
   }
 }

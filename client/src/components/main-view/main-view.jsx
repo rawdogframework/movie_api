@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 
 import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import './main-view.scss'
 
 export class MainView extends React.Component {
   constructor() {
@@ -67,17 +69,19 @@ export class MainView extends React.Component {
     if (!user) return <LoginView logInFunc={(user) => this.onLoggedIn(user)} />;
 
     return (
-      <div className="main-view">
+      <div>
+      <div className="text-center container-fluid main-view-styles">
         {selectedMovie ? (
           <MovieView
             movie={selectedMovie}
             buttonPropFromMain={() => this.buttonFunc()}
             label="Return"
           />
-        ) : (
+        ) : ( 
           movies.map((movie) => (
-            <div className="wrapper">
-              <MovieCard
+              <div className="container">
+              <div className="row">
+                <MovieCard
                 key={movie._id}
                 movie={movie}
                 createdFuncAsPropForMovieCard={(movie) =>
@@ -85,10 +89,14 @@ export class MainView extends React.Component {
                 }
                 label="Open"
               />
-            </div>
+              </div>
+              </div>
+
           ))
         )}
       </div>
+      </div>
+      
     );
   }
 }
