@@ -72,7 +72,11 @@ app.get('/', function (req, res) {
   res.status(200).send('Welcome to the Victorville Film Archives!');
 });
 // Get all movies in db
-app.get('/movies', passport.authenticate('jwt', { session: false }), function (req, res) {
+app.get('/movies', passport.authenticate('jwt', { session: false }), function (
+  req,
+  res
+) {
+  console.log('body =====' + req.body);
   Movies.find().then((movies) => res.status(200).json(movies));
 });
 // Get Movies by Title
