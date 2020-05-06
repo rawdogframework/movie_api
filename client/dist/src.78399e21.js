@@ -33187,7 +33187,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       _axios.default.get('https://vfa.herokuapp.com/movies', {
         headers: {
-          Authorization: 'Bearer ${token}'
+          Authorization: 'Bearer' + token
         }
       }).then(function (response) {
         // Assign result to a state
