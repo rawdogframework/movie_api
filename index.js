@@ -32,7 +32,7 @@ app.use(cors());
 /*
 CORS - Allowed origins/domains
 */
-var allowedOrigins = ['*'];
+var allowedOrigins = '*';
 
 app.use(
   cors({
