@@ -129,6 +129,21 @@ app.get(
     });
   }
 );
+// Get User Account by username
+app.get(
+  '/users/:name',
+  passport.authenticate('jwt', { session: false }),
+  function (req, res) {
+    Users.findOne({ Username: req.params.name }).then(function (user) {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        const message = 'No Account matching that name in the db';
+        res.status(404).send(message);
+      }
+    });
+  }
+);
 // Create User Account
 app.post(
   '/users',
