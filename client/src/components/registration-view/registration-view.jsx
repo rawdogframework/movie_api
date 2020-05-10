@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './registration-view.scss';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
@@ -7,11 +11,24 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.logInFunc(username);
+    axios
+      .post('https://vfa.herokuapp.com/users', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday,
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self');
+      })
+      .catch((e) => {
+        console.log('Issue registering user');
+      });
   };
 
   return (
@@ -52,13 +69,15 @@ export function RegistrationView(props) {
           onChange={(e) => setEmail(e.target.value)}
         />
       </Form.Group>
-      <Button
-        variant="btn-lg btn-dark btn-block"
-        type="submit"
-        onClick={handleSubmit}
-      >
-        Register
-      </Button>
+      <Link to={`/`}>
+        <Button
+          variant="btn-lg btn-dark btn-block"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Register
+        </Button>
+      </Link>
     </Form>
   );
 }
