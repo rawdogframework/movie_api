@@ -103,7 +103,7 @@ export class MainView extends React.Component {
     const { movies, user, profileInfo } = this.state;
 
     // Logging to check states
-    // console.log('M = ' + movies);
+    console.log('M = ' + movies);
     console.log('U = ' + user);
     console.log('pi =' + profileInfo);
 
@@ -132,7 +132,13 @@ export class MainView extends React.Component {
                 return (
                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
-              return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+              return (
+                <div className="row lg={4}">
+                  {movies.map((m) => {
+                    return <MovieCard key={m._id} movie={m} />;
+                  })}
+                </div>
+              );
             }}
           />
           <Route path="/register" render={() => <RegistrationView />} />
@@ -146,9 +152,7 @@ export class MainView extends React.Component {
           />
           <Route
             path="/users/"
-            user={user}
-            profileInfo={this.state.profileInfo}
-            render={() => <ProfileView />}
+            render={() => <ProfileView user={user} profileInfo={profileInfo} />}
           />
           <Route
             path="/directors/:name"

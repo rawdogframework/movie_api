@@ -36249,7 +36249,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           profileInfo = _this$props.profileInfo;
       console.log('profile view user ==' + user);
       console.log('profile view pi ==' + profileInfo);
-      if (!profileInfo) return _react.default.createElement("div", null, "Loading");
+      if (!profileInfo || !user) return _react.default.createElement("div", null, "Loading");
       return _react.default.createElement("div", {
         className: "wrapper container-fluid"
       }, _react.default.createElement("div", {
@@ -36265,19 +36265,19 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Username: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.username)), _react.default.createElement("div", {
+      }, profileInfo.Username)), _react.default.createElement("div", {
         className: "account-email "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Email: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.email)), _react.default.createElement("div", {
+      }, profileInfo.Email)), _react.default.createElement("div", {
         className: "account-birthday "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Birthday: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.birthday)), _react.default.createElement("div", {
+      }, profileInfo.Birthday)), _react.default.createElement("div", {
         className: "account-password "
       }, _react.default.createElement("span", {
         className: "label"
@@ -38742,8 +38742,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           movies = _this$state.movies,
           user = _this$state.user,
           profileInfo = _this$state.profileInfo; // Logging to check states
-      // console.log('M = ' + movies);
 
+      console.log('M = ' + movies);
       console.log('U = ' + user);
       console.log('pi =' + profileInfo); // Before the movies have been loaded
 
@@ -38772,12 +38772,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
               return _this4.onLoggedIn(user);
             }
           });
-          return movies.map(function (m) {
+          return _react.default.createElement("div", {
+            className: "row lg={4}"
+          }, movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
               movie: m
             });
-          });
+          }));
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/register",
@@ -38796,10 +38798,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/users/",
-        user: user,
-        profileInfo: this.state.profileInfo,
         render: function render() {
-          return _react.default.createElement(_profileView.ProfileView, null);
+          return _react.default.createElement(_profileView.ProfileView, {
+            user: user,
+            profileInfo: profileInfo
+          });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/directors/:name",
@@ -38923,7 +38926,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57467" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53177" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

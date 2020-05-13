@@ -14,7 +14,7 @@ export class ProfileView extends React.Component {
     const { user, profileInfo } = this.props;
     console.log('profile view user ==' + user);
     console.log('profile view pi ==' + profileInfo);
-    if (!profileInfo) return <div>Loading</div>;
+    if (!profileInfo || !user) return <div>Loading</div>;
 
     return (
       <div className="wrapper container-fluid">
@@ -26,15 +26,15 @@ export class ProfileView extends React.Component {
           />
           <div className="account-username ">
             <span className="label">Username: </span>
-            <span className="value">{profileInfo.username}</span>
+            <span className="value">{profileInfo.Username}</span>
           </div>
           <div className="account-email ">
             <span className="label">Email: </span>
-            <span className="value">{profileInfo.email}</span>
+            <span className="value">{profileInfo.Email}</span>
           </div>
           <div className="account-birthday ">
             <span className="label">Birthday: </span>
-            <span className="value">{profileInfo.birthday}</span>
+            <span className="value">{profileInfo.Birthday}</span>
           </div>
           <div className="account-password ">
             <span className="label">Password: </span>
