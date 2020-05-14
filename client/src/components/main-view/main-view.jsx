@@ -104,6 +104,7 @@ export class MainView extends React.Component {
 
     // Logging to check states
     console.log('M = ' + movies);
+    console.log(typeof m);
     console.log('U = ' + user);
     console.log('pi =' + profileInfo);
 
@@ -132,13 +133,7 @@ export class MainView extends React.Component {
                 return (
                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
-              return (
-                <div className="row lg={4}">
-                  {movies.map((m) => {
-                    return <MovieCard key={m._id} movie={m} />;
-                  })}
-                </div>
-              );
+              return movies.map((m) => <MovieCard key={m._id} movie={m} />);
             }}
           />
           <Route path="/register" render={() => <RegistrationView />} />
@@ -152,7 +147,9 @@ export class MainView extends React.Component {
           />
           <Route
             path="/users/"
-            render={() => <ProfileView user={user} profileInfo={profileInfo} />}
+            user={user}
+            profileInfo={this.state.profileInfo}
+            render={() => <ProfileView />}
           />
           <Route
             path="/directors/:name"

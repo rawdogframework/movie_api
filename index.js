@@ -76,10 +76,6 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), function (
   req,
   res
 ) {
-  for (i in req.body) {
-    console.log('body == ' + i);
-  }
-  console.log(req.headers);
   Movies.find().then((movies) => res.status(200).json(movies));
 });
 // Get Movies by Title
