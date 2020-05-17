@@ -38609,6 +38609,8 @@ var _Navbar = _interopRequireDefault(require("react-bootstrap/Navbar"));
 
 require("./main-view.scss");
 
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -38748,7 +38750,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       console.log('U = ' + user);
       console.log('pi =' + profileInfo); // Before the movies have been loaded
 
-      if (!movies || !profileInfo) return _react.default.createElement("div", {
+      if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
@@ -38773,12 +38775,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
               return _this4.onLoggedIn(user);
             }
           });
-          return movies.map(function (m) {
+          return _react.default.createElement("div", {
+            className: "row lg={4}"
+          }, movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
               movie: m
             });
-          });
+          }));
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/register",
@@ -38800,7 +38804,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         user: user,
         profileInfo: this.state.profileInfo,
         render: function render() {
-          return _react.default.createElement(_profileView.ProfileView, null);
+          return _react.default.createElement(_profileView.ProfileView, {
+            user: user,
+            profileInfo: _this4.state.profileInfo
+          });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/directors/:name",
@@ -38830,7 +38837,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);

@@ -14,6 +14,7 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './main-view.scss';
+import Row from 'react-bootstrap/Row';
 
 export class MainView extends React.Component {
   constructor() {
@@ -109,7 +110,7 @@ export class MainView extends React.Component {
     console.log('pi =' + profileInfo);
 
     // Before the movies have been loaded
-    if (!movies || !profileInfo) return <div className="main-view" />;
+    if (!movies) return <div className="main-view" />;
 
     return (
       <Router>
@@ -133,7 +134,13 @@ export class MainView extends React.Component {
                 return (
                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
-              return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+              return (
+                <div className="row lg={4}">
+                  {movies.map((m) => (
+                    <MovieCard key={m._id} movie={m} />
+                  ))}
+                </div>
+              );
             }}
           />
           <Route path="/register" render={() => <RegistrationView />} />
@@ -149,7 +156,9 @@ export class MainView extends React.Component {
             path="/users/"
             user={user}
             profileInfo={this.state.profileInfo}
-            render={() => <ProfileView />}
+            render={() => (
+              <ProfileView user={user} profileInfo={this.state.profileInfo} />
+            )}
           />
           <Route
             path="/directors/:name"
