@@ -12,10 +12,7 @@ export class ProfileView extends React.Component {
 
   render() {
     const { user, profileInfo } = this.props;
-    console.log('profile view user ==' + user);
-    console.log('profile view pi ==' + profileInfo);
     if (!profileInfo || !user) return <div>Loading</div>;
-
     return (
       <div className="wrapper container-fluid">
         <div className="col-3" />

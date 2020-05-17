@@ -15,7 +15,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './main-view.scss';
 import Row from 'react-bootstrap/Row';
-
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 export class MainView extends React.Component {
   constructor() {
     // Call the superclass constructor
@@ -104,82 +105,149 @@ export class MainView extends React.Component {
     const { movies, user, profileInfo } = this.state;
 
     // Logging to check states
-    console.log('M = ' + movies);
-    console.log(typeof m);
-    console.log('U = ' + user);
-    console.log('pi =' + profileInfo);
+    // console.log('M = ' + movies);
+    // console.log('U = ' + user);
+    // console.log('pi =' + profileInfo);
 
     // Before the movies have been loaded
-    if (!movies) return <div className="main-view" />;
+    if (!movies && !profileInfo) return <div className="main-view" />;
 
-    return (
-      <Router>
-        <div className="main-view text-center container-fluid main-view-styles ">
-          {/* Nav start */}
-          {/* Nav end */}
-          {/* If this.user === null don't show Link */}
-          <Link to={`/`}>
-            <Button variant="link" onClick={() => this.logOut()}>
-              Log out
-            </Button>
-          </Link>
-          <Link to={`/users/`}>
-            <Button variant="link">Account</Button>
-          </Link>
-          <Route
-            exact
-            path="/"
-            render={() => {
-              if (!user)
+    if (!user) {
+      return (
+        <Router>
+          <div className="main-view">
+            {/* Nav start */}
+            <Navbar
+              sticky="top"
+              bg="light"
+              expand="lg"
+              className="mb-3 shadow-sm p-3 mb-5"
+            >
+              <Navbar.Brand
+                href="http://localhost:1234/"
+                className="navbar-brand"
+              >
+                VFA
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse
+                className="justify-content-end"
+                id="basic-navbar-nav"
+              >
+                <Link to={`/`}>
+                  <Button variant="link">Login</Button>
+                </Link>
+                <Link to={`/register`}>
+                  <Button variant="link">Register</Button>
+                </Link>
+              </Navbar.Collapse>
+            </Navbar>
+            {/* Nav end */}
+            <Container className="container">
+              <Row className="justify-content-center">
+                <Col xs={11} sm={6} md={3}>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+                    )}
+                  />
+                </Col>
+              </Row>
+              <Row className="justify-content-center">
+                <Col xs={11} sm={6} md={3}>
+                  <Route path="/register" render={() => <RegistrationView />} />
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        </Router>
+      );
+    } else {
+      return (
+        <Router>
+          <div className="main-view text-center container-fluid main-view-styles ">
+            {/* Nav start */}
+            <Navbar
+              sticky="top"
+              bg="light"
+              expand="lg"
+              className="mb-3 shadow-sm p-3 mb-5"
+            >
+              <Navbar.Brand
+                href="http://localhost:1234/"
+                className="navbar-brand"
+              >
+                myFlix
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse
+                className="justify-content-end"
+                id="basic-navbar-nav"
+              >
+                <Link to={`/`}>
+                  <Button variant="link" onClick={() => this.logOut()}>
+                    Log out
+                  </Button>
+                </Link>
+                <Link to={`/users/`}>
+                  <Button variant="link">Account</Button>
+                </Link>
+              </Navbar.Collapse>
+            </Navbar>
+            {/* Nav end */}
+            {/* If this.user === null don't show Link */}
+            <Route
+              exact
+              path="/"
+              render={() => {
                 return (
-                  <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+                  <div className="row lg={4}">
+                    {movies.map((m) => (
+                      <MovieCard key={m._id} movie={m} />
+                    ))}
+                  </div>
                 );
-              return (
-                <div className="row lg={4}">
-                  {movies.map((m) => (
-                    <MovieCard key={m._id} movie={m} />
-                  ))}
-                </div>
-              );
-            }}
-          />
-          <Route path="/register" render={() => <RegistrationView />} />
-          <Route
-            path="/movies/:movieId"
-            render={({ match }) => (
-              <MovieView
-                movie={movies.find((m) => m._id === match.params.movieId)}
-              />
-            )}
-          />
-          <Route
-            path="/users/"
-            user={user}
-            profileInfo={this.state.profileInfo}
-            render={() => (
-              <ProfileView user={user} profileInfo={this.state.profileInfo} />
-            )}
-          />
-          <Route
-            path="/directors/:name"
-            render={({ match }) => (
-              <DirectorView
-                movie={movies.find(
-                  (m) => m.Director.Name === match.params.name
-                )}
-              />
-            )}
-          />
-          <Route
-            path="/genres/:name"
-            render={({ match }) => (
-              <GenreView
-                movie={movies.find((m) => m.Genre.Name === match.params.name)}
-              />
-            )}
-          />
-        </div>
-      </Router>
-    );
+              }}
+            />
+            <Route
+              path="/movies/:movieId"
+              render={({ match }) => (
+                <MovieView
+                  movie={movies.find((m) => m._id === match.params.movieId)}
+                />
+              )}
+            />
+            <Route
+              path="/users/"
+              user={user}
+              profileInfo={this.state.profileInfo}
+              render={() => (
+                <ProfileView user={user} profileInfo={this.state.profileInfo} />
+              )}
+            />
+            <Route
+              path="/directors/:name"
+              render={({ match }) => (
+                <DirectorView
+                  movie={movies.find(
+                    (m) => m.Director.Name === match.params.name
+                  )}
+                />
+              )}
+            />
+            <Route
+              path="/genres/:name"
+              render={({ match }) => (
+                <GenreView
+                  movie={movies.find((m) => m.Genre.Name === match.params.name)}
+                />
+              )}
+            />
+          </div>
+        </Router>
+      );
+    }
   }
 }
