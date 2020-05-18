@@ -82,6 +82,7 @@ export class MainView extends React.Component {
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('id');
     this.setState({
       user: null,
     });
@@ -91,9 +92,10 @@ export class MainView extends React.Component {
     this.setState({
       user: authData.user.Username,
     });
-    // Add authData to browser's cache
+    // Add authData to browser's cache (that we got from props.logInFunc(data) in the profile.view)
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
+    localStorage.setItem('id', authData.user._id);
     // Calls endpoint once user is logged in
     this.getMovies(authData.token);
     this.getAccount(authData.token);
@@ -212,7 +214,11 @@ export class MainView extends React.Component {
             <Route
               path="/users/"
               render={() => (
-                <ProfileView user={user} profileInfo={this.state.profileInfo} />
+                <ProfileView
+                  user={user}
+                  profileInfo={this.state.profileInfo}
+                  logOutFunc={() => this.logOut()}
+                />
               )}
             />
             <Route

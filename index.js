@@ -198,6 +198,7 @@ app.delete(
   function (req, res) {
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {
+        console.log('user is this person ' + user);
         if (user) {
           // Delete user
           Users.deleteOne(user);

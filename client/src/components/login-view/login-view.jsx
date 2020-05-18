@@ -13,7 +13,7 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked
     e.preventDefault();
-    console.log(username, password);
+    // console.log(username, password);
     /* Send a request to the server for authentication */
     axios
       .post('https://vfa.herokuapp.com/login', {
@@ -22,6 +22,7 @@ export function LoginView(props) {
       })
       .then((response) => {
         const data = response.data;
+        // console.log(data);
         // Send data to prop
         props.logInFunc(data);
       })
@@ -63,3 +64,7 @@ export function LoginView(props) {
     </Container>
   );
 }
+
+LoginView.propTypes = {
+  logOut: PropTypes.func.isRequired,
+};

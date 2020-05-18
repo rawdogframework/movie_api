@@ -12,8 +12,7 @@ export class ProfileView extends React.Component {
   }
 
   unregisterAccount() {
-    const url =
-      'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
+    const url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id');
     console.log(url);
     axios
       .delete(url, {
@@ -21,12 +20,13 @@ export class ProfileView extends React.Component {
       })
       .then((response) => {
         console.log(response.data);
-        // Set profileinfo to null
+        // Set profile info to null
         this.setState({
           profileInfo: null,
           user: null,
         });
         alert('Your account was successfully deleted');
+        this.props.logOutFunc();
         window.open('/', '_self');
       })
       .catch(function (error) {
@@ -64,7 +64,7 @@ export class ProfileView extends React.Component {
             <span className="value">***********</span>
           </div>
           <div className="">
-            <Button onClick={() => unregisterAccount()} variant="link">
+            <Button onClick={() => this.unregisterAccount()} variant="link">
               Delete Account
             </Button>
           </div>

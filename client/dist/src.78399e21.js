@@ -35610,15 +35610,16 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     // prevents the default refresh after submit button has been clicked
-    e.preventDefault();
-    console.log(username, password);
+    e.preventDefault(); // console.log(username, password);
+
     /* Send a request to the server for authentication */
 
     _axios.default.post('https://vfa.herokuapp.com/login', {
       Username: username,
       Password: password
     }).then(function (response) {
-      var data = response.data; // Send data to prop
+      var data = response.data; // console.log(data);
+      // Send data to prop
 
       props.logInFunc(data);
     }).catch(function (e) {
@@ -35650,6 +35651,10 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Log in")));
 }
+
+LoginView.propTypes = {
+  logOut: PropTypes.func.isRequired
+};
 },{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -36296,7 +36301,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function unregisterAccount() {
       var _this2 = this;
 
-      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
+      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id');
       console.log(url);
 
       _axios.default.delete(url, {
@@ -36304,7 +36309,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       }).then(function (response) {
-        console.log(response.data); // Set profileinfo to null
+        console.log(response.data); // Set profile info to null
 
         _this2.setState({
           profileInfo: null,
@@ -36312,6 +36317,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         });
 
         alert('Your account was successfully deleted');
+
+        _this2.props.logOutFunc();
+
         window.open('/', '_self');
       }).catch(function (error) {
         console.log(error);
@@ -36323,6 +36331,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var _this$props = this.props,
           user = _this$props.user,
           profileInfo = _this$props.profileInfo;
@@ -36364,7 +36374,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: ""
       }, _react.default.createElement(_Button.default, {
         onClick: function onClick() {
-          return unregisterAccount();
+          return _this3.unregisterAccount();
         },
         variant: "link"
       }, "Delete Account")), _react.default.createElement(_reactRouterDom.Link, {
@@ -38804,6 +38814,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function logOut() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      localStorage.removeItem('id');
       this.setState({
         user: null
       });
@@ -38813,10 +38824,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedIn(authData) {
       this.setState({
         user: authData.user.Username
-      }); // Add authData to browser's cache
+      }); // Add authData to browser's cache (that we got from props.logInFunc(data) in the profile.view)
 
       localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', authData.user.Username); // Calls endpoint once user is logged in
+      localStorage.setItem('user', authData.user.Username);
+      localStorage.setItem('id', authData.user._id); // Calls endpoint once user is logged in
 
       this.getMovies(authData.token);
       this.getAccount(authData.token);
@@ -38936,7 +38948,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           render: function render() {
             return _react.default.createElement(_profileView.ProfileView, {
               user: user,
-              profileInfo: _this4.state.profileInfo
+              profileInfo: _this4.state.profileInfo,
+              logOutFunc: function logOutFunc() {
+                return _this4.logOut();
+              }
             });
           }
         }), _react.default.createElement(_reactRouterDom.Route, {
