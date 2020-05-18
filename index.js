@@ -195,39 +195,17 @@ app.post(
 app.delete(
   '/users/:userId',
   passport.authenticate('jwt', { session: false }),
-  // Validation logic
-  [
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail(),
-  ],
   function (req, res) {
-    // check the validation object for errors
-    var errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {
         if (user) {
-          // Check password and email match req body
-          if (
-            user.Email === req.body.Email &&
-            user.Password === req.body.Password
-          ) {
-            // Delete user
-            Users.deleteOne(user);
-            const message =
-              'User account with userId ' +
-              req.params.userId +
-              ' was successfully deleted';
-            return res.status(200).send(message);
-          } else {
-            return res
-              .status(400)
-              .send('Credentials not matching account with that user id');
-          }
+          // Delete user
+          Users.deleteOne(user);
+          const message =
+            'User account with userId ' +
+            req.params.userId +
+            ' was successfully deleted';
+          return res.status(200).send(message);
         } else {
           return res.status(400).send('No account matching that user id in DB');
         }

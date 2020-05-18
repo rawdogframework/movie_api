@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,31 @@ export class ProfileView extends React.Component {
 
     this.state = {};
   }
+
+  unregisterAccount() {
+    const url =
+      'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
+    console.log(url);
+    axios
+      .delete(url, {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      })
+      .then((response) => {
+        console.log(response.data);
+        // Set profileinfo to null
+        this.setState({
+          profileInfo: null,
+          user: null,
+        });
+        alert('Your account was successfully deleted');
+        window.open('/', '_self');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  updateAccount() {}
 
   render() {
     const { user, profileInfo } = this.props;
@@ -36,6 +62,11 @@ export class ProfileView extends React.Component {
           <div className="account-password ">
             <span className="label">Password: </span>
             <span className="value">***********</span>
+          </div>
+          <div className="">
+            <Button onClick={() => unregisterAccount()} variant="link">
+              Delete Account
+            </Button>
           </div>
           <Link to={`/`}>
             <Button variant="link">Home</Button>

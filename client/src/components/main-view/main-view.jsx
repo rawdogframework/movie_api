@@ -56,7 +56,7 @@ export class MainView extends React.Component {
         headers: { Authorization: 'Bearer ' + accessToken },
       })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         // Assign result to a state
         this.setState({
           profileInfo: response.data,
@@ -91,7 +91,7 @@ export class MainView extends React.Component {
     this.setState({
       user: authData.user.Username,
     });
-    // Add authData to browser's
+    // Add authData to browser's cache
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     // Calls endpoint once user is logged in
@@ -143,24 +143,14 @@ export class MainView extends React.Component {
               </Navbar.Collapse>
             </Navbar>
             {/* Nav end */}
-            <Container className="container">
-              <Row className="justify-content-center">
-                <Col xs={11} sm={6} md={3}>
-                  <Route
-                    exact
-                    path="/"
-                    render={() => (
-                      <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
-                    )}
-                  />
-                </Col>
-              </Row>
-              <Row className="justify-content-center">
-                <Col xs={11} sm={6} md={3}>
-                  <Route path="/register" render={() => <RegistrationView />} />
-                </Col>
-              </Row>
-            </Container>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+              )}
+            />
+            <Route path="/register" render={() => <RegistrationView />} />
           </div>
         </Router>
       );
@@ -179,7 +169,7 @@ export class MainView extends React.Component {
                 href="http://localhost:1234/"
                 className="navbar-brand"
               >
-                myFlix
+                VFA
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse
@@ -221,8 +211,6 @@ export class MainView extends React.Component {
             />
             <Route
               path="/users/"
-              user={user}
-              profileInfo={this.state.profileInfo}
               render={() => (
                 <ProfileView user={user} profileInfo={this.state.profileInfo} />
               )}

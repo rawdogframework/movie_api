@@ -36244,6 +36244,8 @@ exports.ProfileView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
@@ -36290,6 +36292,35 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ProfileView, [{
+    key: "unregisterAccount",
+    value: function unregisterAccount() {
+      var _this2 = this;
+
+      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
+      console.log(url);
+
+      _axios.default.delete(url, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(function (response) {
+        console.log(response.data); // Set profileinfo to null
+
+        _this2.setState({
+          profileInfo: null,
+          user: null
+        });
+
+        alert('Your account was successfully deleted');
+        window.open('/', '_self');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "updateAccount",
+    value: function updateAccount() {}
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -36329,7 +36360,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Password: "), _react.default.createElement("span", {
         className: "value"
-      }, "***********")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "***********")), _react.default.createElement("div", {
+        className: ""
+      }, _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          return unregisterAccount();
+        },
+        variant: "link"
+      }, "Delete Account")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
@@ -36351,7 +36389,7 @@ ProfileView.propTypes = {
     Birthday: _propTypes.default.string.isRequired
   }).isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38738,8 +38776,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: 'Bearer ' + accessToken
         }
       }).then(function (response) {
-        console.log(response.data); // Assign result to a state
-
+        // console.log(response.data);
+        // Assign result to a state
         _this3.setState({
           profileInfo: response.data
         });
@@ -38775,7 +38813,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedIn(authData) {
       this.setState({
         user: authData.user.Username
-      }); // Add authData to browser's
+      }); // Add authData to browser's cache
 
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username); // Calls endpoint once user is logged in
@@ -38827,15 +38865,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           to: "/register"
         }, _react.default.createElement(_Button.default, {
           variant: "link"
-        }, "Register")))), _react.default.createElement(_Container.default, {
-          className: "container"
-        }, _react.default.createElement(_Row.default, {
-          className: "justify-content-center"
-        }, _react.default.createElement(_Col.default, {
-          xs: 11,
-          sm: 6,
-          md: 3
-        }, _react.default.createElement(_reactRouterDom.Route, {
+        }, "Register")))), _react.default.createElement(_reactRouterDom.Route, {
           exact: true,
           path: "/",
           render: function render() {
@@ -38845,18 +38875,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
               }
             });
           }
-        }))), _react.default.createElement(_Row.default, {
-          className: "justify-content-center"
-        }, _react.default.createElement(_Col.default, {
-          xs: 11,
-          sm: 6,
-          md: 3
-        }, _react.default.createElement(_reactRouterDom.Route, {
+        }), _react.default.createElement(_reactRouterDom.Route, {
           path: "/register",
           render: function render() {
             return _react.default.createElement(_registrationView.RegistrationView, null);
           }
-        }))))));
+        })));
       } else {
         return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
           className: "main-view text-center container-fluid main-view-styles "
@@ -38868,7 +38892,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }, _react.default.createElement(_Navbar.default.Brand, {
           href: "http://localhost:1234/",
           className: "navbar-brand"
-        }, "myFlix"), _react.default.createElement(_Navbar.default.Toggle, {
+        }, "VFA"), _react.default.createElement(_Navbar.default.Toggle, {
           "aria-controls": "basic-navbar-nav"
         }), _react.default.createElement(_Navbar.default.Collapse, {
           className: "justify-content-end",
@@ -38909,8 +38933,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           }
         }), _react.default.createElement(_reactRouterDom.Route, {
           path: "/users/",
-          user: user,
-          profileInfo: this.state.profileInfo,
           render: function render() {
             return _react.default.createElement(_profileView.ProfileView, {
               user: user,
