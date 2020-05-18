@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import './login-view.scss';
+import PropTypes from 'prop-types';
 
 export function LoginView(props) {
   // Calling useState() method with empty string (= initial value of login variable)
@@ -66,5 +67,5 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-  logOut: PropTypes.func.isRequired,
+  logInFunc: PropTypes.func.isRequired,
 };

@@ -85,4 +85,5 @@ ProfileView.propTypes = {
     // ImagePath: PropTypes.string.isRequired,
     Birthday: PropTypes.string.isRequired,
   }).isRequired,
+  logOutFunc: PropTypes.func.isRequired,
 };

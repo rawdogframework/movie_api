@@ -196,20 +196,13 @@ app.delete(
   '/users/:userId',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.findOne({ _id: req.params.userId })
-      .then(function (user) {
-        console.log('user is this person ' + user);
-        if (user) {
-          // Delete user
-          Users.deleteOne(user);
-          const message =
-            'User account with userId ' +
-            req.params.userId +
-            ' was successfully deleted';
-          return res.status(200).send(message);
-        } else {
-          return res.status(400).send('No account matching that user id in DB');
-        }
+    Users.findOneAndRemove({ _id: req.params.userId })
+      .then(function () {
+        const message =
+          'User account with userId ' +
+          req.params.userId +
+          ' was successfully deleted';
+        return res.status(200).send(message);
       })
       .catch(function (err) {
         console.error(err);
