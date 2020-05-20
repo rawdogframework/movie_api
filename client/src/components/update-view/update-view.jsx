@@ -1,45 +1,51 @@
 import React, { useState } from 'react';
-import './registration-view.scss';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export function RegistrationView(props) {
+export function UpdateView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
 
-  const handleSubmit = (e) => {
-    // prevents the default refresh after submit button has been clicked
-    e.preventDefault();
+  const handleUpdate = (e) => {
     console.log(username, password, birthday, email);
-
     /* Send a request to the server for authentication */
+    const url =
+      'https://vfa.herokuapp.com/users/update/' + localStorage.getItem('id');
     axios
-      .post('https://vfa.herokuapp.com/users', {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday,
-      })
+      .put(
+        url,
+        {
+          Username: username,
+          Password: password,
+          Email: email,
+          Birthday: birthday,
+        },
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        }
+      )
       .then((response) => {
         const data = response.data;
         console.log(data);
-        window.open('/', '_self');
+        // update local storage
+        localStorage.setItem('user', data.Username);
+        // Opens page in same tab i.e 'self'
+        window.open(`/users/${localStorage.getItem('user')}`, '_self');
+        alert('Your profile data was updated successfully');
       })
       .catch((e) => {
-        alert(e);
-        console.log(typeof e);
         console.log(e);
       });
   };
 
   return (
     <Container>
-      <h1>Register an account</h1>
+      <h1>Update your account</h1>
       <Form className="registration-form">
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username:</Form.Label>
@@ -77,13 +83,13 @@ export function RegistrationView(props) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Link to={`/`}>
+        <Link to={`/users/`}>
           <Button
             variant="btn-lg btn-dark btn-block"
             type="submit"
-            onClick={handleSubmit}
+            onClick={handleUpdate}
           >
-            Register
+            Update
           </Button>
         </Link>
       </Form>

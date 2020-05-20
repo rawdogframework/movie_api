@@ -3,6 +3,9 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 
 export class ProfileView extends React.Component {
   constructor() {
@@ -12,6 +15,9 @@ export class ProfileView extends React.Component {
   }
 
   unregisterAccount() {
+    if (!confirm('Are you sure?')) {
+      return;
+    }
     const url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id');
     console.log(url);
     axios
@@ -25,55 +31,66 @@ export class ProfileView extends React.Component {
           profileInfo: null,
           user: null,
         });
-        alert('Your account was successfully deleted');
         this.props.logOutFunc();
         window.open('/', '_self');
+        alert('Your account was successfully deleted');
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  updateAccount() {}
-
   render() {
     const { user, profileInfo } = this.props;
     if (!profileInfo || !user) return <div>Loading</div>;
     return (
-      <div className="wrapper container-fluid">
-        <div className="col-3" />
-        <div className="profile-view container-fluid align-items-center col-6">
+      <Container className="profile-view align-items">
+        <Row xs={6}>
+          {' '}
           <img
             className="profile-avatar "
             src="https://via.placeholder.com/150"
           />
-          <div className="account-username ">
-            <span className="label">Username: </span>
-            <span className="value">{profileInfo.Username}</span>
-          </div>
-          <div className="account-email ">
-            <span className="label">Email: </span>
-            <span className="value">{profileInfo.Email}</span>
-          </div>
-          <div className="account-birthday ">
-            <span className="label">Birthday: </span>
-            <span className="value">{profileInfo.Birthday}</span>
-          </div>
-          <div className="account-password ">
-            <span className="label">Password: </span>
-            <span className="value">***********</span>
-          </div>
-          <div className="">
-            <Button onClick={() => this.unregisterAccount()} variant="link">
-              Delete Account
-            </Button>
-          </div>
-          <Link to={`/`}>
-            <Button variant="link">Home</Button>
-          </Link>
-        </div>
-        <div className="col-3" />
-      </div>
+        </Row>
+        <Row>
+          <Col>
+            <Row className="account-username ">
+              <span className="label">Username: </span>
+              <span className="value">{profileInfo.Username}</span>
+            </Row>
+            <Row className="account-email ">
+              <span className="label">Email: </span>
+              <span className="value">{profileInfo.Email}</span>
+            </Row>
+            <Row className="account-birthday ">
+              <span className="label">Birthday: </span>
+              <span className="value">{profileInfo.Birthday}</span>
+            </Row>
+            <Row className="account-password ">
+              <span className="label">Password: </span>
+              <span className="value">***********</span>
+            </Row>
+          </Col>
+        </Row>
+        <Row>{}</Row>
+        <Row>
+          <Col>
+            <Link to={`/update/${profileInfo.Username}`}>
+              <Button variant="primary" className="update-button">
+                Update my profile
+              </Button>
+            </Link>
+            <div className="">
+              <Button onClick={() => this.unregisterAccount()} variant="link">
+                Delete Account
+              </Button>
+            </div>
+            <Link to={`/`}>
+              <Button variant="link">Home</Button>
+            </Link>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

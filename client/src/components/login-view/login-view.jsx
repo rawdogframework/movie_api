@@ -15,6 +15,9 @@ export function LoginView(props) {
     // prevents the default refresh after submit button has been clicked
     e.preventDefault();
     // console.log(username, password);
+
+    // handles form validation
+
     /* Send a request to the server for authentication */
     axios
       .post('https://vfa.herokuapp.com/login', {
@@ -23,12 +26,12 @@ export function LoginView(props) {
       })
       .then((response) => {
         const data = response.data;
-        // console.log(data);
+        console.log(data);
         // Send data to prop
         props.logInFunc(data);
       })
-      .catch((e) => {
-        console.log('no such user');
+      .catch(() => {
+        return alert('Invalid username or password. Please try again');
       });
   };
 

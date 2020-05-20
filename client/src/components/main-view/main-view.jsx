@@ -10,6 +10,7 @@ import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
+import { UpdateView } from '../update-view/update-view';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
@@ -219,6 +220,12 @@ export class MainView extends React.Component {
                   profileInfo={this.state.profileInfo}
                   logOutFunc={() => this.logOut()}
                 />
+              )}
+            />
+            <Route
+              path="/Update/:name"
+              render={() => (
+                <UpdateView user={user} profileInfo={this.state.profileInfo} />
               )}
             />
             <Route
