@@ -218,6 +218,7 @@ export class MainView extends React.Component {
                 <ProfileView
                   user={user}
                   profileInfo={this.state.profileInfo}
+                  movies={movies}
                   logOutFunc={() => this.logOut()}
                 />
               )}

@@ -12,6 +12,14 @@ export function UpdateView(props) {
   const [birthday, setBirthday] = useState('');
 
   const handleUpdate = (e) => {
+    // prevent the default browser refresh
+    e.preventDefault();
+    if (!token) {
+      // if token is not present, user is not logged in, go home
+      console.log('user is not logged in');
+      window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+      return;
+    }
     console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
     const url =

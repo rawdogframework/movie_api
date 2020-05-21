@@ -2,12 +2,39 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export class MovieView extends React.Component {
   constructor() {
     super();
 
     this.state = {};
+  }
+
+  addToFavourites(movie) {
+    /* Send a request to the server for authentication */
+    const url =
+      'https://vfa.herokuapp.com/users/' +
+      localStorage.getItem('id') +
+      '/favourites/' +
+      movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }, //  `Bearer ${localStorage.getItem('token')}`
+        }
+      )
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        // Send data to prop
+        alert('Movie added to favourites');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -18,6 +45,15 @@ export class MovieView extends React.Component {
     return (
       <div className="wrapper container-fluid">
         <div className="col-1" />
+        <div>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => this.addToFavourites(movie._id)}
+          >
+            Add to Favourites
+          </Button>
+        </div>
         <div className="movie-view container-fluid align-items-center col-10">
           <img className="movie-poster " src={movie.ImagePath} />
           <div className="movie-title ">

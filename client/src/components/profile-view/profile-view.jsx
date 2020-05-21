@@ -41,8 +41,14 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { user, profileInfo } = this.props;
+    const { user, profileInfo, movies } = this.props;
     if (!profileInfo || !user) return <div>Loading</div>;
+    console.log(profileInfo.FavouriteMovies);
+    const FavouritesList = movies.filter((movie) =>
+      profileInfo.FavouriteMovies.includes(movie._id)
+    );
+    console.log('FL =' + FavouritesList);
+
     return (
       <Container className="profile-view align-items">
         <Row xs={6}>
@@ -72,7 +78,18 @@ export class ProfileView extends React.Component {
             </Row>
           </Col>
         </Row>
-        <Row>{}</Row>
+        {/* <Col sm="2" md="4" lg="4" className="movie-card-styles">
+          <Card text="light" bg="dark">
+            <Card.Img variant="top" src={movie.ImagePath} />
+            <Card.Body>
+              <Card.Title>{movie.Title}</Card.Title>
+              <Card.Text>{movie.Description}</Card.Text>
+              <Link to={`/movies/${movie._id}`}>
+                <Button variant="link">Open</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col> */}
         <Row>
           <Col>
             <Link to={`/update/${profileInfo.Username}`}>

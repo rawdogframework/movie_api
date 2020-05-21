@@ -36139,6 +36139,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRouterDom = require("react-router-dom");
 
+var _axios = _interopRequireDefault(require("axios"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -36179,15 +36181,43 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MovieView, [{
+    key: "addToFavourites",
+    value: function addToFavourites(movie) {
+      /* Send a request to the server for authentication */
+      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+
+      _axios.default.post(url, {}, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        } //  `Bearer ${localStorage.getItem('token')}`
+
+      }).then(function (response) {
+        var data = response.data;
+        console.log(data); // Send data to prop
+
+        alert('Movie added to favourites');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
         className: "wrapper container-fluid"
       }, _react.default.createElement("div", {
         className: "col-1"
-      }), _react.default.createElement("div", {
+      }), _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
+        variant: "primary",
+        size: "sm",
+        onClick: function onClick() {
+          return _this2.addToFavourites(movie._id);
+        }
+      }, "Add to Favourites")), _react.default.createElement("div", {
         className: "movie-view container-fluid align-items-center col-10"
       }, _react.default.createElement("img", {
         className: "movie-poster ",
@@ -36248,7 +36278,7 @@ MovieView.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36350,8 +36380,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
       var _this$props = this.props,
           user = _this$props.user,
-          profileInfo = _this$props.profileInfo;
+          profileInfo = _this$props.profileInfo,
+          movies = _this$props.movies;
       if (!profileInfo || !user) return _react.default.createElement("div", null, "Loading");
+      console.log(profileInfo.FavouriteMovies);
+      var FavouritesList = movies.filter(function (movie) {
+        return profileInfo.FavouriteMovies.includes(movie._id);
+      });
+      console.log('FL =' + FavouritesList);
       return _react.default.createElement(_Container.default, {
         className: "profile-view align-items"
       }, _react.default.createElement(_Row.default, {
@@ -36383,7 +36419,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Password: "), _react.default.createElement("span", {
         className: "value"
-      }, "***********")))), _react.default.createElement(_Row.default, null), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
+      }, "***********")))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/update/".concat(profileInfo.Username)
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
@@ -36697,6 +36733,17 @@ function UpdateView(props) {
       setBirthday = _useState8[1];
 
   var handleUpdate = function handleUpdate(e) {
+    // prevent the default browser refresh
+    e.preventDefault();
+
+    if (!token) {
+      // if token is not present, user is not logged in, go home
+      console.log('user is not logged in');
+      window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+
+      return;
+    }
+
     console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
 
@@ -39095,6 +39142,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             return _react.default.createElement(_profileView.ProfileView, {
               user: user,
               profileInfo: _this4.state.profileInfo,
+              movies: movies,
               logOutFunc: function logOutFunc() {
                 return _this4.logOut();
               }
@@ -39231,7 +39279,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49740" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64540" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
