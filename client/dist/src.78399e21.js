@@ -36342,6 +36342,26 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ProfileView, [{
+    key: "removeFavourite",
+    value: function removeFavourite(movie) {
+      /* Send a request to the server for authentication */
+      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+
+      _axios.default.delete(url, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        } //  `Bearer ${localStorage.getItem('token')}`
+
+      }) // reload page
+      .then(function () {
+        document.location.reload(true);
+      }).then(function () {
+        alert('Movie removed from favourites');
+      }).catch(function (error) {
+        console.log('Issue deleting movie from favourites... >' + error);
+      });
+    }
+  }, {
     key: "unregisterAccount",
     value: function unregisterAccount() {
       var _this2 = this;
@@ -36384,10 +36404,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           movies = _this$props.movies;
       if (!profileInfo || !user) return _react.default.createElement("div", null, "Loading");
       console.log(profileInfo.FavouriteMovies);
-      var FavouritesList = movies.filter(function (movie) {
+      var favouritesList = movies.filter(function (movie) {
         return profileInfo.FavouriteMovies.includes(movie._id);
       });
-      console.log('FL =' + FavouritesList);
+      console.log('FL =' + favouritesList);
       return _react.default.createElement(_Container.default, {
         className: "profile-view align-items"
       }, _react.default.createElement(_Row.default, {
@@ -36419,7 +36439,27 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Password: "), _react.default.createElement("span", {
         className: "value"
-      }, "***********")))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
+      }, "***********")))), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement(_Row.default, null, _react.default.createElement("ul", null, favouritesList.map(function (movie) {
+        return _react.default.createElement("li", {
+          key: movie._id,
+          className: "mb-2 "
+        }, _react.default.createElement("span", {
+          className: "d-flex align-items-center"
+        }, _react.default.createElement(_Button.default, {
+          variant: "primary",
+          size: "sm",
+          className: "delete-movie mr-2",
+          onClick: function onClick() {
+            return _this3.removeFavourite(movie._id);
+          }
+        }, _react.default.createElement("i", {
+          className: "material-icons bin"
+        }, "Remove")), _react.default.createElement(_reactRouterDom.Link, {
+          to: "/movies/".concat(movie._id)
+        }, _react.default.createElement("h5", {
+          className: "movie-link link"
+        }, movie.Title))));
+      })))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/update/".concat(profileInfo.Username)
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
@@ -36734,15 +36774,12 @@ function UpdateView(props) {
 
   var handleUpdate = function handleUpdate(e) {
     // prevent the default browser refresh
-    e.preventDefault();
-
-    if (!token) {
-      // if token is not present, user is not logged in, go home
-      console.log('user is not logged in');
-      window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
-
-      return;
-    }
+    e.preventDefault(); // if (!localStorage.getItem('token') {
+    //   // if token is not present, user is not logged in, go home
+    //   console.log('user is not logged in');
+    //   window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+    //   return;
+    // }
 
     console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
@@ -39279,7 +39316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64540" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57840" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

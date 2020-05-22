@@ -232,6 +232,7 @@ app.put(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    var hashedPassword = Users.hashPassword(req.body.Password);
     // Check if id matches a user
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {
@@ -243,7 +244,7 @@ app.put(
                 // --Remind for v2--
                 // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
                 Username: req.body.Username,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday,
               },
