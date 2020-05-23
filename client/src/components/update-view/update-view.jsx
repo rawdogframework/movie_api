@@ -20,7 +20,7 @@ export function UpdateView(props) {
     //   window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
     //   return;
     // }
-    console.log(username, password, birthday, email);
+    // console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
     const url =
       'https://vfa.herokuapp.com/users/update/' + localStorage.getItem('id');
@@ -39,7 +39,7 @@ export function UpdateView(props) {
       )
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         // update local storage
         localStorage.setItem('user', data.Username);
         // Opens page in same tab i.e 'self'

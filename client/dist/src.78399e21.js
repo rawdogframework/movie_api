@@ -36884,8 +36884,8 @@ function UpdateView(props) {
     //   window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
     //   return;
     // }
+    // console.log(username, password, birthday, email);
 
-    console.log(username, password, birthday, email);
     /* Send a request to the server for authentication */
 
     var url = 'https://vfa.herokuapp.com/users/update/' + localStorage.getItem('id');
@@ -36900,8 +36900,8 @@ function UpdateView(props) {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     }).then(function (response) {
-      var data = response.data;
-      console.log(data); // update local storage
+      var data = response.data; // console.log(data);
+      // update local storage
 
       localStorage.setItem('user', data.Username); // Opens page in same tab i.e 'self'
 
