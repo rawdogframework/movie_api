@@ -35621,8 +35621,8 @@ function LoginView(props) {
       Username: username,
       Password: password
     }).then(function (response) {
-      var data = response.data;
-      console.log(data); // Send data to prop
+      var data = response.data; // console.log(data);
+      // Send data to prop
 
       props.logInFunc(data);
     }).catch(function () {
@@ -35691,8 +35691,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -35728,8 +35726,8 @@ function RegistrationView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     // prevents the default refresh after submit button has been clicked
-    e.preventDefault();
-    console.log(username, password, birthday, email);
+    e.preventDefault(); // console.log(username, password, birthday, email);
+
     /* Send a request to the server for authentication */
 
     _axios.default.post('https://vfa.herokuapp.com/users', {
@@ -35738,12 +35736,11 @@ function RegistrationView(props) {
       Email: email,
       Birthday: birthday
     }).then(function (response) {
-      var data = response.data;
-      console.log(data);
+      var data = response.data; // console.log(data);
+
       window.open('/', '_self');
     }).catch(function (e) {
       alert(e);
-      console.log(_typeof(e));
       console.log(e);
     });
   };
@@ -36141,6 +36138,14 @@ var _reactRouterDom = require("react-router-dom");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -36207,18 +36212,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
       var movie = this.props.movie;
       if (!movie) return null;
-      return _react.default.createElement("div", {
+      return _react.default.createElement(_Container.default, {
         className: "wrapper container-fluid"
-      }, _react.default.createElement("div", {
-        className: "col-1"
-      }), _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
-        variant: "primary",
-        size: "sm",
-        onClick: function onClick() {
-          return _this2.addToFavourites(movie._id);
-        }
-      }, "Add to Favourites")), _react.default.createElement("div", {
-        className: "movie-view container-fluid align-items-center col-10"
+      }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
+        className: "col-3"
+      }), _react.default.createElement("div", {
+        className: "movie-view container-fluid align-items-center col-6"
       }, _react.default.createElement("img", {
         className: "movie-poster ",
         src: movie.ImagePath
@@ -36250,13 +36249,19 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         to: "/directors/".concat(movie.Director.Name)
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, movie.Director.Name))), _react.default.createElement(_reactRouterDom.Link, {
+      }, movie.Director.Name))), _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
+        variant: "primary",
+        size: "sm",
+        onClick: function onClick() {
+          return _this2.addToFavourites(movie._id);
+        }
+      }, "Add to Favourites")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Return"))), _react.default.createElement("div", {
-        className: "col-1"
-      }));
+      }, "Return"))), _react.default.createElement(_Col.default, {
+        className: "col-3"
+      })));
     }
   }]);
 
@@ -36278,7 +36283,12 @@ MovieView.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/profile-view/profile-view.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/profile-view/profile-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36301,6 +36311,10 @@ var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
+require("./profile-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36409,57 +36423,71 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       });
       console.log('FL =' + favouritesList);
       return _react.default.createElement(_Container.default, {
-        className: "profile-view align-items"
-      }, _react.default.createElement(_Row.default, {
-        xs: 6
-      }, ' ', _react.default.createElement("img", {
+        className: "profile-view wrapper container-fluid"
+      }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
+        className: "col-3"
+      }), _react.default.createElement(_Col.default, {
+        className: "container-fluid align-items-center col-6"
+      }, _react.default.createElement("img", {
         className: "profile-avatar ",
         src: "https://via.placeholder.com/150"
-      })), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_Row.default, {
+      }), _react.default.createElement("div", {
         className: "account-username "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Username: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.Username)), _react.default.createElement(_Row.default, {
+      }, profileInfo.Username)), _react.default.createElement("div", {
         className: "account-email "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Email: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.Email)), _react.default.createElement(_Row.default, {
+      }, profileInfo.Email)), _react.default.createElement("div", {
         className: "account-birthday "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Birthday: "), _react.default.createElement("span", {
         className: "value"
-      }, profileInfo.Birthday)), _react.default.createElement(_Row.default, {
+      }, profileInfo.Birthday)), _react.default.createElement("div", {
         className: "account-password "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Password: "), _react.default.createElement("span", {
         className: "value"
-      }, "***********")))), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement(_Row.default, null, _react.default.createElement("ul", null, favouritesList.map(function (movie) {
-        return _react.default.createElement("li", {
-          key: movie._id,
-          className: "mb-2 "
+      }, "***********"))), _react.default.createElement(_Col.default, {
+        className: "col-3"
+      })), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement("div", {
+        className: "d-flex row mt-3 ml-1"
+      }, favouritesList.map(function (movie) {
+        return _react.default.createElement("div", {
+          key: movie._id
+        }, _react.default.createElement(_Card.default, {
+          className: "mb-3 mr-2 h-100",
+          style: {
+            width: '16rem'
+          }
+        }, _react.default.createElement(_Card.default.Img, {
+          variant: "top",
+          src: movie.ImagePath
+        }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
+          className: "text-muted",
+          to: "/movies/".concat(movie._id)
+        }, _react.default.createElement(_Card.default.Title, null, movie.Title)), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 90), "...")), _react.default.createElement(_Card.default.Footer, {
+          className: "bg-white border-top-0"
         }, _react.default.createElement("span", {
           className: "d-flex align-items-center"
         }, _react.default.createElement(_Button.default, {
           variant: "primary",
           size: "sm",
-          className: "delete-movie mr-2",
+          className: "mr-2",
           onClick: function onClick() {
             return _this3.removeFavourite(movie._id);
           }
         }, _react.default.createElement("i", {
           className: "material-icons bin"
-        }, "Remove")), _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        }, _react.default.createElement("h5", {
-          className: "movie-link link"
-        }, movie.Title))));
-      })))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
+        }, "Remove"))))));
+      }))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/update/".concat(profileInfo.Username)
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
@@ -36492,7 +36520,7 @@ ProfileView.propTypes = {
   }).isRequired,
   logOutFunc: _propTypes.default.func.isRequired
 };
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36507,6 +36535,14 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRouterDom = require("react-router-dom");
+
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36550,13 +36586,15 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
   _createClass(DirectorView, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
-      if (!movie) return null;
-      return _react.default.createElement("div", {
+      var _this$props = this.props,
+          movies = _this$props.movies,
+          director = _this$props.director;
+      if (!director) return null;
+      return _react.default.createElement(_Container.default, {
         className: "wrapper container-fluid"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         className: "col-3"
-      }), _react.default.createElement("div", {
+      }), _react.default.createElement(_Col.default, {
         className: "director-view container-fluid align-items-center col-6"
       }, _react.default.createElement("img", {
         className: "director-poster ",
@@ -36567,31 +36605,59 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Name: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)), _react.default.createElement("div", {
+      }, director.Director.Name)), _react.default.createElement("div", {
         className: "director-description "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Bio: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Bio)), _react.default.createElement("div", {
+      }, director.Director.Bio)), _react.default.createElement("div", {
         className: "director-birth "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Birth: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Birth)), _react.default.createElement("div", {
+      }, director.Director.Birth)), _react.default.createElement("div", {
         className: "director-death "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Death: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Death)), _react.default.createElement(_reactRouterDom.Link, {
+      }, director.Director.Death)), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Return"))), _react.default.createElement("div", {
+      }, "Return"))), _react.default.createElement(_Col.default, {
         className: "col-3"
-      }));
+      })), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", {
+        className: "mt-4"
+      }, "Some ", director.Director.Name, " movies"), _react.default.createElement("div", {
+        className: "d-flex row mt-3 ml-1"
+      }, movies.map(function (movie) {
+        if (movie.Director.Name === director.Director.Name) {
+          return _react.default.createElement("div", {
+            key: movie._id
+          }, _react.default.createElement(_Card.default, {
+            className: "mb-3 mr-2 h-100",
+            style: {
+              width: '16rem'
+            }
+          }, _react.default.createElement(_Card.default.Img, {
+            variant: "top",
+            src: movie.ImagePath
+          }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
+            className: "text-muted",
+            to: "/movies/".concat(movie._id)
+          }, _react.default.createElement(_Card.default.Title, null, movie.Title)), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 90), "...")), _react.default.createElement(_Card.default.Footer, {
+            className: "bg-white border-top-0"
+          }, _react.default.createElement(_reactRouterDom.Link, {
+            to: "/movies/".concat(movie._id)
+          }, _react.default.createElement(_Button.default, {
+            variant: "link",
+            className: "read-more-link pl-0"
+          }, "Read more")))));
+        }
+      }))));
     }
   }]);
 
@@ -36609,7 +36675,7 @@ DirectorView.propTypes = {
     }
   })
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36624,6 +36690,14 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactRouterDom = require("react-router-dom");
+
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36667,13 +36741,15 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
   _createClass(GenreView, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
-      if (!movie) return null;
-      return _react.default.createElement("div", {
+      var _this$props = this.props,
+          movies = _this$props.movies,
+          genre = _this$props.genre;
+      if (!genre) return null;
+      return _react.default.createElement(_Container.default, {
         className: "wrapper container-fluid"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         className: "col-3"
-      }), _react.default.createElement("div", {
+      }), _react.default.createElement(_Col.default, {
         className: "genre-view container-fluid align-items-center col-6"
       }, _react.default.createElement("img", {
         className: "genre-poster ",
@@ -36684,19 +36760,47 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Name: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Genre.Name)), _react.default.createElement("div", {
+      }, genre.Genre.Name)), _react.default.createElement("div", {
         className: "genre-description "
       }, _react.default.createElement("span", {
         className: "label"
       }, "Description: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Genre.Description)), _react.default.createElement(_reactRouterDom.Link, {
+      }, genre.Genre.Description)), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Return"))), _react.default.createElement("div", {
+      }, "Return"))), _react.default.createElement(_Col.default, {
         className: "col-3"
-      }));
+      })), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", {
+        className: "mt-4"
+      }, "Some ", genre.Genre.Name, " movies"), _react.default.createElement("div", {
+        className: "d-flex row mt-3 ml-2"
+      }, movies.map(function (movie) {
+        if (movie.Genre.Name === genre.Genre.Name) {
+          return _react.default.createElement("div", {
+            key: movie._id
+          }, _react.default.createElement(_Card.default, {
+            className: "mb-3 mr-2 h-100",
+            style: {
+              width: '16rem'
+            }
+          }, _react.default.createElement(_Card.default.Img, {
+            variant: "top",
+            src: movie.ImagePath
+          }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_reactRouterDom.Link, {
+            className: "text-muted",
+            to: "/movies/".concat(movie._id)
+          }, _react.default.createElement(_Card.default.Title, null, movie.Title)), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 90), "...")), _react.default.createElement(_Card.default.Footer, {
+            className: "bg-white border-top-0"
+          }, _react.default.createElement(_reactRouterDom.Link, {
+            to: "/movies/".concat(movie._id)
+          }, _react.default.createElement(_Button.default, {
+            variant: "link",
+            className: "read-more-link pl-0"
+          }, "Read more")))));
+        }
+      }))));
     }
   }]);
 
@@ -36713,7 +36817,7 @@ GenreView.propTypes = {
     }
   })
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/update-view/update-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/update-view/update-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39155,7 +39259,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           path: "/",
           render: function render() {
             return _react.default.createElement("div", {
-              className: "row lg={4}"
+              className: "row d-flex mt-4 ml-2"
             }, movies.map(function (m) {
               return _react.default.createElement(_movieCard.MovieCard, {
                 key: m._id,
@@ -39198,9 +39302,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           render: function render(_ref2) {
             var match = _ref2.match;
             return _react.default.createElement(_directorView.DirectorView, {
-              movie: movies.find(function (m) {
+              director: movies.find(function (m) {
                 return m.Director.Name === match.params.name;
-              })
+              }),
+              movies: movies
             });
           }
         }), _react.default.createElement(_reactRouterDom.Route, {
@@ -39208,9 +39313,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           render: function render(_ref3) {
             var match = _ref3.match;
             return _react.default.createElement(_genreView.GenreView, {
-              movie: movies.find(function (m) {
+              genre: movies.find(function (m) {
                 return m.Genre.Name === match.params.name;
-              })
+              }),
+              movies: movies
             });
           }
         })));
@@ -39316,7 +39422,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57840" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51293" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

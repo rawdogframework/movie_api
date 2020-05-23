@@ -196,7 +196,7 @@ export class MainView extends React.Component {
               path="/"
               render={() => {
                 return (
-                  <div className="row lg={4}">
+                  <div className="row d-flex mt-4 ml-2">
                     {movies.map((m) => (
                       <MovieCard key={m._id} movie={m} />
                     ))}
@@ -233,9 +233,10 @@ export class MainView extends React.Component {
               path="/directors/:name"
               render={({ match }) => (
                 <DirectorView
-                  movie={movies.find(
+                  director={movies.find(
                     (m) => m.Director.Name === match.params.name
                   )}
+                  movies={movies}
                 />
               )}
             />
@@ -243,7 +244,8 @@ export class MainView extends React.Component {
               path="/genres/:name"
               render={({ match }) => (
                 <GenreView
-                  movie={movies.find((m) => m.Genre.Name === match.params.name)}
+                  genre={movies.find((m) => m.Genre.Name === match.params.name)}
+                  movies={movies}
                 />
               )}
             />

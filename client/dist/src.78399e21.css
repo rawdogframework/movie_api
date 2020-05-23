@@ -16,6 +16,9 @@
   width: 100%;
   align-items: center;
 }
+ul {
+  list-style: none;
+}
 .main-view-styles {
   background-color: #000001;
   align-items: center;

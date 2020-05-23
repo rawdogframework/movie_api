@@ -26,7 +26,7 @@ export function LoginView(props) {
       })
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         // Send data to prop
         props.logInFunc(data);
       })

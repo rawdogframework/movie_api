@@ -15,7 +15,7 @@ export function RegistrationView(props) {
   const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked
     e.preventDefault();
-    console.log(username, password, birthday, email);
+    // console.log(username, password, birthday, email);
 
     /* Send a request to the server for authentication */
     axios
@@ -27,12 +27,11 @@ export function RegistrationView(props) {
       })
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         window.open('/', '_self');
       })
       .catch((e) => {
         alert(e);
-        console.log(typeof e);
         console.log(e);
       });
   };
