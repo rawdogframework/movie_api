@@ -62,16 +62,6 @@ export class DirectorView extends React.Component {
                     >
                       <Link to={`/movies/${movie._id}`}>
                         <Card.Img variant="top" src={movie.ImagePath} />
-                        <Card.ImgOverlay className="align-middle">
-                          <Card.Title>
-                            <Button
-                              variant="light"
-                              onClick={() => this.addToFavourites(movie._id)}
-                            >
-                              Add to Favourites
-                            </Button>
-                          </Card.Title>
-                        </Card.ImgOverlay>
                       </Link>
                       <Card.Body variant="warning">
                         <Card.Title>{movie.Title}</Card.Title>

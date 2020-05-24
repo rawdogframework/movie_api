@@ -113,27 +113,25 @@ export class ProfileView extends React.Component {
           <div className="d-flex row mt-5 ml-3">
             {favouritesList.map((movie) => {
               return (
-                <Link to={`/movies/${movie._id}`}>
-                  <div key={movie._id}>
-                    <Card
-                      bg="Dark"
-                      className="mb-3 mr-2 align-items-center"
-                      style={{ width: '16rem' }}
-                    >
-                      <Card.Img variant="top" src={movie.ImagePath} />
-                      <Card.ImgOverlay className="">
-                        <Card.Title>
-                          <Button
-                            variant="light"
-                            onClick={() => this.removeFavourite(movie._id)}
-                          >
-                            Remove
-                          </Button>
-                        </Card.Title>
-                      </Card.ImgOverlay>
-                    </Card>
-                  </div>
-                </Link>
+                <div key={movie._id}>
+                  <Card
+                    bg="Dark"
+                    className="mb-3 mr-2 align-items-center"
+                    style={{ width: '16rem' }}
+                  >
+                    <Card.Img variant="top" src={movie.ImagePath} />
+                    <Card.ImgOverlay className="">
+                      <Card.Title>
+                        <Button
+                          variant="light"
+                          onClick={() => this.removeFavourite(movie._id)}
+                        >
+                          Remove
+                        </Button>
+                      </Card.Title>
+                    </Card.ImgOverlay>
+                  </Card>
+                </div>
               );
             })}
           </div>

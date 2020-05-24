@@ -12,20 +12,10 @@ export class MovieCard extends React.Component {
   render() {
     const { movie } = this.props;
     return (
-      <Col sm="2" md="4" lg="4" className="movie-card-styles">
-        <Card text="dark" bg="warning">
+      <Col sm="6" md="4" lg="3">
+        <Card text="dark" bg="warning" className="movie-card-styles">
           <Link to={`/movies/${movie._id}`}>
             <Card.Img variant="top" src={movie.ImagePath} />
-            <Card.ImgOverlay className="align-middle">
-              <Card.Title>
-                <Button
-                  variant="light"
-                  onClick={() => this.addToFavourites(movie._id)}
-                >
-                  Add to Favourites
-                </Button>
-              </Card.Title>
-            </Card.ImgOverlay>
           </Link>
           <Card.Body>
             <Card.Title>{movie.Title}</Card.Title>

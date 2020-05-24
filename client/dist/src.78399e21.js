@@ -36194,30 +36194,21 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      var _this = this;
-
       var movie = this.props.movie;
       return _react.default.createElement(_Col.default, {
-        sm: "2",
+        sm: "6",
         md: "4",
-        lg: "4",
-        className: "movie-card-styles"
+        lg: "3"
       }, _react.default.createElement(_Card.default, {
         text: "dark",
-        bg: "warning"
+        bg: "warning",
+        className: "movie-card-styles"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/".concat(movie._id)
       }, _react.default.createElement(_Card.default.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.ImgOverlay, {
-        className: "align-middle"
-      }, _react.default.createElement(_Card.default.Title, null, _react.default.createElement(_Button.default, {
-        variant: "light",
-        onClick: function onClick() {
-          return _this.addToFavourites(movie._id);
-        }
-      }, "Add to Favourites")))), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description))));
+      })), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description))));
     }
   }]);
 
@@ -36329,7 +36320,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          addToFavourites = _this$props.addToFavourites;
       if (!movie) return null;
       return _react.default.createElement(_Container.default, {
         className: "wrapper container-fluid"
@@ -36615,9 +36608,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement("div", {
         className: "d-flex row mt-5 ml-3"
       }, favouritesList.map(function (movie) {
-        return _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        }, _react.default.createElement("div", {
+        return _react.default.createElement("div", {
           key: movie._id
         }, _react.default.createElement(_Card.default, {
           bg: "Dark",
@@ -36635,7 +36626,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           onClick: function onClick() {
             return _this3.removeFavourite(movie._id);
           }
-        }, "Remove"))))));
+        }, "Remove")))));
       }))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", {
         className: ""
       }, _react.default.createElement(_Button.default, {
@@ -36726,8 +36717,6 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
   _createClass(DirectorView, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var _this$props = this.props,
           movies = _this$props.movies,
           director = _this$props.director;
@@ -36787,14 +36776,7 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
           }, _react.default.createElement(_Card.default.Img, {
             variant: "top",
             src: movie.ImagePath
-          }), _react.default.createElement(_Card.default.ImgOverlay, {
-            className: "align-middle"
-          }, _react.default.createElement(_Card.default.Title, null, _react.default.createElement(_Button.default, {
-            variant: "light",
-            onClick: function onClick() {
-              return _this2.addToFavourites(movie._id);
-            }
-          }, "Add to Favourites")))), _react.default.createElement(_Card.default.Body, {
+          })), _react.default.createElement(_Card.default.Body, {
             variant: "warning"
           }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 70), "...", _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
             to: "/movies/".concat(movie._id),
@@ -36885,8 +36867,6 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
   _createClass(GenreView, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var _this$props = this.props,
           movies = _this$props.movies,
           genre = _this$props.genre;
@@ -36934,19 +36914,12 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
           }, _react.default.createElement(_Card.default.Img, {
             variant: "top",
             src: movie.ImagePath
-          }), _react.default.createElement(_Card.default.ImgOverlay, {
-            className: "align-middle"
-          }, _react.default.createElement(_Card.default.Title, null, _react.default.createElement(_Button.default, {
-            variant: "light",
-            onClick: function onClick() {
-              return _this2.addToFavourites(movie._id);
-            }
-          }, "Add to Favourites")))), _react.default.createElement(_Card.default.Body, {
+          })), _react.default.createElement(_Card.default.Body, {
             variant: "warning"
-          }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 70), "...", _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+          }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description.substring(0, 70), "...", _react.default.createElement(_reactRouterDom.Link, {
             to: "/movies/".concat(movie._id),
             className: "position-relative"
-          }, "Read more"))))));
+          }, "Read more")))));
         }
       }))));
     }
@@ -39189,9 +39162,7 @@ var _Navbar = _interopRequireDefault(require("react-bootstrap/Navbar"));
 
 require("./main-view.scss");
 
-var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
-
-var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
@@ -39282,6 +39253,26 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "addToFavourites",
+    value: function addToFavourites(movie) {
+      /* Send a request to the server for authentication */
+      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+
+      _axios.default.post(url, {}, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        } //  `Bearer ${localStorage.getItem('token')}`
+
+      }).then(function (response) {
+        var data = response.data;
+        console.log(data); // Send data to prop
+
+        alert('Movie added to favourites');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       //  Get value of token from localStorage if present
@@ -39342,18 +39333,25 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         className: "main-view text-center container-fluid main-view-styles "
       }, _react.default.createElement(_Navbar.default, {
         sticky: "top",
-        bg: "secondary",
         expand: "lg",
-        className: "mb-2 "
+        className: "mb-2 navbar-styles text-warning"
       }, _react.default.createElement(_Navbar.default.Brand, {
         href: "http://localhost:1234/",
         className: "navbar-brand"
-      }, "VFA"), _react.default.createElement(_Navbar.default.Toggle, {
+      }, "Victorville Film Archives"), _react.default.createElement(_Navbar.default.Toggle, {
         "aria-controls": "basic-navbar-nav"
       }), _react.default.createElement(_Navbar.default.Collapse, {
         className: "justify-content-end",
         id: "basic-navbar-nav"
-      }, _react.default.createElement(_reactRouterDom.Link, {
+      }, _react.default.createElement(_Form.default, {
+        inline: true
+      }, _react.default.createElement(_Form.default, {
+        type: "text",
+        placeholder: "Search",
+        className: "mr-sm-2"
+      }), _react.default.createElement(_Button.default, {
+        variant: "outline-light"
+      }, "Search")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link",
@@ -39368,7 +39366,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Home")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Movies")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/about"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
@@ -39386,11 +39384,24 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             }
           });
           return _react.default.createElement("div", {
-            className: "row d-flex mt-4 ml-2"
+            className: "row d-flex mt-4 ml-1"
           }, movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
-              movie: m
+              movie: m,
+              addToFavourites: function (_addToFavourites) {
+                function addToFavourites() {
+                  return _addToFavourites.apply(this, arguments);
+                }
+
+                addToFavourites.toString = function () {
+                  return _addToFavourites.toString();
+                };
+
+                return addToFavourites;
+              }(function () {
+                return addToFavourites(movie);
+              })
             });
           }));
         }
@@ -39401,6 +39412,19 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return _react.default.createElement(_movieView.MovieView, {
             movie: movies.find(function (m) {
               return m._id === match.params.movieId;
+            }),
+            addToFavourites: function (_addToFavourites2) {
+              function addToFavourites() {
+                return _addToFavourites2.apply(this, arguments);
+              }
+
+              addToFavourites.toString = function () {
+                return _addToFavourites2.toString();
+              };
+
+              return addToFavourites;
+            }(function () {
+              return addToFavourites(movie);
             })
           });
         }
@@ -39432,7 +39456,20 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             director: movies.find(function (m) {
               return m.Director.Name === match.params.name;
             }),
-            movies: movies
+            movies: movies,
+            addToFavourites: function (_addToFavourites3) {
+              function addToFavourites() {
+                return _addToFavourites3.apply(this, arguments);
+              }
+
+              addToFavourites.toString = function () {
+                return _addToFavourites3.toString();
+              };
+
+              return addToFavourites;
+            }(function () {
+              return addToFavourites(movie);
+            })
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -39443,7 +39480,20 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             genre: movies.find(function (m) {
               return m.Genre.Name === match.params.name;
             }),
-            movies: movies
+            movies: movies,
+            addToFavourites: function (_addToFavourites4) {
+              function addToFavourites() {
+                return _addToFavourites4.apply(this, arguments);
+              }
+
+              addToFavourites.toString = function () {
+                return _addToFavourites4.toString();
+              };
+
+              return addToFavourites;
+            }(function () {
+              return addToFavourites(movie);
+            })
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -39465,7 +39515,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39559,7 +39609,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62729" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53874" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

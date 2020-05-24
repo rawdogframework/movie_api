@@ -17,8 +17,8 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './main-view.scss';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 export class MainView extends React.Component {
   constructor() {
@@ -66,6 +66,32 @@ export class MainView extends React.Component {
         });
       })
       .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  addToFavourites(movie) {
+    /* Send a request to the server for authentication */
+    const url =
+      'https://vfa.herokuapp.com/users/' +
+      localStorage.getItem('id') +
+      '/favourites/' +
+      movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }, //  `Bearer ${localStorage.getItem('token')}`
+        }
+      )
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        // Send data to prop
+        alert('Movie added to favourites');
+      })
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -121,18 +147,30 @@ export class MainView extends React.Component {
       <Router>
         <div className="main-view text-center container-fluid main-view-styles ">
           {/* Nav start */}
-          <Navbar sticky="top" bg="secondary" expand="lg" className="mb-2 ">
+          <Navbar
+            sticky="top"
+            expand="lg"
+            className="mb-2 navbar-styles text-warning"
+          >
             <Navbar.Brand
               href="http://localhost:1234/"
               className="navbar-brand"
             >
-              VFA
+              Victorville Film Archives
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse
               className="justify-content-end"
               id="basic-navbar-nav"
             >
+              <Form inline>
+                <FormControl
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2"
+                />
+                <Button variant="outline-light">Search</Button>
+              </Form>
               <Link to={`/`}>
                 <Button variant="link" onClick={() => this.logOut()}>
                   Log out
@@ -142,7 +180,7 @@ export class MainView extends React.Component {
                 <Button variant="link">Account</Button>
               </Link>
               <Link to={`/`}>
-                <Button variant="link">Home</Button>
+                <Button variant="link">Movies</Button>
               </Link>
               <Link to={`/about`}>
                 <Button variant="link">About</Button>
@@ -163,9 +201,13 @@ export class MainView extends React.Component {
                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
               return (
-                <div className="row d-flex mt-4 ml-2">
+                <div className="row d-flex mt-4 ml-1">
                   {movies.map((m) => (
-                    <MovieCard key={m._id} movie={m} />
+                    <MovieCard
+                      key={m._id}
+                      movie={m}
+                      addToFavourites={() => addToFavourites(movie)}
+                    />
                   ))}
                 </div>
               );
@@ -176,6 +218,7 @@ export class MainView extends React.Component {
             render={({ match }) => (
               <MovieView
                 movie={movies.find((m) => m._id === match.params.movieId)}
+                addToFavourites={() => addToFavourites(movie)}
               />
             )}
           />
@@ -204,6 +247,7 @@ export class MainView extends React.Component {
                   (m) => m.Director.Name === match.params.name
                 )}
                 movies={movies}
+                addToFavourites={() => addToFavourites(movie)}
               />
             )}
           />
@@ -213,6 +257,7 @@ export class MainView extends React.Component {
               <GenreView
                 genre={movies.find((m) => m.Genre.Name === match.params.name)}
                 movies={movies}
+                addToFavourites={() => addToFavourites(movie)}
               />
             )}
           />
