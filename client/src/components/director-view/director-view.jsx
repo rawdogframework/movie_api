@@ -44,9 +44,6 @@ export class DirectorView extends React.Component {
               <span className="label">Death: </span>
               <span className="value">{director.Director.Death}</span>
             </div>
-            <Link to={`/`}>
-              <Button variant="link">Return</Button>
-            </Link>
           </Col>
           <Col className="col-3" />
         </Row>
@@ -58,31 +55,38 @@ export class DirectorView extends React.Component {
                 return (
                   <div key={movie._id}>
                     <Card
-                      className="mb-3 mr-2 h-100"
+                      className="mb-3 mr-2 align-items-center"
                       style={{ width: '16rem' }}
+                      bg="warning"
+                      text="dark"
                     >
-                      <Card.Img variant="top" src={movie.ImagePath} />
-                      <Card.Body>
-                        <Link
-                          className="text-muted"
-                          to={`/movies/${movie._id}`}
-                        >
-                          <Card.Title>{movie.Title}</Card.Title>
-                        </Link>
+                      <Link to={`/movies/${movie._id}`}>
+                        <Card.Img variant="top" src={movie.ImagePath} />
+                        <Card.ImgOverlay className="align-middle">
+                          <Card.Title>
+                            <Button
+                              variant="light"
+                              onClick={() => this.addToFavourites(movie._id)}
+                            >
+                              Add to Favourites
+                            </Button>
+                          </Card.Title>
+                        </Card.ImgOverlay>
+                      </Link>
+                      <Card.Body variant="warning">
+                        <Card.Title>{movie.Title}</Card.Title>
                         <Card.Text>
-                          {movie.Description.substring(0, 90)}...
+                          {movie.Description.substring(0, 70)}...
+                          <div>
+                            <Link
+                              to={`/movies/${movie._id}`}
+                              className="position-relative"
+                            >
+                              Read more
+                            </Link>
+                          </div>
                         </Card.Text>
                       </Card.Body>
-                      <Card.Footer className="bg-white border-top-0">
-                        <Link to={`/movies/${movie._id}`}>
-                          <Button
-                            variant="link"
-                            className="read-more-link pl-0"
-                          >
-                            Read more
-                          </Button>
-                        </Link>
-                      </Card.Footer>
                     </Card>
                   </div>
                 );

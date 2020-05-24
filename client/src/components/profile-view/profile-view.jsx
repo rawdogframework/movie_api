@@ -78,7 +78,7 @@ export class ProfileView extends React.Component {
       <Container className="profile-view wrapper container-fluid">
         <Row>
           <Col className="col-3" />
-          <Col className="container-fluid align-items-center col-6">
+          <Col className="container-fluid align-items-left col-6">
             <img
               className="profile-avatar "
               src="https://via.placeholder.com/150"
@@ -99,39 +99,41 @@ export class ProfileView extends React.Component {
               <span className="label">Password: </span>
               <span className="value">***********</span>
             </div>
+            <div>
+              <Link to={`/update/${profileInfo.Username}`}>
+                Update my profile
+              </Link>
+            </div>
           </Col>
           <Col className="col-3" />
         </Row>
+        <Row className="spacer"></Row>
         <Container>
           <h4>Favourites List</h4>
-          <div className="d-flex row mt-3 ml-1">
+          <div className="d-flex row mt-5 ml-3">
             {favouritesList.map((movie) => {
               return (
-                <div key={movie._id}>
-                  <Card className="mb-3 mr-2 h-100" style={{ width: '16rem' }}>
-                    <Card.Img variant="top" src={movie.ImagePath} />
-                    <Card.Body>
-                      <Link className="text-muted" to={`/movies/${movie._id}`}>
-                        <Card.Title>{movie.Title}</Card.Title>
-                      </Link>
-                      <Card.Text>
-                        {movie.Description.substring(0, 90)}...
-                      </Card.Text>
-                    </Card.Body>
-                    <Card.Footer className="bg-white border-top-0">
-                      <span className="d-flex align-items-center">
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          className="mr-2"
-                          onClick={() => this.removeFavourite(movie._id)}
-                        >
-                          <i className="material-icons bin">Remove</i>
-                        </Button>
-                      </span>
-                    </Card.Footer>
-                  </Card>
-                </div>
+                <Link to={`/movies/${movie._id}`}>
+                  <div key={movie._id}>
+                    <Card
+                      bg="Dark"
+                      className="mb-3 mr-2 align-items-center"
+                      style={{ width: '16rem' }}
+                    >
+                      <Card.Img variant="top" src={movie.ImagePath} />
+                      <Card.ImgOverlay className="">
+                        <Card.Title>
+                          <Button
+                            variant="light"
+                            onClick={() => this.removeFavourite(movie._id)}
+                          >
+                            Remove
+                          </Button>
+                        </Card.Title>
+                      </Card.ImgOverlay>
+                    </Card>
+                  </div>
+                </Link>
               );
             })}
           </div>
@@ -139,19 +141,11 @@ export class ProfileView extends React.Component {
 
         <Row>
           <Col>
-            <Link to={`/update/${profileInfo.Username}`}>
-              <Button variant="primary" className="update-button">
-                Update my profile
-              </Button>
-            </Link>
             <div className="">
-              <Button onClick={() => this.unregisterAccount()} variant="link">
+              <Button variant="danger" onClick={() => this.unregisterAccount()}>
                 Delete Account
               </Button>
             </div>
-            <Link to={`/`}>
-              <Button variant="link">Home</Button>
-            </Link>
           </Col>
         </Row>
       </Container>

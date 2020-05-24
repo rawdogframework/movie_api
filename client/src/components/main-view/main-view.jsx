@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { About } from '../header/about';
+import { Contact } from '../header/contact';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -115,143 +117,111 @@ export class MainView extends React.Component {
     // Before the movies have been loaded
     if (!movies && !profileInfo) return <div className="main-view" />;
 
-    if (!user) {
-      return (
-        <Router>
-          <div className="main-view">
-            {/* Nav start */}
-            <Navbar
-              sticky="top"
-              bg="light"
-              expand="lg"
-              className="mb-3 shadow-sm p-3 mb-5"
+    return (
+      <Router>
+        <div className="main-view text-center container-fluid main-view-styles ">
+          {/* Nav start */}
+          <Navbar sticky="top" bg="secondary" expand="lg" className="mb-2 ">
+            <Navbar.Brand
+              href="http://localhost:1234/"
+              className="navbar-brand"
             >
-              <Navbar.Brand
-                href="http://localhost:1234/"
-                className="navbar-brand"
-              >
-                VFA
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse
-                className="justify-content-end"
-                id="basic-navbar-nav"
-              >
-                <Link to={`/`}>
-                  <Button variant="link">Login</Button>
-                </Link>
-                <Link to={`/register`}>
-                  <Button variant="link">Register</Button>
-                </Link>
-              </Navbar.Collapse>
-            </Navbar>
-            {/* Nav end */}
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
-              )}
-            />
-            <Route path="/register" render={() => <RegistrationView />} />
-          </div>
-        </Router>
-      );
-    } else {
-      return (
-        <Router>
-          <div className="main-view text-center container-fluid main-view-styles ">
-            {/* Nav start */}
-            <Navbar
-              sticky="top"
-              bg="light"
-              expand="lg"
-              className="mb-3 shadow-sm p-3 mb-5"
+              VFA
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse
+              className="justify-content-end"
+              id="basic-navbar-nav"
             >
-              <Navbar.Brand
-                href="http://localhost:1234/"
-                className="navbar-brand"
-              >
-                VFA
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse
-                className="justify-content-end"
-                id="basic-navbar-nav"
-              >
-                <Link to={`/`}>
-                  <Button variant="link" onClick={() => this.logOut()}>
-                    Log out
-                  </Button>
-                </Link>
-                <Link to={`/users/`}>
-                  <Button variant="link">Account</Button>
-                </Link>
-              </Navbar.Collapse>
-            </Navbar>
-            {/* Nav end */}
-            {/* If this.user === null don't show Link */}
-            <Route
-              exact
-              path="/"
-              render={() => {
+              <Link to={`/`}>
+                <Button variant="link" onClick={() => this.logOut()}>
+                  Log out
+                </Button>
+              </Link>
+              <Link to={`/users/`}>
+                <Button variant="link">Account</Button>
+              </Link>
+              <Link to={`/`}>
+                <Button variant="link">Home</Button>
+              </Link>
+              <Link to={`/about`}>
+                <Button variant="link">About</Button>
+              </Link>
+              <Link to={`/contact`}>
+                <Button variant="link">Contact</Button>
+              </Link>
+            </Navbar.Collapse>
+          </Navbar>
+          {/* Nav end */}
+          {/* If this.user === null don't show Link */}
+          <Route
+            exact
+            path="/"
+            render={() => {
+              if (!user)
                 return (
-                  <div className="row d-flex mt-4 ml-2">
-                    {movies.map((m) => (
-                      <MovieCard key={m._id} movie={m} />
-                    ))}
-                  </div>
+                  <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
-              }}
-            />
-            <Route
-              path="/movies/:movieId"
-              render={({ match }) => (
-                <MovieView
-                  movie={movies.find((m) => m._id === match.params.movieId)}
-                />
-              )}
-            />
-            <Route
-              path="/users/"
-              render={() => (
-                <ProfileView
-                  user={user}
-                  profileInfo={this.state.profileInfo}
-                  movies={movies}
-                  logOutFunc={() => this.logOut()}
-                />
-              )}
-            />
-            <Route
-              path="/Update/:name"
-              render={() => (
-                <UpdateView user={user} profileInfo={this.state.profileInfo} />
-              )}
-            />
-            <Route
-              path="/directors/:name"
-              render={({ match }) => (
-                <DirectorView
-                  director={movies.find(
-                    (m) => m.Director.Name === match.params.name
-                  )}
-                  movies={movies}
-                />
-              )}
-            />
-            <Route
-              path="/genres/:name"
-              render={({ match }) => (
-                <GenreView
-                  genre={movies.find((m) => m.Genre.Name === match.params.name)}
-                  movies={movies}
-                />
-              )}
-            />
-          </div>
-        </Router>
-      );
-    }
+              return (
+                <div className="row d-flex mt-4 ml-2">
+                  {movies.map((m) => (
+                    <MovieCard key={m._id} movie={m} />
+                  ))}
+                </div>
+              );
+            }}
+          />
+          <Route
+            path="/movies/:movieId"
+            render={({ match }) => (
+              <MovieView
+                movie={movies.find((m) => m._id === match.params.movieId)}
+              />
+            )}
+          />
+          <Route
+            path="/users/"
+            render={() => (
+              <ProfileView
+                user={user}
+                profileInfo={this.state.profileInfo}
+                movies={movies}
+                logOutFunc={() => this.logOut()}
+              />
+            )}
+          />
+          <Route
+            path="/Update/:name"
+            render={() => (
+              <UpdateView user={user} profileInfo={this.state.profileInfo} />
+            )}
+          />
+          <Route
+            path="/directors/:name"
+            render={({ match }) => (
+              <DirectorView
+                director={movies.find(
+                  (m) => m.Director.Name === match.params.name
+                )}
+                movies={movies}
+              />
+            )}
+          />
+          <Route
+            path="/genres/:name"
+            render={({ match }) => (
+              <GenreView
+                genre={movies.find((m) => m.Genre.Name === match.params.name)}
+                movies={movies}
+              />
+            )}
+          />
+
+          <Route path="/register" render={() => <RegistrationView />} />
+        </div>
+        <Route path="/contact" component={Contact} />
+        <Route path="/about" component={About} />
+      </Router>
+    );
   }
 }

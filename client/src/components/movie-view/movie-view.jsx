@@ -50,8 +50,57 @@ export class MovieView extends React.Component {
       <Container className="wrapper container-fluid">
         <Row>
           <Col className="col-3" />
-          <div className="movie-view container-fluid align-items-center col-6">
-            <img className="movie-poster " src={movie.ImagePath} />
+          <Col className="container-fluid col-6">
+            <Card className="movie-view" bg="warning" text="dark">
+              <Card.Img variant="top" src={movie.ImagePath} />
+              <Card.ImgOverlay className="align-middle">
+                <Card.Title>
+                  <Button
+                    variant="light"
+                    onClick={() => this.addToFavourites(movie._id)}
+                  >
+                    Add to Favourites
+                  </Button>
+                </Card.Title>
+              </Card.ImgOverlay>
+              <Card.Body>
+                <Card.Title>{movie.Title}</Card.Title>
+                <Card.Text>
+                  <div className="movie-description ">
+                    <span className="label">Description: </span>
+                    <span className="value">{movie.Description}</span>
+                  </div>
+                  <div className="movie-genre ">
+                    <span className="label">Genre:</span>
+                    <Link
+                      className="position-relative"
+                      to={`/genres/${movie.Genre.Name}`}
+                    >
+                      <Button variant="link">{movie.Genre.Name}</Button>
+                    </Link>
+                  </div>
+                  <div className="movie-director ">
+                    <span className="label">Director:</span>
+                    <Link
+                      className="position-relative"
+                      to={`/directors/${movie.Director.Name}`}
+                    >
+                      <Button variant="link">{movie.Director.Name}</Button>
+                    </Link>
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col className="col-3" />
+        </Row>
+      </Container>
+    );
+  }
+}
+
+{
+  /* <img className="movie-poster w-50" src={movie.ImagePath} />
             <div className="movie-title ">
               <span className="label">Title: </span>
               <span className="value">{movie.Title}</span>
@@ -61,13 +110,13 @@ export class MovieView extends React.Component {
               <span className="value">{movie.Description}</span>
             </div>
             <div className="movie-genre ">
-              <span className="label">Genre: </span>
+              <span className="label">Genre:</span>
               <Link to={`/genres/${movie.Genre.Name}`}>
                 <Button variant="link">{movie.Genre.Name}</Button>
               </Link>
             </div>
             <div className="movie-director ">
-              <span className="label">Director: </span>
+              <span className="label">Director:</span>
               <Link to={`/directors/${movie.Director.Name}`}>
                 <Button variant="link">{movie.Director.Name}</Button>
               </Link>
@@ -83,13 +132,7 @@ export class MovieView extends React.Component {
             </div>
             <Link to={`/`}>
               <Button variant="link">Return</Button>
-            </Link>
-          </div>
-          <Col className="col-3" />
-        </Row>
-      </Container>
-    );
-  }
+            </Link> */
 }
 
 MovieView.propTypes = {

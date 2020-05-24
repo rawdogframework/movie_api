@@ -16,12 +16,21 @@
   width: 100%;
   align-items: center;
 }
-ul {
-  list-style: none;
+.spacer {
+  height: 50px;
 }
 .main-view-styles {
   background-color: #000001;
   align-items: center;
+}
+
+.navbar-styles {
+  height: 220px;
+  background-color: green;
+  margin: 10;
+  padding: 10;
+  width: 100%;
+  border-bottom: 2px solid white;
 }
 .app-container {
   font-family: "Righteous", cursive;
