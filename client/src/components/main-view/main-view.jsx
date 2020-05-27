@@ -163,31 +163,36 @@ export class MainView extends React.Component {
               className="justify-content-end"
               id="basic-navbar-nav"
             >
-              <Form inline>
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
-                />
-                <Button variant="outline-light">Search</Button>
-              </Form>
-              <Link to={`/`}>
-                <Button variant="link" onClick={() => this.logOut()}>
-                  Log out
-                </Button>
-              </Link>
-              <Link to={`/users/`}>
-                <Button variant="link">Account</Button>
-              </Link>
-              <Link to={`/`}>
-                <Button variant="link">Movies</Button>
-              </Link>
-              <Link to={`/about`}>
-                <Button variant="link">About</Button>
-              </Link>
-              <Link to={`/contact`}>
-                <Button variant="link">Contact</Button>
-              </Link>
+              {!user ? (
+                <ul>
+                  <Link to={`/`}>
+                    <Button variant="link">login</Button>
+                  </Link>
+                  <Link to={`/register`}>
+                    <Button variant="link">Register</Button>
+                  </Link>
+                </ul>
+              ) : (
+                <ul>
+                  <Link to={`/`}>
+                    <Button variant="link" onClick={() => this.logOut()}>
+                      Log out
+                    </Button>
+                  </Link>
+                  <Link to={`/users/`}>
+                    <Button variant="link">Account</Button>
+                  </Link>
+                  <Link to={`/`}>
+                    <Button variant="link">Movies</Button>
+                  </Link>
+                  <Link to={`/about`}>
+                    <Button variant="link">About</Button>
+                  </Link>
+                  <Link to={`/contact`}>
+                    <Button variant="link">Contact</Button>
+                  </Link>
+                </ul>
+              )}
             </Navbar.Collapse>
           </Navbar>
           {/* Nav end */}
