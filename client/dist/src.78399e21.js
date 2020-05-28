@@ -39362,7 +39362,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/users/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Account")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Account number 2")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"

@@ -180,7 +180,7 @@ export class MainView extends React.Component {
                     </Button>
                   </Link>
                   <Link to={`/users/`}>
-                    <Button variant="link">Account</Button>
+                    <Button variant="link">Account number 2</Button>
                   </Link>
                   <Link to={`/`}>
                     <Button variant="link">Movies</Button>
