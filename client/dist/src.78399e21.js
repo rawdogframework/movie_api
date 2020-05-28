@@ -39366,7 +39366,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Movies")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Movies change this")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/about"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
