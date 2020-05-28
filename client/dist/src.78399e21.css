@@ -27,11 +27,19 @@
 .navbar-styles {
   height: 100px;
   background-color: black;
+  color: goldenrod;
   margin: 10;
   padding: 10;
   width: 100%;
   border-bottom: 0.5px inset grey;
-  text-shadow: 0.5px 0.5px var(--white);
+  text-shadow: 1px 1px var(--white);
+  font-weight: 15;
+  line-height: 1.6;
+  font-size: 24px;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: green;
 }
 .app-container {
   font-family: "Righteous", cursive;
