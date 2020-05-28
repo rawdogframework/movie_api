@@ -183,7 +183,7 @@ export class MainView extends React.Component {
                     <Button variant="link">Account number 2</Button>
                   </Link>
                   <Link to={`/`}>
-                    <Button variant="link">Movies</Button>
+                    <Button variant="link">Movies change this</Button>
                   </Link>
                   <Link to={`/about`}>
                     <Button variant="link">About</Button>
