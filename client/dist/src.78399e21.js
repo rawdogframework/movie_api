@@ -39343,15 +39343,15 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }), _react.default.createElement(_Navbar.default.Collapse, {
         className: "justify-content-end",
         id: "basic-navbar-nav"
-      }, _react.default.createElement(_Form.default, {
-        inline: true
-      }, _react.default.createElement(_Form.default, {
-        type: "text",
-        placeholder: "Search",
-        className: "mr-sm-2"
-      }), _react.default.createElement(_Button.default, {
-        variant: "outline-light"
-      }, "Search")), _react.default.createElement(_reactRouterDom.Link, {
+      }, !user ? _react.default.createElement("ul", null, _react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "login")), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/register"
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Register"))) : _react.default.createElement("ul", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link",
@@ -39374,7 +39374,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/contact"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Contact")))), _react.default.createElement(_reactRouterDom.Route, {
+      }, "Contact"))))), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -39609,7 +39609,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53874" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61011" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
