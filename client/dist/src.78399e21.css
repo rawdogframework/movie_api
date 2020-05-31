@@ -1,3 +1,7 @@
+.movie-card-styles {
+  width: 100%;
+  align-items: center;
+}
 .login-form {
   width: 100%;
   max-width: 330px;
@@ -11,10 +15,6 @@
   padding: 15px;
   margin: auto;
   height: 100%;
-}
-.movie-card-styles {
-  width: 100%;
-  align-items: center;
 }
 .spacer {
   height: 50px;

@@ -1,8 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 
+import { connect } from 'react-redux';
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+// #0
+import { setMovies, setUser } from '../../actions/actions';
+
+import MoviesList from '../movies-list/movies-list';
 import { About } from '../header/about';
 import { Contact } from '../header/contact';
 import { LoginView } from '../login-view/login-view';
@@ -20,7 +26,8 @@ import './main-view.scss';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-export class MainView extends React.Component {
+
+class MainView extends React.Component {
   constructor() {
     // Call the superclass constructor
     // so React can initialize it
@@ -28,9 +35,7 @@ export class MainView extends React.Component {
 
     // Initialize the state to an empty object so we can destructure it later
     this.state = {
-      movies: [],
       user: null,
-      profileInfo: null,
     };
   }
 
@@ -41,34 +46,31 @@ export class MainView extends React.Component {
       })
       .then((response) => {
         // Assign result to a state
-        this.setState({
-          movies: response.data,
-        });
+        // #1
+        this.props.setMovies(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  getAccount(accessToken) {
-    const url =
-      'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
-    console.log(url);
-    axios
-      .get(url, {
-        headers: { Authorization: 'Bearer ' + accessToken },
-      })
-      .then((response) => {
-        // console.log(response.data);
-        // Assign result to a state
-        this.setState({
-          profileInfo: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  // getAccount(accessToken) {
+  //   const url =
+  //     'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
+  //   console.log(url);
+  //   axios
+  //     .get(url, {
+  //       headers: { Authorization: 'Bearer ' + accessToken },
+  //     })
+  //     .then((response) => {
+  //       // console.log(response.data);
+  //       // Assign result to a state
+  //       this.props.setUser(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }
 
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
@@ -104,7 +106,7 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user'),
       });
       this.getMovies(accessToken);
-      this.getAccount(accessToken);
+      // this.getAccount(accessToken);
     }
   }
 
@@ -127,31 +129,19 @@ export class MainView extends React.Component {
     localStorage.setItem('id', authData.user._id);
     // Calls endpoint once user is logged in
     this.getMovies(authData.token);
-    this.getAccount(authData.token);
+    // this.getAccount(authData.token);
   }
 
   render() {
-    // If the state isn't initialized, this will throw on runtime
-    // before the data is initially loaded
-    const { movies, user, profileInfo } = this.state;
-
-    // Logging to check states
-    // console.log('M = ' + movies);
-    // console.log('U = ' + user);
-    // console.log('pi =' + profileInfo);
-
-    // Before the movies have been loaded
-    if (!movies && !profileInfo) return <div className="main-view" />;
+    // #2
+    let { movies } = this.props;
+    let { user } = this.state;
 
     return (
       <Router>
-        <div className="main-view text-center container-fluid main-view-styles ">
+        <div className="main-view">
           {/* Nav start */}
-          <Navbar
-            sticky="top"
-            expand="lg"
-            className="mb-2 navbar-styles text-warning"
-          >
+          <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
             <Navbar.Brand
               href="http://localhost:1234/"
               className="navbar-brand"
@@ -163,6 +153,14 @@ export class MainView extends React.Component {
               className="justify-content-end"
               id="basic-navbar-nav"
             >
+              {/* <Form inline>
+                <FormControl
+                  type="text"
+                  placeholder="Search"
+                  className="mr-sm-2"
+                />
+                <Button variant="outline-light">Search</Button>
+              </Form> */}
               {!user ? (
                 <ul>
                   <Link to={`/`}>
@@ -180,10 +178,10 @@ export class MainView extends React.Component {
                     </Button>
                   </Link>
                   <Link to={`/users/`}>
-                    <Button variant="link">Account number 2</Button>
+                    <Button variant="link">Account</Button>
                   </Link>
                   <Link to={`/`}>
-                    <Button variant="link">Movies change this</Button>
+                    <Button variant="link">Movies</Button>
                   </Link>
                   <Link to={`/about`}>
                     <Button variant="link">About</Button>
@@ -196,52 +194,24 @@ export class MainView extends React.Component {
             </Navbar.Collapse>
           </Navbar>
           {/* Nav end */}
-          {/* If this.user === null don't show Link */}
           <Route
             exact
             path="/"
             render={() => {
               if (!user)
                 return (
-                  <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 );
-              return (
-                <div className="row d-flex mt-4 ml-1">
-                  {movies.map((m) => (
-                    <MovieCard
-                      key={m._id}
-                      movie={m}
-                      addToFavourites={() => addToFavourites(movie)}
-                    />
-                  ))}
-                </div>
-              );
+              return <MoviesList movies={movies} />;
             }}
           />
+          <Route path="/register" render={() => <RegistrationView />} />
           <Route
             path="/movies/:movieId"
             render={({ match }) => (
               <MovieView
                 movie={movies.find((m) => m._id === match.params.movieId)}
-                addToFavourites={() => addToFavourites(movie)}
               />
-            )}
-          />
-          <Route
-            path="/users/"
-            render={() => (
-              <ProfileView
-                user={user}
-                profileInfo={this.state.profileInfo}
-                movies={movies}
-                logOutFunc={() => this.logOut()}
-              />
-            )}
-          />
-          <Route
-            path="/Update/:name"
-            render={() => (
-              <UpdateView user={user} profileInfo={this.state.profileInfo} />
             )}
           />
           <Route
@@ -266,12 +236,158 @@ export class MainView extends React.Component {
               />
             )}
           />
-
-          <Route path="/register" render={() => <RegistrationView />} />
+          <Route
+            path="/users/"
+            render={() => <ProfileView movies={movies} />}
+          />
+          <Route path="/contact" component={Contact} />
+          <Route path="/about" component={About} />
         </div>
-        <Route path="/contact" component={Contact} />
-        <Route path="/about" component={About} />
       </Router>
     );
   }
 }
+
+// #3
+let mapStateToProps = (state) => {
+  return { movies: state.movies };
+};
+
+// #4
+export default connect(mapStateToProps, { setMovies })(MainView);
+
+// If the state isn't initialized, this will throw on runtime
+// before the data is initially loaded
+// const { movies, user, profileInfo } = this.state;
+
+// Logging to check states
+// console.log('M = ' + movies);
+// console.log('U = ' + user);
+// console.log('pi =' + profileInfo);
+
+// Before the movies have been loaded
+//     if (!movies && !profileInfo) return <div className="main-view" />;
+
+//     return (
+//       <Router>
+//         <div className="main-view text-center container-fluid main-view-styles ">
+//           {/* Nav start */}
+//           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
+//             <Navbar.Brand
+//               href="http://localhost:1234/"
+//               className="navbar-brand"
+//             >
+//               Victorville Film Archives
+//             </Navbar.Brand>
+//             <Navbar.Toggle aria-controls="basic-navbar-nav" />
+//             <Navbar.Collapse
+//               className="justify-content-end"
+//               id="basic-navbar-nav"
+//             >
+//               {/* <Form inline>
+//                 <FormControl
+//                   type="text"
+//                   placeholder="Search"
+//                   className="mr-sm-2"
+//                 />
+//                 <Button variant="outline-light">Search</Button>
+//               </Form> */}
+//               <Link to={`/`}>
+//                 <Button variant="link" onClick={() => this.logOut()}>
+//                   Log out
+//                 </Button>
+//               </Link>
+//               <Link to={`/users/`}>
+//                 <Button variant="link">Account</Button>
+//               </Link>
+//               <Link to={`/`}>
+//                 <Button variant="link">Movies</Button>
+//               </Link>
+//               <Link to={`/about`}>
+//                 <Button variant="link">About</Button>
+//               </Link>
+//               <Link to={`/contact`}>
+//                 <Button variant="link">Contact</Button>
+//               </Link>
+//             </Navbar.Collapse>
+//           </Navbar>
+//           {/* Nav end */}
+//           {/* If this.user === null don't show Link */}
+//           <Route
+//             exact
+//             path="/"
+//             render={() => {
+//               if (!user)
+//                 return (
+//                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+//                 );
+//               return (
+//                 <div className="row d-flex mt-4 ml-1">
+//                   {movies.map((m) => (
+//                     <MovieCard
+//                       key={m._id}
+//                       movie={m}
+//                       addToFavourites={() => addToFavourites(movie)}
+//                     />
+//                   ))}
+//                 </div>
+//               );
+//             }}
+//           />
+//           <Route
+//             path="/movies/:movieId"
+//             render={({ match }) => (
+//               <MovieView
+//                 movie={movies.find((m) => m._id === match.params.movieId)}
+//                 addToFavourites={() => addToFavourites(movie)}
+//               />
+//             )}
+//           />
+//           <Route
+//             path="/users/"
+//             render={() => (
+//               <ProfileView
+//                 user={user}
+//                 profileInfo={this.state.profileInfo}
+//                 movies={movies}
+//                 logOutFunc={() => this.logOut()}
+//               />
+//             )}
+//           />
+//           <Route
+//             path="/Update/:name"
+//             render={() => (
+//               <UpdateView user={user} profileInfo={this.state.profileInfo} />
+//             )}
+//           />
+//           <Route
+//             path="/directors/:name"
+//             render={({ match }) => (
+//               <DirectorView
+//                 director={movies.find(
+//                   (m) => m.Director.Name === match.params.name
+//                 )}
+//                 movies={movies}
+//                 addToFavourites={() => addToFavourites(movie)}
+//               />
+//             )}
+//           />
+//           <Route
+//             path="/genres/:name"
+//             render={({ match }) => (
+//               <GenreView
+//                 genre={movies.find((m) => m.Genre.Name === match.params.name)}
+//                 movies={movies}
+//                 addToFavourites={() => addToFavourites(movie)}
+//               />
+//             )}
+//           />
+
+//           <Route path="/register" render={() => <RegistrationView />} />
+//         </div>
+//         <Route path="/contact" component={Contact} />
+//         <Route path="/about" component={About} />
+//       </Router>
+//     );
+//   }
+// }

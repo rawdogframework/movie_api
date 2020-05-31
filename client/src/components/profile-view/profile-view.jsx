@@ -8,12 +8,39 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import './profile-view.scss';
+import { connect } from 'react-redux';
 
 export class ProfileView extends React.Component {
   constructor() {
     super();
 
     this.state = {};
+  }
+
+  componentDidMount() {
+    //authentication
+    const accessToken = localStorage.getItem('token');
+    this.getAccount(accessToken);
+  }
+
+  getAcount(token) {
+    const username = localStorage.getItem('user');
+    axios
+      .get(`https://vfa.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        this.setState({
+          Username: res.data.Username,
+          Password: res.data.Password,
+          Email: res.data.Email,
+          Birthday: res.data.Birthday,
+          FavoriteMovies: res.data.FavoriteMovies,
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }
 
   removeFavourite(movie) {
@@ -67,7 +94,7 @@ export class ProfileView extends React.Component {
 
   render() {
     const { user, profileInfo, movies } = this.props;
-    if (!profileInfo || !user) return <div>Loading</div>;
+    if (!user) return <div>Loading</div>;
     console.log(profileInfo.FavouriteMovies);
     const favouritesList = movies.filter((movie) =>
       profileInfo.FavouriteMovies.includes(movie._id)
@@ -85,15 +112,15 @@ export class ProfileView extends React.Component {
             />
             <div className="account-username ">
               <span className="label">Username: </span>
-              <span className="value">{profileInfo.Username}</span>
+              <span className="value">{this.state.Username}</span>
             </div>
             <div className="account-email ">
               <span className="label">Email: </span>
-              <span className="value">{profileInfo.Email}</span>
+              <span className="value">{this.state.Email}</span>
             </div>
             <div className="account-birthday ">
               <span className="label">Birthday: </span>
-              <span className="value">{profileInfo.Birthday}</span>
+              <span className="value">{this.state.Birthday}</span>
             </div>
             <div className="account-password ">
               <span className="label">Password: </span>
@@ -150,6 +177,13 @@ export class ProfileView extends React.Component {
     );
   }
 }
+
+// let mapStateToProps = (state) => {
+//   return { movies: state.movies };
+// };
+
+// #4
+export default connect(({ movies, users }) => ({ movies, users }))(ProfileView);
 
 ProfileView.propTypes = {
   profileInfo: PropTypes.shape({
