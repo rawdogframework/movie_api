@@ -19,6 +19,7 @@ import { ProfileView } from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { UpdateView } from '../update-view/update-view';
+
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
@@ -53,24 +54,6 @@ class MainView extends React.Component {
         console.log(error);
       });
   }
-
-  // getAccount(accessToken) {
-  //   const url =
-  //     'https://vfa.herokuapp.com/users/' + localStorage.getItem('user');
-  //   console.log(url);
-  //   axios
-  //     .get(url, {
-  //       headers: { Authorization: 'Bearer ' + accessToken },
-  //     })
-  //     .then((response) => {
-  //       // console.log(response.data);
-  //       // Assign result to a state
-  //       this.props.setUser(response.data);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
 
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
@@ -153,14 +136,6 @@ class MainView extends React.Component {
               className="justify-content-end"
               id="basic-navbar-nav"
             >
-              {/* <Form inline>
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
-                />
-                <Button variant="outline-light">Search</Button>
-              </Form> */}
               {!user ? (
                 <ul>
                   <Link to={`/`}>
@@ -200,7 +175,7 @@ class MainView extends React.Component {
             render={() => {
               if (!user)
                 return (
-                  <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
                 );
               return <MoviesList movies={movies} />;
             }}
@@ -238,8 +213,11 @@ class MainView extends React.Component {
           />
           <Route
             path="/users/"
-            render={() => <ProfileView movies={movies} />}
+            render={() => (
+              <ProfileView movies={movies} logOutFunc={() => this.logOut()} />
+            )}
           />
+          <Route path="/Update/:name" render={() => <UpdateView />} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
         </div>

@@ -14,7 +14,14 @@ export class ProfileView extends React.Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      username: null,
+      password: null,
+      email: null,
+      birthday: null,
+      favouriteMovies: [],
+      movies: [],
+    };
   }
 
   componentDidMount() {
@@ -23,7 +30,7 @@ export class ProfileView extends React.Component {
     this.getAccount(accessToken);
   }
 
-  getAcount(token) {
+  getAccount(token) {
     const username = localStorage.getItem('user');
     axios
       .get(`https://vfa.herokuapp.com/users/${username}`, {
@@ -35,7 +42,7 @@ export class ProfileView extends React.Component {
           Password: res.data.Password,
           Email: res.data.Email,
           Birthday: res.data.Birthday,
-          FavoriteMovies: res.data.FavoriteMovies,
+          favouriteMovies: res.data.FavouriteMovies,
         });
       })
       .catch(function (err) {
@@ -71,7 +78,7 @@ export class ProfileView extends React.Component {
       return;
     }
     const url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id');
-    console.log(url);
+    // console.log(url);
     axios
       .delete(url, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
@@ -79,10 +86,6 @@ export class ProfileView extends React.Component {
       .then((response) => {
         console.log(response.data);
         // Set profile info to null
-        this.setState({
-          profileInfo: null,
-          user: null,
-        });
         this.props.logOutFunc();
         window.open('/', '_self');
         alert('Your account was successfully deleted');
@@ -93,13 +96,12 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { user, profileInfo, movies } = this.props;
-    if (!user) return <div>Loading</div>;
-    console.log(profileInfo.FavouriteMovies);
+    const { movies } = this.props;
+    // if (!user) return <div>Loading</div>;
+
     const favouritesList = movies.filter((movie) =>
-      profileInfo.FavouriteMovies.includes(movie._id)
+      this.state.favouriteMovies.includes(movie._id)
     );
-    console.log('FL =' + favouritesList);
 
     return (
       <Container className="profile-view wrapper container-fluid">
@@ -127,7 +129,7 @@ export class ProfileView extends React.Component {
               <span className="value">***********</span>
             </div>
             <div>
-              <Link to={`/update/${profileInfo.Username}`}>
+              <Link to={`/update/${this.state.Username}`}>
                 Update my profile
               </Link>
             </div>
