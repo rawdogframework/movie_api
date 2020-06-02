@@ -38821,7 +38821,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement(_Container.default, {
-        className: "wrapper container-fluid"
+        className: "wrapper container-fluid align-items-center"
       }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         className: "col-3"
       }), _react.default.createElement(_Col.default, {
@@ -39094,7 +39094,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       })), _react.default.createElement(_Row.default, {
         className: "spacer"
       }), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement("div", {
-        className: "d-flex row mt-5 ml-3"
+        className: "d-flex row mt-5 ml-3 align-items-center"
       }, favouritesList.map(function (movie) {
         return _react.default.createElement("div", {
           key: movie._id
@@ -41978,7 +41978,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps, {
 })(MainView);
 
 exports.default = _default;
-MainView.PropTypes = {
+MainView.propTypes = {
   movies: _propTypes.default.arrayOf(_propTypes.default.shape({
     Title: _propTypes.default.string,
     _id: _propTypes.default.string,

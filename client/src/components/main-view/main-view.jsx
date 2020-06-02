@@ -232,7 +232,7 @@ let mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { setMovies })(MainView);
 
-MainView.PropTypes = {
+MainView.propTypes = {
   movies: PropTypes.arrayOf(
     PropTypes.shape({
       Title: PropTypes.string,

@@ -139,7 +139,7 @@ export class ProfileView extends React.Component {
         <Row className="spacer"></Row>
         <Container>
           <h4>Favourites List</h4>
-          <div className="d-flex row mt-5 ml-3">
+          <div className="d-flex row mt-5 ml-3 align-items-center">
             {favouritesList.map((movie) => {
               return (
                 <div key={movie._id}>
