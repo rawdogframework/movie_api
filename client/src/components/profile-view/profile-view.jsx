@@ -87,7 +87,7 @@ export class ProfileView extends React.Component {
         console.log(response.data);
         // Set profile info to null
         this.props.logOutFunc();
-        window.open('/', '_self');
+        window.open('/client', '_self');
         alert('Your account was successfully deleted');
       })
       .catch(function (error) {
