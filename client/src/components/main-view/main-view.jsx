@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-// #0
+import PropTypes from 'prop-types';
 import { setMovies, setUser } from '../../actions/actions';
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import MoviesList from '../movies-list/movies-list';
@@ -116,7 +116,6 @@ class MainView extends React.Component {
   }
 
   render() {
-    // #2
     let { movies } = this.props;
     let { user } = this.state;
 
