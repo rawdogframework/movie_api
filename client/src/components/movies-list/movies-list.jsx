@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import { MovieCard } from '../movie-card/movie-card';
+import PropTypes from 'prop-types';
 
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Row';
@@ -42,3 +43,7 @@ function MoviesList(props) {
 }
 
 export default connect(mapStateToProps)(MoviesList);
+
+MoviesList.propTypes = {
+  visibilityFilter: PropTypes.string.isRequired,
+};

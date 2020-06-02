@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // #0
 import { setMovies, setUser } from '../../actions/actions';
-
+import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import MoviesList from '../movies-list/movies-list';
 import { About } from '../header/about';
 import { Contact } from '../header/contact';
@@ -226,146 +226,20 @@ class MainView extends React.Component {
   }
 }
 
-// #3
 let mapStateToProps = (state) => {
-  return { movies: state.movies };
+  const { visibilityFilter } = state;
+  return { movies: state.movies, visibilityFilter };
 };
 
-// #4
 export default connect(mapStateToProps, { setMovies })(MainView);
 
-// If the state isn't initialized, this will throw on runtime
-// before the data is initially loaded
-// const { movies, user, profileInfo } = this.state;
-
-// Logging to check states
-// console.log('M = ' + movies);
-// console.log('U = ' + user);
-// console.log('pi =' + profileInfo);
-
-// Before the movies have been loaded
-//     if (!movies && !profileInfo) return <div className="main-view" />;
-
-//     return (
-//       <Router>
-//         <div className="main-view text-center container-fluid main-view-styles ">
-//           {/* Nav start */}
-//           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
-//             <Navbar.Brand
-//               href="http://localhost:1234/"
-//               className="navbar-brand"
-//             >
-//               Victorville Film Archives
-//             </Navbar.Brand>
-//             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//             <Navbar.Collapse
-//               className="justify-content-end"
-//               id="basic-navbar-nav"
-//             >
-//               {/* <Form inline>
-//                 <FormControl
-//                   type="text"
-//                   placeholder="Search"
-//                   className="mr-sm-2"
-//                 />
-//                 <Button variant="outline-light">Search</Button>
-//               </Form> */}
-//               <Link to={`/`}>
-//                 <Button variant="link" onClick={() => this.logOut()}>
-//                   Log out
-//                 </Button>
-//               </Link>
-//               <Link to={`/users/`}>
-//                 <Button variant="link">Account</Button>
-//               </Link>
-//               <Link to={`/`}>
-//                 <Button variant="link">Movies</Button>
-//               </Link>
-//               <Link to={`/about`}>
-//                 <Button variant="link">About</Button>
-//               </Link>
-//               <Link to={`/contact`}>
-//                 <Button variant="link">Contact</Button>
-//               </Link>
-//             </Navbar.Collapse>
-//           </Navbar>
-//           {/* Nav end */}
-//           {/* If this.user === null don't show Link */}
-//           <Route
-//             exact
-//             path="/"
-//             render={() => {
-//               if (!user)
-//                 return (
-//                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
-//                 );
-//               return (
-//                 <div className="row d-flex mt-4 ml-1">
-//                   {movies.map((m) => (
-//                     <MovieCard
-//                       key={m._id}
-//                       movie={m}
-//                       addToFavourites={() => addToFavourites(movie)}
-//                     />
-//                   ))}
-//                 </div>
-//               );
-//             }}
-//           />
-//           <Route
-//             path="/movies/:movieId"
-//             render={({ match }) => (
-//               <MovieView
-//                 movie={movies.find((m) => m._id === match.params.movieId)}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/users/"
-//             render={() => (
-//               <ProfileView
-//                 user={user}
-//                 profileInfo={this.state.profileInfo}
-//                 movies={movies}
-//                 logOutFunc={() => this.logOut()}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/Update/:name"
-//             render={() => (
-//               <UpdateView user={user} profileInfo={this.state.profileInfo} />
-//             )}
-//           />
-//           <Route
-//             path="/directors/:name"
-//             render={({ match }) => (
-//               <DirectorView
-//                 director={movies.find(
-//                   (m) => m.Director.Name === match.params.name
-//                 )}
-//                 movies={movies}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/genres/:name"
-//             render={({ match }) => (
-//               <GenreView
-//                 genre={movies.find((m) => m.Genre.Name === match.params.name)}
-//                 movies={movies}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-
-//           <Route path="/register" render={() => <RegistrationView />} />
-//         </div>
-//         <Route path="/contact" component={Contact} />
-//         <Route path="/about" component={About} />
-//       </Router>
-//     );
-//   }
-// }
+MainView.PropTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      Title: PropTypes.string,
+      _id: PropTypes.string,
+      ImagePath: PropTypes.string,
+    })
+  ).isRequired,
+  visibilityFilter: PropTypes.string,
+};

@@ -42,7 +42,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, addToFavourites } = this.props;
+    const { movie } = this.props;
 
     if (!movie) return null;
 
@@ -99,42 +99,6 @@ export class MovieView extends React.Component {
   }
 }
 
-{
-  /* <img className="movie-poster w-50" src={movie.ImagePath} />
-            <div className="movie-title ">
-              <span className="label">Title: </span>
-              <span className="value">{movie.Title}</span>
-            </div>
-            <div className="movie-description ">
-              <span className="label">Description: </span>
-              <span className="value">{movie.Description}</span>
-            </div>
-            <div className="movie-genre ">
-              <span className="label">Genre:</span>
-              <Link to={`/genres/${movie.Genre.Name}`}>
-                <Button variant="link">{movie.Genre.Name}</Button>
-              </Link>
-            </div>
-            <div className="movie-director ">
-              <span className="label">Director:</span>
-              <Link to={`/directors/${movie.Director.Name}`}>
-                <Button variant="link">{movie.Director.Name}</Button>
-              </Link>
-            </div>
-            <div>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() => this.addToFavourites(movie._id)}
-              >
-                Add to Favourites
-              </Button>
-            </div>
-            <Link to={`/`}>
-              <Button variant="link">Return</Button>
-            </Link> */
-}
-
 MovieView.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
@@ -147,5 +111,4 @@ MovieView.propTypes = {
       Name: PropTypes.string.isRequired,
     }),
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
 };

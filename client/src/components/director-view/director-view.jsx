@@ -96,6 +96,15 @@ DirectorView.propTypes = {
       Bio: PropTypes.string.isRequired,
       // ImagePath: PropTypes.string.isRequired,
       Birth: PropTypes.string.isRequired,
+      Death: PropTypes.string.isRequired,
     },
-  }),
+  }).isRequired,
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      Title: PropTypes.string.isRequired,
+      ImagePath: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+    })
+  ),
 };
