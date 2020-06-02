@@ -38681,7 +38681,7 @@ function RegistrationView(props) {
     }).then(function (response) {
       var data = response.data; // console.log(data);
 
-      window.open('/', '_self');
+      window.open('/client', '_self');
     }).catch(function (e) {
       alert(e);
       console.log(e);
@@ -39055,7 +39055,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         return _this4.state.favouriteMovies.includes(movie._id);
       });
       return _react.default.createElement(_Container.default, {
-        className: "profile-view wrapper container-fluid"
+        className: "profile-view wrapper align-items-center container-fluid"
       }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         className: "col-3"
       }), _react.default.createElement(_Col.default, {
@@ -39093,7 +39093,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "col-3"
       })), _react.default.createElement(_Row.default, {
         className: "spacer"
-      }), _react.default.createElement(_Container.default, null, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement("div", {
+      }), _react.default.createElement(_Container.default, {
+        className: "align-items-center justif-content-center"
+      }, _react.default.createElement("h4", null, "Favourites List"), _react.default.createElement("div", {
         className: "d-flex row mt-5 ml-3 align-items-center"
       }, favouritesList.map(function (movie) {
         return _react.default.createElement("div", {
@@ -41816,7 +41818,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       var movies = this.props.movies;
       var user = this.state.user;
-      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
+      return _react.default.createElement(_reactRouterDom.BrowserRouter, {
+        basename: "/client"
+      }, _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement(_Navbar.default, {
         sticky: "top",

@@ -104,7 +104,7 @@ export class ProfileView extends React.Component {
     );
 
     return (
-      <Container className="profile-view wrapper container-fluid">
+      <Container className="profile-view wrapper align-items-center container-fluid">
         <Row>
           <Col className="col-3" />
           <Col className="container-fluid align-items-left col-6">
@@ -137,7 +137,7 @@ export class ProfileView extends React.Component {
           <Col className="col-3" />
         </Row>
         <Row className="spacer"></Row>
-        <Container>
+        <Container className="align-items-center justif-content-center">
           <h4>Favourites List</h4>
           <div className="d-flex row mt-5 ml-3 align-items-center">
             {favouritesList.map((movie) => {

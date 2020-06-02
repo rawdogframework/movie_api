@@ -4,6 +4,8 @@ const express = require('express'),
   Models = require('./models.js'),
   morgan = require('morgan');
 
+const path = require('path');
+
 const passport = require('passport');
 require('./passport');
 
@@ -56,6 +58,17 @@ app.use(
 
 // Midddleware
 app.use(morgan('common'));
+
+// routes all requests for static files to 'public' folder
+app.use(express.static('public'));
+
+// routes all requests for the client to 'dist' folder
+app.use('/client', express.static(path.join(__dirname, 'client/dist')));
+// all routes to the React client
+app.get('/client/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
+
 app.use(bodyParser.json());
 var auth = require('./auth')(app);
 app.use(function (err, req, res, next) {

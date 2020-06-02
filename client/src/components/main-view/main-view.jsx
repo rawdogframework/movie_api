@@ -120,7 +120,7 @@ class MainView extends React.Component {
     let { user } = this.state;
 
     return (
-      <Router>
+      <Router basename="/client">
         <div className="main-view">
           {/* Nav start */}
           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
