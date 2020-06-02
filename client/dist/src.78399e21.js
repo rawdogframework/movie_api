@@ -39544,7 +39544,7 @@ function UpdateView(props) {
 
       localStorage.setItem('user', data.Username); // Opens page in same tab i.e 'self'
 
-      window.open("/users/".concat(localStorage.getItem('user')), '_self');
+      window.open("/client", '_self');
       alert('Your profile data was updated successfully');
     }).catch(function (e) {
       console.log(e);
