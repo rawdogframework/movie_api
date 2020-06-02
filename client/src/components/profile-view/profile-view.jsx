@@ -187,12 +187,14 @@ export class ProfileView extends React.Component {
 // #4
 export default connect(({ movies, users }) => ({ movies, users }))(ProfileView);
 
-ProfileView.propTypes = {
-  profileInfo: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
-    Email: PropTypes.string.isRequired,
-    // ImagePath: PropTypes.string.isRequired,
-    Birthday: PropTypes.string.isRequired,
-  }).isRequired,
+ProfileView.PropTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      Title: PropTypes.string,
+      _id: PropTypes.string,
+      ImagePath: PropTypes.string,
+    })
+  ).isRequired,
+  token: PropTypes.string.isRequired,
   logOutFunc: PropTypes.func.isRequired,
 };

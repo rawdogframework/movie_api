@@ -37677,6 +37677,9 @@ var _default = (0, _reactRedux.connect)(null, {
 })(VisibilityFilterInput);
 
 exports.default = _default;
+VisibilityFilterInput.propTypes = {
+  visibilityFilter: _propTypes.default.string.isRequired
+};
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","../../actions/actions":"actions/actions.js"}],"../node_modules/react-bootstrap/esm/createChainedFunction.js":[function(require,module,exports) {
 "use strict";
 
@@ -38270,8 +38273,7 @@ MovieCard.propTypes = {
     Director: _propTypes.default.shape({
       Name: _propTypes.default.string.isRequired
     })
-  }).isRequired,
-  onClick: _propTypes.default.func.isRequired
+  }).isRequired
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./movie-card.scss":"components/movie-card/movie-card.scss","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"../node_modules/react-bootstrap/esm/Container.js":[function(require,module,exports) {
 "use strict";
@@ -38333,6 +38335,8 @@ var _visibilityFilterInput = _interopRequireDefault(require("../visibility-filte
 
 var _movieCard = require("../movie-card/movie-card");
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
@@ -38377,7 +38381,10 @@ function MoviesList(props) {
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MoviesList);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"components/header/about.jsx":[function(require,module,exports) {
+MoviesList.propTypes = {
+  visibilityFilter: _propTypes.default.string.isRequired
+};
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"components/header/about.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38811,9 +38818,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          addToFavourites = _this$props.addToFavourites;
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement(_Container.default, {
         className: "wrapper container-fluid"
@@ -38869,41 +38874,6 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-{
-  /* <img className="movie-poster w-50" src={movie.ImagePath} />
-            <div className="movie-title ">
-              <span className="label">Title: </span>
-              <span className="value">{movie.Title}</span>
-            </div>
-            <div className="movie-description ">
-              <span className="label">Description: </span>
-              <span className="value">{movie.Description}</span>
-            </div>
-            <div className="movie-genre ">
-              <span className="label">Genre:</span>
-              <Link to={`/genres/${movie.Genre.Name}`}>
-                <Button variant="link">{movie.Genre.Name}</Button>
-              </Link>
-            </div>
-            <div className="movie-director ">
-              <span className="label">Director:</span>
-              <Link to={`/directors/${movie.Director.Name}`}>
-                <Button variant="link">{movie.Director.Name}</Button>
-              </Link>
-            </div>
-            <div>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={() => this.addToFavourites(movie._id)}
-              >
-                Add to Favourites
-              </Button>
-            </div>
-            <Link to={`/`}>
-              <Button variant="link">Return</Button>
-            </Link> */
-}
 MovieView.propTypes = {
   movie: _propTypes.default.shape({
     Title: _propTypes.default.string.isRequired,
@@ -38915,8 +38885,7 @@ MovieView.propTypes = {
     Director: _propTypes.default.shape({
       Name: _propTypes.default.string.isRequired
     })
-  }).isRequired,
-  onClick: _propTypes.default.func.isRequired
+  }).isRequired
 };
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/profile-view/profile-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -39176,13 +39145,13 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
 })(ProfileView);
 
 exports.default = _default;
-ProfileView.propTypes = {
-  profileInfo: _propTypes.default.shape({
-    Username: _propTypes.default.string.isRequired,
-    Email: _propTypes.default.string.isRequired,
-    // ImagePath: PropTypes.string.isRequired,
-    Birthday: _propTypes.default.string.isRequired
-  }).isRequired,
+ProfileView.PropTypes = {
+  movies: _propTypes.default.arrayOf(_propTypes.default.shape({
+    Title: _propTypes.default.string,
+    _id: _propTypes.default.string,
+    ImagePath: _propTypes.default.string
+  })).isRequired,
+  token: _propTypes.default.string.isRequired,
   logOutFunc: _propTypes.default.func.isRequired
 };
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-redux":"../node_modules/react-redux/es/index.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
@@ -39331,9 +39300,16 @@ DirectorView.propTypes = {
       Name: _propTypes.default.string.isRequired,
       Bio: _propTypes.default.string.isRequired,
       // ImagePath: PropTypes.string.isRequired,
-      Birth: _propTypes.default.string.isRequired
+      Birth: _propTypes.default.string.isRequired,
+      Death: _propTypes.default.string.isRequired
     }
-  })
+  }).isRequired,
+  movies: _propTypes.default.arrayOf(_propTypes.default.shape({
+    _id: _propTypes.default.string.isRequired,
+    Title: _propTypes.default.string.isRequired,
+    ImagePath: _propTypes.default.string.isRequired,
+    Description: _propTypes.default.string.isRequired
+  }))
 };
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
@@ -39470,7 +39446,13 @@ GenreView.propTypes = {
       Description: _propTypes.default.string.isRequired // ImagePath: PropTypes.string.isRequired,
 
     }
-  })
+  }).isRequired,
+  movies: _propTypes.default.arrayOf(_propTypes.default.shape({
+    _id: _propTypes.default.string.isRequired,
+    Title: _propTypes.default.string.isRequired,
+    ImagePath: _propTypes.default.string.isRequired,
+    Description: _propTypes.default.string.isRequired
+  }))
 };
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/update-view/update-view.jsx":[function(require,module,exports) {
 "use strict";
@@ -41674,6 +41656,8 @@ var _reactRouterDom = require("react-router-dom");
 
 var _actions = require("../../actions/actions");
 
+var _visibilityFilterInput = _interopRequireDefault(require("../visibility-filter-input/visibility-filter-input"));
+
 var _moviesList = _interopRequireDefault(require("../movies-list/movies-list"));
 
 var _about = require("../header/about");
@@ -41978,153 +41962,30 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return MainView;
-}(_react.default.Component); // #3
-
+}(_react.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
+  var visibilityFilter = state.visibilityFilter;
   return {
-    movies: state.movies
+    movies: state.movies,
+    visibilityFilter: visibilityFilter
   };
-}; // #4
-
+};
 
 var _default = (0, _reactRedux.connect)(mapStateToProps, {
   setMovies: _actions.setMovies
-})(MainView); // If the state isn't initialized, this will throw on runtime
-// before the data is initially loaded
-// const { movies, user, profileInfo } = this.state;
-// Logging to check states
-// console.log('M = ' + movies);
-// console.log('U = ' + user);
-// console.log('pi =' + profileInfo);
-// Before the movies have been loaded
-//     if (!movies && !profileInfo) return <div className="main-view" />;
-//     return (
-//       <Router>
-//         <div className="main-view text-center container-fluid main-view-styles ">
-//           {/* Nav start */}
-//           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
-//             <Navbar.Brand
-//               href="http://localhost:1234/"
-//               className="navbar-brand"
-//             >
-//               Victorville Film Archives
-//             </Navbar.Brand>
-//             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//             <Navbar.Collapse
-//               className="justify-content-end"
-//               id="basic-navbar-nav"
-//             >
-//               {/* <Form inline>
-//                 <FormControl
-//                   type="text"
-//                   placeholder="Search"
-//                   className="mr-sm-2"
-//                 />
-//                 <Button variant="outline-light">Search</Button>
-//               </Form> */}
-//               <Link to={`/`}>
-//                 <Button variant="link" onClick={() => this.logOut()}>
-//                   Log out
-//                 </Button>
-//               </Link>
-//               <Link to={`/users/`}>
-//                 <Button variant="link">Account</Button>
-//               </Link>
-//               <Link to={`/`}>
-//                 <Button variant="link">Movies</Button>
-//               </Link>
-//               <Link to={`/about`}>
-//                 <Button variant="link">About</Button>
-//               </Link>
-//               <Link to={`/contact`}>
-//                 <Button variant="link">Contact</Button>
-//               </Link>
-//             </Navbar.Collapse>
-//           </Navbar>
-//           {/* Nav end */}
-//           {/* If this.user === null don't show Link */}
-//           <Route
-//             exact
-//             path="/"
-//             render={() => {
-//               if (!user)
-//                 return (
-//                   <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
-//                 );
-//               return (
-//                 <div className="row d-flex mt-4 ml-1">
-//                   {movies.map((m) => (
-//                     <MovieCard
-//                       key={m._id}
-//                       movie={m}
-//                       addToFavourites={() => addToFavourites(movie)}
-//                     />
-//                   ))}
-//                 </div>
-//               );
-//             }}
-//           />
-//           <Route
-//             path="/movies/:movieId"
-//             render={({ match }) => (
-//               <MovieView
-//                 movie={movies.find((m) => m._id === match.params.movieId)}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/users/"
-//             render={() => (
-//               <ProfileView
-//                 user={user}
-//                 profileInfo={this.state.profileInfo}
-//                 movies={movies}
-//                 logOutFunc={() => this.logOut()}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/Update/:name"
-//             render={() => (
-//               <UpdateView user={user} profileInfo={this.state.profileInfo} />
-//             )}
-//           />
-//           <Route
-//             path="/directors/:name"
-//             render={({ match }) => (
-//               <DirectorView
-//                 director={movies.find(
-//                   (m) => m.Director.Name === match.params.name
-//                 )}
-//                 movies={movies}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-//           <Route
-//             path="/genres/:name"
-//             render={({ match }) => (
-//               <GenreView
-//                 genre={movies.find((m) => m.Genre.Name === match.params.name)}
-//                 movies={movies}
-//                 addToFavourites={() => addToFavourites(movie)}
-//               />
-//             )}
-//           />
-//           <Route path="/register" render={() => <RegistrationView />} />
-//         </div>
-//         <Route path="/contact" component={Contact} />
-//         <Route path="/about" component={About} />
-//       </Router>
-//     );
-//   }
-// }
-
+})(MainView);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"reducers/reducers.js":[function(require,module,exports) {
+MainView.PropTypes = {
+  movies: PropTypes.arrayOf(PropTypes.shape({
+    Title: PropTypes.string,
+    _id: PropTypes.string,
+    ImagePath: PropTypes.string
+  })).isRequired,
+  visibilityFilter: PropTypes.string
+};
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"reducers/reducers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

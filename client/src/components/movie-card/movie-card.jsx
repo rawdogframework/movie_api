@@ -39,5 +39,4 @@ MovieCard.propTypes = {
       Name: PropTypes.string.isRequired,
     }),
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
 };

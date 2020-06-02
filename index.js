@@ -180,7 +180,8 @@ app.post(
             })
             .catch(function (error) {
               console.error(error);
-              res.status(500).send('Error: ' + error);
+              console.error(error[0]);
+              res.status(500).send('Error: ' + error[0].msg);
             });
         }
       })
