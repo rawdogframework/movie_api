@@ -124,11 +124,8 @@ class MainView extends React.Component {
         <div className="main-view">
           {/* Nav start */}
           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
-            <Navbar.Brand
-              href="http://localhost:1234/"
-              className="navbar-brand"
-            >
-              Victorville Film Archives
+            <Navbar.Brand className="navbar-brand">
+              <Link to={`/`}>Victorville Film Archives</Link>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse
