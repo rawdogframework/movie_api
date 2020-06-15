@@ -80,6 +80,11 @@ app.use(function (err, req, res, next) {
 API methods
 */
 
+// Hit main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
+
 // Get all movies in db
 app.get('/movies', passport.authenticate('jwt', { session: false }), function (
   req,
