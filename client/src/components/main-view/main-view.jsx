@@ -55,6 +55,8 @@ class MainView extends React.Component {
       });
   }
 
+  //`this.props.setUser(response.data);`
+
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
     const url =
@@ -223,19 +225,7 @@ class MainView extends React.Component {
 }
 
 let mapStateToProps = (state) => {
-  const { visibilityFilter } = state;
-  return { movies: state.movies, visibilityFilter };
+  return { movies: state.movies, user: state.user };
 };
 
-export default connect(mapStateToProps, { setMovies })(MainView);
-
-MainView.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      Title: PropTypes.string,
-      _id: PropTypes.string,
-      ImagePath: PropTypes.string,
-    })
-  ).isRequired,
-  visibilityFilter: PropTypes.string,
-};
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);

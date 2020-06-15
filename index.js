@@ -80,10 +80,6 @@ app.use(function (err, req, res, next) {
 API methods
 */
 
-// Hit main page
-app.get('/', function (req, res) {
-  res.status(200).send('Welcome to the Victorville Film Archives!');
-});
 // Get all movies in db
 app.get('/movies', passport.authenticate('jwt', { session: false }), function (
   req,
