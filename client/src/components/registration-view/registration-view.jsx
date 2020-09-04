@@ -12,6 +12,13 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
 
+  /**
+   * Function stores new user credentials in DB
+   * @function handleSubmit
+   * @param {e} onClick event
+   * @returns {Promise<object>} response payload from POST request
+   */
+
   const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked
     e.preventDefault();
