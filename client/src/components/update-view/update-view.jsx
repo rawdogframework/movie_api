@@ -11,13 +11,6 @@ export function UpdateView(props) {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
 
-  /**
-   * Function stores new user credentials in DB
-   * @function handleUpdate
-   * @param {e} onClick event
-   * @returns {Promise<object>} response payload from PUT request
-   */
-
   const handleUpdate = (e) => {
     // prevent the default browser refresh
     e.preventDefault();

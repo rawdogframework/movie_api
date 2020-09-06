@@ -7,24 +7,6 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-/**
- * @requires React
- * @requires react-bootstrap/Button
- * @requires prop-types
- * @requires react-router-dom
- * @requires react-bootstrap/Container
- * @requires react-bootstrap/Col
- * @requires react-bootstrap/Card
- * @requires react-bootstrap/Row
- */
-
-/**
- * Genre information of movie
- * @class GenreView
- * @param {string} props - movie.genre
- * @returns {Container} - information about the genre
- */
-
 export class GenreView extends React.Component {
   constructor() {
     super();

@@ -7,27 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 
-/**
- * @class DirectorView
- * @requires React
- * @requires react-bootstrap/Button
- * @requires prop-types
- * @requires react-router-dom
- * @requires react-bootstrap/Container
- * @requires react-bootstrap/Col
- * @requires react-bootstrap/Card
- * @requires react-bootstrap/Row
- */
-
-/**
- * Director information view
- * @param {string} props - movie.director.name props
- * @returns {DirectorView}
- */
-
 export class DirectorView extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.state = {};
   }
 

@@ -6,35 +6,10 @@ import axios from 'axios';
 import './login-view.scss';
 import PropTypes from 'prop-types';
 
-/**
- * @requires React
- * @requires react-bootstrap/Button
- * @requires prop-types
- * @requires react-bootstrap/Form
- * @requires react-bootstrap/Container
- * @requires axios
- * @requires react-bootstrap/Card
- * @requires './login-view.scss'
- */
-
-/**
- * Login view
- * @function LoginView
- * @param {object} props - user props
- * @returns {LoginView}
- */
-
 export function LoginView(props) {
   // Calling useState() method with empty string (= initial value of login variable)
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  /**
-   * Sending username and pwd to /login endpoint
-   * @function handleSubmit
-   * @param {event}
-   * @return {object} User information
-   */
 
   const handleSubmit = (e) => {
     // prevents the default refresh after submit button has been clicked

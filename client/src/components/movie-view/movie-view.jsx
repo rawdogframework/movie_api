@@ -15,13 +15,6 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
-  /**
-   * Function adds movie to database
-   * @function addToFavourites
-   * @param {object} movie
-   * @returns {Promise<object>} response from Post request
-   */
-
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
     const url =

@@ -40,15 +40,7 @@ class MainView extends React.Component {
     };
   }
 
-  /**
-   * Function gets movie from database and stores in props
-   * @function getMovies
-   * @async
-   * @param {string} token
-   * @returns {Promise<array>} movies
-   */
-
-  getMovies = async (token) => {
+  getMovies(token) {
     axios
       .get('https://vfa.herokuapp.com/movies', {
         headers: { Authorization: 'Bearer ' + token },
@@ -61,16 +53,9 @@ class MainView extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
 
   //`this.props.setUser(response.data);`
-
-  /**
-   * Function adds movie to database
-   * @function addToFavourites
-   * @param {object} authData - from login-view
-   * @returns {Promise<object>} movie object
-   */
 
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
@@ -93,8 +78,8 @@ class MainView extends React.Component {
         // Send data to prop
         alert('Movie added to favourites');
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -118,12 +103,6 @@ class MainView extends React.Component {
       user: null,
     });
   }
-
-  /**
-   * Function sets state with data from login-view and stores same data locally
-   * @function onLoggedIn
-   * @param {object} authData - from login-view
-   */
 
   onLoggedIn(authData) {
     this.setState({

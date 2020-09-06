@@ -30,13 +30,6 @@ export class ProfileView extends React.Component {
     this.getAccount(accessToken);
   }
 
-  /**
-   * Function gets account info from DB and stores in state
-   * @function getAccount
-   * @param {string} token
-   * @returns {Promise<object>} response payload from GET request
-   */
-
   getAccount(token) {
     const username = localStorage.getItem('user');
     axios
@@ -56,13 +49,6 @@ export class ProfileView extends React.Component {
         console.log(err);
       });
   }
-
-  /**
-   * Function removes movie from DB
-   * @function removeFavourite
-   * @param {string} movie id
-   * @returns {alert} Successful deletion of movie
-   */
 
   removeFavourite(movie) {
     /* Send a request to the server for authentication */
@@ -86,12 +72,6 @@ export class ProfileView extends React.Component {
         console.log('Issue deleting movie from favourites... >' + error);
       });
   }
-
-  /**
-   * Function deletes account from DB
-   * @function unregisterAccount
-   * @returns {Alert} Account was successfully deleted
-   */
 
   unregisterAccount() {
     if (!confirm('Are you sure?')) {
