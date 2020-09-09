@@ -4,13 +4,23 @@ const express = require('express'),
   Models = require('./models.js'),
   morgan = require('morgan');
 
+const path = require('path');
+
 const passport = require('passport');
 require('./passport');
 
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+
+//Local connection
+// mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+// Connection to Remote DB on MongoDBAtlas
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -24,7 +34,11 @@ app.use(cors());
 /*
 CORS - Allowed origins/domains
 */
-var allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+var allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'https://vfa.herokuapp.com',
+];
 
 app.use(
   cors({
@@ -44,6 +58,17 @@ app.use(
 
 // Midddleware
 app.use(morgan('common'));
+
+// routes all requests for static files to 'public' folder
+app.use(express.static('public'));
+
+// routes all requests for the client to 'dist' folder
+app.use('/client', express.static(path.join(__dirname, 'client/dist')));
+// all routes to the React client
+app.get('/client/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
+
 app.use(bodyParser.json());
 var auth = require('./auth')(app);
 app.use(function (err, req, res, next) {
@@ -56,9 +81,10 @@ API methods
 */
 
 // Hit main page
-app.get('/', function (req, res) {
-  res.status(200).send('Welcome to the Victorville Film Archives!');
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
+
 // Get all movies in db
 app.get('/movies', passport.authenticate('jwt', { session: false }), function (
   req,
@@ -113,13 +139,25 @@ app.get(
     });
   }
 );
+// Get User Account by username
+app.get(
+  '/users/:name',
+  passport.authenticate('jwt', { session: false }),
+  function (req, res) {
+    Users.findOne({ Username: req.params.name }).then(function (user) {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        const message = 'No Account matching that name in the db';
+        res.status(404).send(message);
+      }
+    });
+  }
+);
 // Create User Account
 app.post(
-  '/users', // Validation logic here for request
-  //you can either use a chain of methods like .not().isEmpty()
-  //which means "opposite of isEmpty" in plain english "is not empty"
-  //or use .isLength({min: 5}) which means
-  //minimum value of 5 characters are only allowed
+  '/users',
+  // Validation logic
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
     check(
@@ -132,8 +170,9 @@ app.post(
   function (req, res) {
     // check the validation object for errors
     var errors = validationResult(req);
-
     if (!errors.isEmpty()) {
+      console.log(errors);
+      console.log(errors[0]);
       return res.status(422).json({ errors: errors.array() });
     }
 
@@ -156,8 +195,7 @@ app.post(
               res.status(201).json(user);
             })
             .catch(function (error) {
-              console.error(error);
-              res.status(500).send('Error: ' + error);
+              res.status(500).send('Error: ' + error[0].msg);
             });
         }
       })
@@ -173,29 +211,13 @@ app.delete(
   '/users/:userId',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
-    Users.findOne({ _id: req.params.userId })
-      .then(function (user) {
-        if (user) {
-          // Check password and email match req body
-          if (
-            user.Email === req.body.Email &&
-            user.Password === req.body.Password
-          ) {
-            // Delete user
-            Users.deleteOne(user);
-            const message =
-              'User account with userId ' +
-              req.params.userId +
-              ' was successfully deleted';
-            return res.status(200).send(message);
-          } else {
-            return res
-              .status(400)
-              .send('Credentials not matching account with that user id');
-          }
-        } else {
-          return res.status(400).send('No account matching that user id in DB');
-        }
+    Users.findOneAndRemove({ _id: req.params.userId })
+      .then(function () {
+        const message =
+          'User account with userId ' +
+          req.params.userId +
+          ' was successfully deleted';
+        return res.status(200).send(message);
       })
       .catch(function (err) {
         console.error(err);
@@ -208,22 +230,53 @@ app.delete(
 app.put(
   '/users/update/:userId',
   passport.authenticate('jwt', { session: false }),
+  // Validation logic
+  [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    ).isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
   function (req, res) {
-    Users.findOneAndUpdate(
-      { _id: req.params.userId },
-      {
-        $set: {
-          // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        },
-      },
-      { new: true }
-    )
+    // check the validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    var hashedPassword = Users.hashPassword(req.body.Password);
+    // Check if id matches a user
+    Users.findOne({ _id: req.params.userId })
       .then(function (user) {
-        res.status(200).json(user);
+        if (user) {
+          Users.findOneAndUpdate(
+            { _id: req.params.userId },
+            {
+              $set: {
+                // --Remind for v2--
+                // Add logic to only update what is in request body maybe can do that in UI i/e include any key/value that is not given
+                Username: req.body.Username,
+                Password: hashedPassword,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday,
+              },
+            },
+            { new: true }
+          )
+            .then(function (user) {
+              res.status(200).json(user);
+            })
+            .catch(function (err) {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            });
+        } else {
+          const message = 'No user matching that id in the db';
+          res.status(404).send(message);
+        }
       })
       .catch(function (err) {
         console.error(err);
@@ -320,14 +373,6 @@ app.delete(
     });
   }
 );
-
-// Private Users API for testing
-
-// Create hardcode password?
-app.get('/users', function (req, res) {
-  Users.find().then((users) => res.status(200).json(users));
-});
-
 // listen for requests
 var port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', function () {

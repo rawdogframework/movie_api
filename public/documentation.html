@@ -161,17 +161,9 @@ FavouriteMovies: []
 }
 
 Endpoint: /users/[userId]
-Description: Allow existing users to deregister by userId and req body of email
-and
-password
+Description: Allow existing users to deregister by userId
 HTTP Method: DELETE
 Query params: userId
-Req body data format: JSON Object containing email and password
-E.g:
-{
-Email: 'test@hotmail.com',
-Password: 'XXXXXX'
-}
 
 Res body data format: A text message confiming the deregistration was successful
 including the Account ID

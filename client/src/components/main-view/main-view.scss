@@ -1,0 +1,22 @@
+.main-view-styles {
+  background-color: #0b0b0e0e;
+  align-items: center;
+}
+
+.navbar-styles {
+  height: 100px;
+  background-color: black;
+  color: goldenrod;
+  margin: 10;
+  padding: 10;
+  width: 100%;
+  border-bottom: 0.5px inset grey;
+  text-shadow: 1px 1px var(--white);
+  font-weight: 15;
+  line-height: 1.6;
+  font-size: 24px;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: green;
+}

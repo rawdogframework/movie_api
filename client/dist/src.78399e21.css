@@ -1,0 +1,50 @@
+.movie-card-styles {
+  width: 100%;
+  align-items: center;
+}
+.login-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+.registration-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+.spacer {
+  height: 50px;
+}
+.main-view-styles {
+  background-color: #0b0b0e0e;
+  align-items: center;
+}
+
+.navbar-styles {
+  height: 100px;
+  background-color: black;
+  color: goldenrod;
+  margin: 10;
+  padding: 10;
+  width: 100%;
+  border-bottom: 0.5px inset grey;
+  text-shadow: 1px 1px var(--white);
+  font-weight: 15;
+  line-height: 1.6;
+  font-size: 24px;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: green;
+}
+.app-container {
+  font-family: "Righteous", cursive;
+  background-color: #000;
+  color: #fff;
+}
+
+/*# sourceMappingURL=/src.78399e21.css.map */
