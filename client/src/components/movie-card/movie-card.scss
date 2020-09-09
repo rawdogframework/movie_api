@@ -1,4 +1,9 @@
-.movie-card-styles {
-  width: 100%;
-  align-items: center;
+.card-container {
+  margin: 1rem;
+}
+
+.movie-cards {
+  text-align: center;
+
+  min-height: 100%;
 }

@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
+import regeneratorRuntime from 'regenerator-runtime';
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
@@ -24,9 +26,9 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './main-view.scss';
-import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import FormControl from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 class MainView extends React.Component {
   constructor() {
@@ -144,7 +146,7 @@ class MainView extends React.Component {
 
     return (
       <Router basename="/client">
-        <div className="main-view">
+        <Container className="main-view" fluid="true">
           {/* Nav start */}
           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
             <Navbar.Brand className="navbar-brand">
@@ -177,69 +179,73 @@ class MainView extends React.Component {
                   <Link to={`/`}>
                     <Button variant="link">Movies</Button>
                   </Link>
-                  <Link to={`/about`}>
+                  {/* <Link to={`/about`}>
                     <Button variant="link">About</Button>
                   </Link>
                   <Link to={`/contact`}>
                     <Button variant="link">Contact</Button>
-                  </Link>
+                  </Link> */}
                 </ul>
               )}
             </Navbar.Collapse>
           </Navbar>
           {/* Nav end */}
-          <Route
-            exact
-            path="/"
-            render={() => {
-              if (!user)
-                return (
-                  <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
-                );
-              return <MoviesList movies={movies} />;
-            }}
-          />
-          <Route path="/register" render={() => <RegistrationView />} />
-          <Route
-            path="/movies/:movieId"
-            render={({ match }) => (
-              <MovieView
-                movie={movies.find((m) => m._id === match.params.movieId)}
+          <Row>
+            <div className="movies-container">
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  if (!user)
+                    return (
+                      <LoginView logInFunc={(user) => this.onLoggedIn(user)} />
+                    );
+                  return <MoviesList movies={movies} />;
+                }}
               />
-            )}
-          />
-          <Route
-            path="/directors/:name"
-            render={({ match }) => (
-              <DirectorView
-                director={movies.find(
-                  (m) => m.Director.Name === match.params.name
-                )}
-                movies={movies}
-                addToFavourites={() => addToFavourites(movie)}
-              />
-            )}
-          />
-          <Route
-            path="/genres/:name"
-            render={({ match }) => (
-              <GenreView
-                genre={movies.find((m) => m.Genre.Name === match.params.name)}
-                movies={movies}
-                addToFavourites={() => addToFavourites(movie)}
-              />
-            )}
-          />
-          <Route
-            path="/users/"
-            render={() => (
-              <ProfileView movies={movies} logOutFunc={() => this.logOut()} />
-            )}
-          />
-          <Route path="/Update/:name" render={() => <UpdateView />} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/about" component={About} />
-        </div>
+            </div>
+            <Route path="/register" render={() => <RegistrationView />} />
+            <Route
+              path="/movies/:movieId"
+              render={({ match }) => (
+                <MovieView
+                  movie={movies.find((m) => m._id === match.params.movieId)}
+                />
+              )}
+            />
+            <Route
+              path="/directors/:name"
+              render={({ match }) => (
+                <DirectorView
+                  director={movies.find(
+                    (m) => m.Director.Name === match.params.name
+                  )}
+                  movies={movies}
+                  addToFavourites={() => addToFavourites(movie)}
+                />
+              )}
+            />
+            <Route
+              path="/genres/:name"
+              render={({ match }) => (
+                <GenreView
+                  genre={movies.find((m) => m.Genre.Name === match.params.name)}
+                  movies={movies}
+                  addToFavourites={() => addToFavourites(movie)}
+                />
+              )}
+            />
+            <Route
+              path="/users/"
+              render={() => (
+                <ProfileView movies={movies} logOutFunc={() => this.logOut()} />
+              )}
+            />
+            <Route path="/Update/:name" render={() => <UpdateView />} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/about" component={About} />
+          </Row>
+        </Container>
       </Router>
     );
   }

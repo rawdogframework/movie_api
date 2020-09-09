@@ -1,6 +1,14 @@
-.main-view-styles {
-  background-color: #0b0b0e0e;
-  align-items: center;
+.main-view {
+  width: 100%;
+}
+
+.movies-container {
+  justify-content: center;
+}
+
+.row {
+  justify-content: center;
+  margin: 1rem;
 }
 
 .navbar-styles {
