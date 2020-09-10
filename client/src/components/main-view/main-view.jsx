@@ -3,17 +3,16 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
+import regeneratorRuntime from 'regenerator-runtime';
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
 import { setMovies, setUser } from '../../actions/actions';
-import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import MoviesList from '../movies-list/movies-list';
 import { About } from '../header/about';
 import { Contact } from '../header/contact';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { DirectorView } from '../director-view/director-view';
@@ -24,9 +23,8 @@ import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import './main-view.scss';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 
 class MainView extends React.Component {
   constructor() {
@@ -144,15 +142,18 @@ class MainView extends React.Component {
 
     return (
       <Router basename="/client">
-        <div className="main-view">
+        <Container className="main-view" fluid="true">
           {/* Nav start */}
           <Navbar sticky="top" expand="lg" className="mb-2 navbar-styles">
             <Navbar.Brand className="navbar-brand">
               <Link to={`/`}>Victorville Film Archives</Link>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Toggle
+              aria-controls="basic-navbar-nav"
+              className="bg-light"
+            />
             <Navbar.Collapse
-              className="justify-content-end"
+              className="justify-content-end navbar-light"
               id="basic-navbar-nav"
             >
               {!user ? (
@@ -176,12 +177,6 @@ class MainView extends React.Component {
                   </Link>
                   <Link to={`/`}>
                     <Button variant="link">Movies</Button>
-                  </Link>
-                  <Link to={`/about`}>
-                    <Button variant="link">About</Button>
-                  </Link>
-                  <Link to={`/contact`}>
-                    <Button variant="link">Contact</Button>
                   </Link>
                 </ul>
               )}
@@ -239,7 +234,7 @@ class MainView extends React.Component {
           <Route path="/Update/:name" render={() => <UpdateView />} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
-        </div>
+        </Container>
       </Router>
     );
   }
