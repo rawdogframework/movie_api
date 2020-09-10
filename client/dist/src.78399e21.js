@@ -38843,7 +38843,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var movie = this.props.movie;
       return _react.default.createElement("div", null, _react.default.createElement(_Row.default, null, _react.default.createElement(_Card.default, {
-        className: "movie-cards",
+        className: "movie-card-styles",
         text: "dark",
         bg: "warning"
       }, _react.default.createElement(_reactRouterDom.Link, {

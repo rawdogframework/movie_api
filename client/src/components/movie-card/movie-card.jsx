@@ -12,7 +12,7 @@ export class MovieCard extends React.Component {
     return (
       <div>
         <Row>
-          <Card className="movie-cards" text="dark" bg="warning">
+          <Card className="movie-card-styles" text="dark" bg="warning">
             <Link to={`/movies/${movie._id}`}>
               <Card.Img variant="top" src={movie.ImagePath} />
             </Link>
