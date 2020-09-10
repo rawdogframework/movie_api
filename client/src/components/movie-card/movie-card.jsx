@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
 import './movie-card.scss';
 
 import { Link } from 'react-router-dom';
@@ -9,21 +10,18 @@ export class MovieCard extends React.Component {
   render() {
     const { movie } = this.props;
     return (
-      <div className="card-container">
-        <Card
-          className="movie-cards"
-          text="dark"
-          bg="warning"
-          style={{ width: '18rem' }}
-        >
-          <Link to={`/movies/${movie._id}`}>
-            <Card.Img variant="top" src={movie.ImagePath} />
-          </Link>
-          <Card.Body>
-            <Card.Title key={movie._id}>{movie.Title}</Card.Title>
-            <Card.Text>{movie.Description}</Card.Text>
-          </Card.Body>
-        </Card>
+      <div>
+        <Row>
+          <Card className="movie-cards" text="dark" bg="warning">
+            <Link to={`/movies/${movie._id}`}>
+              <Card.Img variant="top" src={movie.ImagePath} />
+            </Link>
+            <Card.Body>
+              <Card.Title key={movie._id}>{movie.Title}</Card.Title>
+              <Card.Text>{movie.Description}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Row>
       </div>
     );
   }

@@ -38797,6 +38797,8 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
 require("./movie-card.scss");
 
 var _reactRouterDom = require("react-router-dom");
@@ -38840,15 +38842,10 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var movie = this.props.movie;
-      return _react.default.createElement("div", {
-        className: "card-container"
-      }, _react.default.createElement(_Card.default, {
+      return _react.default.createElement("div", null, _react.default.createElement(_Row.default, null, _react.default.createElement(_Card.default, {
         className: "movie-cards",
         text: "dark",
-        bg: "warning",
-        style: {
-          width: '18rem'
-        }
+        bg: "warning"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/".concat(movie._id)
       }, _react.default.createElement(_Card.default.Img, {
@@ -38856,7 +38853,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
         src: movie.ImagePath
       })), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, {
         key: movie._id
-      }, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description))));
+      }, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description)))));
     }
   }]);
 
@@ -38877,7 +38874,7 @@ MovieCard.propTypes = {
     })
   }).isRequired
 };
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./movie-card.scss":"components/movie-card/movie-card.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movies-list/movies-list.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","./movie-card.scss":"components/movie-card/movie-card.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movies-list/movies-list.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38896,6 +38893,8 @@ var _movieCard = require("../movie-card/movie-card");
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
+
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38920,16 +38919,23 @@ function MoviesList(props) {
   if (!movies) return _react.default.createElement("div", {
     className: "main-view"
   });
-  return _react.default.createElement(_Col.default, {
-    className: "movies-list"
+  return _react.default.createElement("div", null, _react.default.createElement(_Row.default, {
+    className: "search-section"
   }, _react.default.createElement(_visibilityFilterInput.default, {
     visibilityFilter: visibilityFilter
-  }), filteredMovies.map(function (m) {
-    return _react.default.createElement(_movieCard.MovieCard, {
+  })), _react.default.createElement(_Row.default, {
+    className: "movies-container"
+  }, filteredMovies.map(function (m) {
+    return _react.default.createElement(_Col.default, {
+      lg: 3,
+      md: 6,
+      sm: 12,
+      xs: 14
+    }, _react.default.createElement(_movieCard.MovieCard, {
       key: m._id,
       movie: m
-    });
-  }));
+    }));
+  })));
 }
 
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MoviesList);
@@ -38938,7 +38944,7 @@ exports.default = _default;
 MoviesList.propTypes = {
   visibilityFilter: _propTypes.default.string.isRequired
 };
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js"}],"components/header/about.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/header/about.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42498,11 +42504,7 @@ var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"))
 
 var _reactRouterDom = require("react-router-dom");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _actions = require("../../actions/actions");
-
-var _visibilityFilterInput = _interopRequireDefault(require("../visibility-filter-input/visibility-filter-input"));
 
 var _moviesList = _interopRequireDefault(require("../movies-list/movies-list"));
 
@@ -42513,8 +42515,6 @@ var _contact = require("../header/contact");
 var _loginView = require("../login-view/login-view");
 
 var _registrationView = require("../registration-view/registration-view");
-
-var _movieCard = require("../movie-card/movie-card");
 
 var _movieView = require("../movie-view/movie-view");
 
@@ -42531,8 +42531,6 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Navbar = _interopRequireDefault(require("react-bootstrap/Navbar"));
 
 require("./main-view.scss");
-
-var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
@@ -42716,9 +42714,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, "Victorville Film Archives")), _react.default.createElement(_Navbar.default.Toggle, {
-        "aria-controls": "basic-navbar-nav"
+        "aria-controls": "basic-navbar-nav",
+        className: "bg-light"
       }), _react.default.createElement(_Navbar.default.Collapse, {
-        className: "justify-content-end",
+        className: "justify-content-end navbar-light",
         id: "basic-navbar-nav"
       }, !user ? _react.default.createElement("ul", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -42743,9 +42742,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Movies"))))), _react.default.createElement(_Row.default, null, _react.default.createElement("div", {
-        className: "movies-container"
-      }, _react.default.createElement(_reactRouterDom.Route, {
+      }, "Movies"))))), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -42758,7 +42755,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             movies: movies
           });
         }
-      })), _react.default.createElement(_reactRouterDom.Route, {
+      }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/register",
         render: function render() {
           return _react.default.createElement(_registrationView.RegistrationView, null);
@@ -42842,7 +42839,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/about",
         component: _about.About
-      }))));
+      })));
     }
   }]);
 
@@ -42862,7 +42859,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps, {
 })(MainView);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","prop-types":"../node_modules/prop-types/index.js","../../actions/actions":"actions/actions.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js"}],"reducers/reducers.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js"}],"reducers/reducers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -43023,7 +43020,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60028" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59467" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
