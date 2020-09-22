@@ -12,6 +12,13 @@ import './index.scss';
 
 const store = createStore(moviesApp);
 
+// create BaseURl for local testing purposes
+export const BASE_URL = process.env.LOCAL_URL
+  ? process.env.LOCAL_URL
+  : 'https://vfa.herokuapp.com';
+
+console.log(`this is the first one ${BASE_URL}`);
+
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {

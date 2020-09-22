@@ -39279,6 +39279,8 @@ require("./login-view.scss");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _index = require("../../index.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -39340,7 +39342,7 @@ function LoginView(props) {
 
     /* Send a request to the server for authentication */
 
-    _axios.default.post('https://vfa.herokuapp.com/login', {
+    _axios.default.post("".concat(_index.BASE_URL, "/login"), {
       Username: username,
       Password: password
     }).then(function (response) {
@@ -39381,7 +39383,7 @@ function LoginView(props) {
 LoginView.propTypes = {
   logInFunc: _propTypes.default.func.isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss","prop-types":"../node_modules/prop-types/index.js"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss","prop-types":"../node_modules/prop-types/index.js","../../index.jsx":"index.jsx"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39408,6 +39410,8 @@ var _reactRouterDom = require("react-router-dom");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _index = require("../../index.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -39426,6 +39430,12 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// create baseUrl for local testing of front end and Node js server
+// if (process.env.url != null) {
+//   var baseUrl = process.env.url;
+// } else {
+//   var baseUrl = 'vfa.herokuapp.com';
+// }
 function RegistrationView(props) {
   var _useState = (0, _react.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
@@ -39460,7 +39470,7 @@ function RegistrationView(props) {
 
     /* Send a request to the server for authentication */
 
-    _axios.default.post('https://vfa.herokuapp.com/users', {
+    _axios.default.post("".concat(_index.BASE_URL, "/users"), {
       Username: username,
       Password: password,
       Email: email,
@@ -39470,8 +39480,21 @@ function RegistrationView(props) {
 
       window.open('/client', '_self');
     }).catch(function (e) {
-      alert(e);
-      console.log(e);
+      var alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
+
+      if (typeof e.response.data == 'string') {
+        alert("".concat(alert_errors, " ").concat(e.response.data));
+      } else {
+        var error_obj = e.response.data.errors; // loop through errors and add them to the alert string
+
+        for (var i = 0; i < error_obj.length; i++) {
+          alert_errors += "".concat(error_obj[i].msg, " \n");
+        } //
+
+
+        alert(alert_errors);
+        console.log(e.response.data.errors);
+      }
     });
   };
 
@@ -39515,7 +39538,7 @@ function RegistrationView(props) {
     onClick: handleSubmit
   }, "Register"))));
 }
-},{"react":"../node_modules/react/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","../../index.jsx":"index.jsx"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39541,6 +39564,8 @@ var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
+var _index = require("../../index.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -39565,6 +39590,12 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+// create baseUrl for local testing of front end and Node js server
+// if (process.env.url != null) {
+//   var baseUrl = process.env.url;
+// } else {
+//   var baseUrl = 'vfa.herokuapp.com';
+// }
 var MovieView = /*#__PURE__*/function (_React$Component) {
   _inherits(MovieView, _React$Component);
 
@@ -39591,12 +39622,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     key: "addToFavourites",
     value: function addToFavourites(movie) {
       /* Send a request to the server for authentication */
-      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('user'), "/favourites/").concat(movie);
 
       _axios.default.post(url, {}, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        } //  `Bearer ${localStorage.getItem('token')}`
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        } //
 
       }).then(function (response) {
         var data = response.data;
@@ -39681,7 +39712,7 @@ MovieView.propTypes = {
     })
   }).isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/profile-view/profile-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","../../index.jsx":"index.jsx"}],"components/profile-view/profile-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -39715,6 +39746,8 @@ var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 require("./profile-view.scss");
 
 var _reactRedux = require("react-redux");
+
+var _index = require("../../index.jsx");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39781,9 +39814,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function getAccount(token) {
       var _this2 = this;
 
-      var username = localStorage.getItem('user');
-
-      _axios.default.get("https://vfa.herokuapp.com/users/".concat(username), {
+      _axios.default.get("".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -39810,13 +39841,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     key: "removeFavourite",
     value: function removeFavourite(movie) {
       /* Send a request to the server for authentication */
-      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('id'), "/favourites/movie");
 
       _axios.default.delete(url, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        } //  `Bearer ${localStorage.getItem('token')}`
-
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        }
       }) // reload page
       .then(function () {
         document.location.reload(true);
@@ -39841,11 +39871,11 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         return;
       }
 
-      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id'); // console.log(url);
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('id')); // console.log(url);
 
       _axios.default.delete(url, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (response) {
         console.log(response.data); // Set profile info to null
@@ -39961,7 +39991,7 @@ var _default = (0, _reactRedux.connect)(function (_ref) {
 })(ProfileView);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-redux":"../node_modules/react-redux/es/index.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-redux":"../node_modules/react-redux/es/index.js","../../index.jsx":"index.jsx"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39970,8 +40000,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.DirectorView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -40135,7 +40163,7 @@ DirectorView.propTypes = {
     Description: _propTypes.default.string.isRequired
   }))
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40315,6 +40343,8 @@ var _reactRouterDom = require("react-router-dom");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _index = require("../../index.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -40373,7 +40403,7 @@ function UpdateView(props) {
 
     /* Send a request to the server for authentication */
 
-    var url = 'https://vfa.herokuapp.com/users/update/' + localStorage.getItem('id');
+    var url = "".concat(_index.BASE_URL, "/users/update/").concat(localStorage.getItem('id'));
 
     _axios.default.put(url, {
       Username: username,
@@ -40382,7 +40412,7 @@ function UpdateView(props) {
       Birthday: birthday
     }, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
+        Authorization: "Bearer ".concat(localStorage.getItem('token'))
       }
     }).then(function (response) {
       var data = response.data; // console.log(data);
@@ -40393,7 +40423,21 @@ function UpdateView(props) {
       window.open("/", '_self');
       alert('Your profile data was updated successfully');
     }).catch(function (e) {
-      console.log(e);
+      var alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
+
+      if (typeof e.response.data == 'string') {
+        alert("".concat(alert_errors, " ").concat(e.response.data));
+      } else {
+        var error_obj = e.response.data.errors; // loop through errors and add them to the alert string
+
+        for (var i = 0; i < error_obj.length; i++) {
+          alert_errors += "".concat(error_obj[i].msg, " \n");
+        } //
+
+
+        alert(alert_errors);
+        console.log(e.response.data.errors);
+      }
     });
   };
 
@@ -40437,7 +40481,7 @@ function UpdateView(props) {
     onClick: handleUpdate
   }, "Update"))));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js"}],"../node_modules/invariant/browser.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","../../index.jsx":"index.jsx"}],"../node_modules/invariant/browser.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -42536,6 +42580,8 @@ var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
+var _index = require("../../index.jsx");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -42584,7 +42630,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _axios.default.get('https://vfa.herokuapp.com/movies', {
+                _axios.default.get("".concat(_index.BASE_URL, "/movies"), {
                   headers: {
                     Authorization: 'Bearer ' + token
                   }
@@ -42612,6 +42658,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       user: null
     };
+    console.log("this is the baseurl ".concat(_index.BASE_URL));
     return _this;
   }
   /**
@@ -42635,13 +42682,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
      */
     value: function addToFavourites(movie) {
       /* Send a request to the server for authentication */
-      var url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id') + '/favourites/' + movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('user'), "/favourites/").concat(movie);
 
       _axios.default.post(url, {}, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        } //  `Bearer ${localStorage.getItem('token')}`
-
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        }
       }).then(function (response) {
         var data = response.data;
         console.log(data); // Send data to prop
@@ -42859,7 +42905,7 @@ var _default = (0, _reactRedux.connect)(mapStateToProps, {
 })(MainView);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js"}],"reducers/reducers.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../header/about":"components/header/about.jsx","../header/contact":"components/header/contact.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../update-view/update-view":"components/update-view/update-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","./main-view.scss":"components/main-view/main-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","../../index.jsx":"index.jsx"}],"reducers/reducers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42925,6 +42971,11 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"../../../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BASE_URL = void 0;
+
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
@@ -42963,7 +43014,11 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var store = (0, _redux.createStore)(_reducers.default); // Main component (will eventually use all the others)
+var store = (0, _redux.createStore)(_reducers.default); // create BaseURl for local testing purposes
+
+var BASE_URL = undefined ? undefined : 'https://vfa.herokuapp.com';
+exports.BASE_URL = BASE_URL;
+console.log("this is the first one ".concat(BASE_URL)); // Main component (will eventually use all the others)
 
 var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
   _inherits(MyFlixApplication, _React$Component);
@@ -43020,7 +43075,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59467" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59712" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
