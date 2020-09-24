@@ -9,13 +9,6 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import { BASE_URL } from '../../index.jsx';
 
-// create baseUrl for local testing of front end and Node js server
-// if (process.env.url != null) {
-//   var baseUrl = process.env.url;
-// } else {
-//   var baseUrl = 'vfa.herokuapp.com';
-// }
-
 export class MovieView extends React.Component {
   constructor() {
     super();
@@ -33,7 +26,7 @@ export class MovieView extends React.Component {
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
     const url = `${BASE_URL}/users/${localStorage.getItem(
-      'user'
+      'id'
     )}/favourites/${movie}`;
     axios
       .post(

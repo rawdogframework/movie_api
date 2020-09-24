@@ -39590,12 +39590,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-// create baseUrl for local testing of front end and Node js server
-// if (process.env.url != null) {
-//   var baseUrl = process.env.url;
-// } else {
-//   var baseUrl = 'vfa.herokuapp.com';
-// }
 var MovieView = /*#__PURE__*/function (_React$Component) {
   _inherits(MovieView, _React$Component);
 
@@ -39622,7 +39616,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     key: "addToFavourites",
     value: function addToFavourites(movie) {
       /* Send a request to the server for authentication */
-      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('user'), "/favourites/").concat(movie);
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('id'), "/favourites/").concat(movie);
 
       _axios.default.post(url, {}, {
         headers: {
@@ -39841,7 +39835,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     key: "removeFavourite",
     value: function removeFavourite(movie) {
       /* Send a request to the server for authentication */
-      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('id'), "/favourites/movie");
+      var url = "".concat(_index.BASE_URL, "/users/").concat(localStorage.getItem('id'), "/favourites/").concat(movie);
 
       _axios.default.delete(url, {
         headers: {
@@ -43016,9 +43010,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var store = (0, _redux.createStore)(_reducers.default); // create BaseURl for local testing purposes
 
-var BASE_URL = undefined ? undefined : 'https://vfa.herokuapp.com';
+var BASE_URL = undefined ? undefined : 'https://vfa.herokuapp.com'; // Main component (will eventually use all the others)
+
 exports.BASE_URL = BASE_URL;
-console.log("this is the first one ".concat(BASE_URL)); // Main component (will eventually use all the others)
 
 var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
   _inherits(MyFlixApplication, _React$Component);
@@ -43075,7 +43069,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59712" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55341" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -68,7 +68,7 @@ export class ProfileView extends React.Component {
     /* Send a request to the server for authentication */
     const url = `${BASE_URL}/users/${localStorage.getItem(
       'id'
-    )}/favourites/movie`;
+    )}/favourites/${movie}`;
     axios
       .delete(url, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

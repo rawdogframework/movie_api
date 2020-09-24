@@ -14,16 +14,19 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //Local connection
-mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// Connection to Remote DB on MongoDBAtlas
-// mongoose.connect(process.env.CONNECTION_URI, {
+// mongoose.connect('mongodb://localhost:27017/victorvilleDB', {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
+
+// Connection to Remote DB on MongoDBAtlas
+mongoose.connect(
+  'mongodb+srv://mr-database:VfivMMwzSAHHfXF1@cluster-f-r1kdq.mongodb.net/victorvilleDB?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 mongoose.set('useFindAndModify', false);
 
 const { check, validationResult } = require('express-validator');
