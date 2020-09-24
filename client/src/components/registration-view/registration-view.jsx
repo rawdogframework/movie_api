@@ -5,6 +5,14 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../../index.jsx';
+
+// create baseUrl for local testing of front end and Node js server
+// if (process.env.url != null) {
+//   var baseUrl = process.env.url;
+// } else {
+//   var baseUrl = 'vfa.herokuapp.com';
+// }
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
@@ -26,7 +34,7 @@ export function RegistrationView(props) {
 
     /* Send a request to the server for authentication */
     axios
-      .post('https://vfa.herokuapp.com/users', {
+      .post(`${BASE_URL}/users`, {
         Username: username,
         Password: password,
         Email: email,
@@ -38,8 +46,19 @@ export function RegistrationView(props) {
         window.open('/client', '_self');
       })
       .catch((e) => {
-        alert(e);
-        console.log(e);
+        let alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
+        if (typeof e.response.data == 'string') {
+          alert(`${alert_errors} ${e.response.data}`);
+        } else {
+          let error_obj = e.response.data.errors;
+          // loop through errors and add them to the alert string
+          for (let i = 0; i < error_obj.length; i++) {
+            alert_errors += `${error_obj[i].msg} \n`;
+          }
+          //
+          alert(alert_errors);
+          console.log(e.response.data.errors);
+        }
       });
   };
 

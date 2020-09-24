@@ -25,6 +25,7 @@ import { Link } from 'react-router-dom';
 import './main-view.scss';
 import Row from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
+import { BASE_URL } from '../../index.jsx';
 
 class MainView extends React.Component {
   constructor() {
@@ -36,6 +37,7 @@ class MainView extends React.Component {
     this.state = {
       user: null,
     };
+    console.log(`this is the baseurl ${BASE_URL}`);
   }
 
   /**
@@ -48,7 +50,7 @@ class MainView extends React.Component {
 
   getMovies = async (token) => {
     axios
-      .get('https://vfa.herokuapp.com/movies', {
+      .get(`${BASE_URL}/movies`, {
         headers: { Authorization: 'Bearer ' + token },
       })
       .then((response) => {
@@ -72,17 +74,15 @@ class MainView extends React.Component {
 
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
-    const url =
-      'https://vfa.herokuapp.com/users/' +
-      localStorage.getItem('id') +
-      '/favourites/' +
-      movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    const url = `${BASE_URL}/users/${localStorage.getItem(
+      'user'
+    )}/favourites/${movie}`;
     axios
       .post(
         url,
         {},
         {
-          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }, //  `Bearer ${localStorage.getItem('token')}`
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }
       )
       .then((response) => {

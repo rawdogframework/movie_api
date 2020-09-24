@@ -20,10 +20,13 @@ const Users = Models.User;
 // });
 
 // Connection to Remote DB on MongoDBAtlas
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  'mongodb+srv://mr-database:VfivMMwzSAHHfXF1@cluster-f-r1kdq.mongodb.net/victorvilleDB?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 mongoose.set('useFindAndModify', false);
 
 const { check, validationResult } = require('express-validator');
@@ -159,20 +162,22 @@ app.post(
   '/users',
   // Validation logic
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username')
+      .isLength({
+        min: 5,
+      })
+      .withMessage('must be at least 5 chars long'),
     check(
       'Username',
       'Username contains non alphanumeric characters - not allowed.'
     ).isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
+    check('Password', 'Pass is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
   function (req, res) {
     // check the validation object for errors
     var errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(errors);
-      console.log(errors[0]);
       return res.status(422).json({ errors: errors.array() });
     }
 
@@ -183,7 +188,7 @@ app.post(
         if (user) {
           const message =
             'There is already an account associated with this email address';
-          res.status(400).send(message);
+          res.status(400).json({ msg: [message] });
         } else {
           Users.create({
             Username: req.body.Username,
@@ -232,7 +237,9 @@ app.put(
   passport.authenticate('jwt', { session: false }),
   // Validation logic
   [
-    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username')
+      .isLength({ min: 5 })
+      .withMessage('must be at least 5 chars long'),
     check(
       'Username',
       'Username contains non alphanumeric characters - not allowed.'
@@ -248,6 +255,7 @@ app.put(
       return res.status(422).json({ errors: errors.array() });
     }
     var hashedPassword = Users.hashPassword(req.body.Password);
+
     // Check if id matches a user
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {

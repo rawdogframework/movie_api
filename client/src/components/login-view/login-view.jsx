@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import './login-view.scss';
 import PropTypes from 'prop-types';
+import { BASE_URL } from '../../index.jsx';
 
 /**
  * @requires React
@@ -45,7 +46,7 @@ export function LoginView(props) {
 
     /* Send a request to the server for authentication */
     axios
-      .post('https://vfa.herokuapp.com/login', {
+      .post(`${BASE_URL}/login`, {
         Username: username,
         Password: password,
       })

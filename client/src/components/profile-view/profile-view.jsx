@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import './profile-view.scss';
 import { connect } from 'react-redux';
+import { BASE_URL } from '../../index.jsx';
 
 export class ProfileView extends React.Component {
   constructor() {
@@ -38,9 +39,8 @@ export class ProfileView extends React.Component {
    */
 
   getAccount(token) {
-    const username = localStorage.getItem('user');
     axios
-      .get(`https://vfa.herokuapp.com/users/${username}`, {
+      .get(`${BASE_URL}/users/${localStorage.getItem('user')}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -66,14 +66,12 @@ export class ProfileView extends React.Component {
 
   removeFavourite(movie) {
     /* Send a request to the server for authentication */
-    const url =
-      'https://vfa.herokuapp.com/users/' +
-      localStorage.getItem('id') +
-      '/favourites/' +
-      movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    const url = `${BASE_URL}/users/${localStorage.getItem(
+      'id'
+    )}/favourites/${movie}`;
     axios
       .delete(url, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }, //  `Bearer ${localStorage.getItem('token')}`
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
       // reload page
       .then(() => {
@@ -97,11 +95,11 @@ export class ProfileView extends React.Component {
     if (!confirm('Are you sure?')) {
       return;
     }
-    const url = 'https://vfa.herokuapp.com/users/' + localStorage.getItem('id');
+    const url = `${BASE_URL}/users/${localStorage.getItem('id')}`;
     // console.log(url);
     axios
       .delete(url, {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
       .then((response) => {
         console.log(response.data);

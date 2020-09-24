@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
+import { BASE_URL } from '../../index.jsx';
 
 export class MovieView extends React.Component {
   constructor() {
@@ -24,17 +25,15 @@ export class MovieView extends React.Component {
 
   addToFavourites(movie) {
     /* Send a request to the server for authentication */
-    const url =
-      'https://vfa.herokuapp.com/users/' +
-      localStorage.getItem('id') +
-      '/favourites/' +
-      movie; // 'https://vfa.herokuapp.com/users/localStorage.getItem('user')}/favourites/${movie}';
+    const url = `${BASE_URL}/users/${localStorage.getItem(
+      'id'
+    )}/favourites/${movie}`;
     axios
       .post(
         url,
         {},
         {
-          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }, //  `Bearer ${localStorage.getItem('token')}`
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, //
         }
       )
       .then((response) => {
