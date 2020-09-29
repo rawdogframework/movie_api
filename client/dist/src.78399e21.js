@@ -39479,19 +39479,17 @@ function RegistrationView(props) {
       window.open('/client', '_self');
     }).catch(function (e) {
       var alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
+      var error_obj = e.response.data.errors; // console.log(e.response.data);
 
-      if (typeof e.response.data == 'string') {
-        alert("".concat(alert_errors, " ").concat(e.response.data));
+      if (error_obj[0] == 'email-collision') {
+        return alert("".concat(alert_errors, " ").concat(error_obj[1]));
       } else {
-        var error_obj = e.response.data.errors; // loop through errors and add them to the alert string
-
+        // loop through errors and add them to the alert string
         for (var i = 0; i < error_obj.length; i++) {
           alert_errors += "".concat(error_obj[i].msg, " \n");
-        } //
+        }
 
-
-        alert(alert_errors);
-        console.log(e.response.data.errors);
+        alert(alert_errors); // console.log(e.response.data.errors);
       }
     });
   };
@@ -40419,19 +40417,17 @@ function UpdateView(props) {
       alert('Your profile data was updated successfully');
     }).catch(function (e) {
       var alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
+      var error_obj = e.response.data.errors; // console.log(e.response.data);
 
-      if (typeof e.response.data == 'string') {
-        alert("".concat(alert_errors, " ").concat(e.response.data));
+      if (error_obj[0] == 'email-collision') {
+        return alert("".concat(alert_errors, " ").concat(error_obj[1]));
       } else {
-        var error_obj = e.response.data.errors; // loop through errors and add them to the alert string
-
+        // loop through errors and add them to the alert string
         for (var i = 0; i < error_obj.length; i++) {
           alert_errors += "".concat(error_obj[i].msg, " \n");
-        } //
+        }
 
-
-        alert(alert_errors);
-        console.log(e.response.data.errors);
+        alert(alert_errors); // console.log(e.response.data.errors);
       }
     });
   };
@@ -43011,7 +43007,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var store = (0, _redux.createStore)(_reducers.default); // create BaseURl for local testing purposes
 
-var BASE_URL = undefined ? undefined : 'https://vfa.herokuapp.com'; // Main component (will eventually use all the others)
+var BASE_URL = "http://localhost:3000" ? "http://localhost:3000" : 'https://vfa.herokuapp.com'; // Main component (will eventually use all the others)
 
 exports.BASE_URL = BASE_URL;
 
@@ -43070,7 +43066,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55341" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65455" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
