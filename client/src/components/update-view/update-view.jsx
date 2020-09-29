@@ -55,17 +55,18 @@ export function UpdateView(props) {
       })
       .catch((e) => {
         let alert_errors = 'PLEASE CHECK THE FOLLOWING ERRORS \n\n';
-        if (typeof e.response.data == 'string') {
-          alert(`${alert_errors} ${e.response.data}`);
+        let error_obj = e.response.data.errors;
+        // console.log(e.response.data);
+
+        if (error_obj[0] == 'email-collision') {
+          return alert(`${alert_errors} ${error_obj[1]}`);
         } else {
-          let error_obj = e.response.data.errors;
           // loop through errors and add them to the alert string
           for (let i = 0; i < error_obj.length; i++) {
             alert_errors += `${error_obj[i].msg} \n`;
           }
-          //
           alert(alert_errors);
-          console.log(e.response.data.errors);
+          // console.log(e.response.data.errors);
         }
       });
   };

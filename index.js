@@ -177,15 +177,16 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
     var hashedPassword = Users.hashPassword(req.body.Password);
     // db check if user already exists
     Users.findOne({ Email: req.body.Email })
       .then(function (user) {
         if (user) {
-          const message =
-            'There is already an account associated with this email address';
-          res.status(400).json({ msg: [message] });
+          const message = [
+            'email-collision',
+            'There is already an account associated with this email address',
+          ];
+          return res.status(400).json({ errors: message });
         } else {
           Users.create({
             Username: req.body.Username,
@@ -247,12 +248,25 @@ app.put(
   function (req, res) {
     // check the validation object for errors
     var errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
     var hashedPassword = Users.hashPassword(req.body.Password);
-
+    // db check if user already exists
+    Users.findOne({ Email: req.body.Email })
+      .then(function (user) {
+        if (user) {
+          const message = [
+            'email-collision',
+            'There is already an account associated with this email address',
+          ];
+          return res.status(400).json({ errors: message });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
     // Check if id matches a user
     Users.findOne({ _id: req.params.userId })
       .then(function (user) {
