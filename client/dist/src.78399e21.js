@@ -43007,7 +43007,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var store = (0, _redux.createStore)(_reducers.default); // create BaseURl for local testing purposes
 
-var BASE_URL = "http://localhost:3000" ? "http://localhost:3000" : 'https://vfa.herokuapp.com'; // Main component (will eventually use all the others)
+var BASE_URL = 'https://vfa.herokuapp.com'; // Main component (will eventually use all the others)
 
 exports.BASE_URL = BASE_URL;
 
